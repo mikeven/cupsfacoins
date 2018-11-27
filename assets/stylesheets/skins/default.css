@@ -17,7 +17,7 @@ a:active,
 }
 /* Sidebar Left */
 .sidebar-left .sidebar-header .sidebar-toggle:hover i {
-	color: #0088cc;
+	color: /*#0088cc;*/ #fff;
 }
 
 @media only screen and (min-width: 768px) {
@@ -50,7 +50,7 @@ a:active,
 }
 /* Userbox - Open */
 .userbox.open .dropdown-menu a:hover {
-	background: #0088cc;
+	background: /*#0088cc; */ #000;
 }
 /* Mailbox */
 .mailbox .mailbox-mail-list li.active {
@@ -314,15 +314,15 @@ p.drop-caps.colored.secundary:first-child:first-letter {
 }
 /* Page Header */
 .page-header h2 {
-	border-bottom-color: #0088cc;
+	border-bottom-color: /*#0088cc;*/ #999;
 }
 
 .page-header .sidebar-right-toggle:hover {
-	color: #0088cc;
+	color: /*#0088cc; */ #999;
 }
 /* Navigation */
 ul.nav-main > li.nav-active > a {
-	box-shadow: 2px 0 0 #0088cc inset;
+	box-shadow: 2px 0 0 /*#0088cc*/#999 inset;
 }
 
 ul.nav-main > li.nav-active > i {
@@ -334,7 +334,7 @@ ul.nav-main li .nav-children li.nav-active > a {
 }
 /* Nano Scroller Plugin */
 html.no-overflowscrolling .nano > .nano-pane > .nano-slider {
-	background: #0088cc;
+	background: /*#0088cc; */ #fff;
 }
 /* Nav Pills */
 .nav-pills > .active a,
