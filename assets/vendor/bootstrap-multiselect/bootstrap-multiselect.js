@@ -210,7 +210,7 @@
             // possible options: 'text', 'value', 'both'
             filterBehavior: 'text',
             preventInputChangeEvent: false,
-            nonSelectedText: 'None selected',
+            nonSelectedText: 'Seleccione',
             nSelectedText: 'selected',
             numberDisplayed: 3,
             templates: {
