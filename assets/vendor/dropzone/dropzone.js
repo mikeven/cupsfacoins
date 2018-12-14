@@ -319,7 +319,7 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
       dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
       dictRemoveFile: "Remove file",
       dictRemoveFileConfirmation: null,
-      dictMaxFilesExceeded: "You can not upload any more files.",
+      dictMaxFilesExceeded: "No se permiten más archivos",
       accept: function(file, done) {
         return done();
       },

@@ -51,7 +51,7 @@
 				<?php include( "sections/left-sidebar.php" );?>
 				<!-- end: sidebar -->
 
-				<section role="main" class="content-body">
+				<section role="main" class="content-body hidden">
 					<header class="page-header">
 						<h2>Dashboard</h2>
 					

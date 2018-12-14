@@ -13,7 +13,7 @@
 			</a>
 			<ul class="nav nav-children">
 				<li><a href="usuarios.php">Ver usuarios</a></li>
-				<li><a href="#!">Nuevo usuario</a></li>
+				<li><a href="nuevo_usuario.php">Nuevo usuario</a></li>
 				<li><a href="#!">Permisologías</a></li>
 			</ul>
 		</li>
@@ -23,7 +23,8 @@
 				<span>Nominaciones</span>
 			</a>
 			<ul class="nav nav-children">
-				<li> <a href="#!"> Nueva nominación </a> </li>
+				<li> <a href="nominaciones.php"> Ver nominaciones </a> </li>
+				<li> <a href="nuevo_nominacion.php"> Nueva nominación </a> </li>
 				<li> <a href="atributos.php"> Atributos </a> </li>
 				<li> <a href="#!"> Canjes </a> </li>
 			</ul>
@@ -35,7 +36,10 @@
 			</a>
 			<ul class="nav nav-children">
 				<li>
-					<a href="productos.php">Nuevo producto</a>
+					<a href="productos.php">Ver productos</a>
+				</li>
+				<li>
+					<a href="nuevo_producto.php">Nuevo producto</a>
 				</li>
 			</ul>
 		</li>
