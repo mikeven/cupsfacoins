@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Productos :: Cupfsa Coins</title>
+		<title>Registro de canjes :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -53,7 +53,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-cubes"></i> Productos</h2>
+						<h2><i class="fa fa-exchange"></i> Canjes</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -61,7 +61,8 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span>Productos</span></li>
+								<li><span><a href="productos.php">Productos</a></span></li>
+								<li><span>Registro de canjes</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
@@ -72,52 +73,34 @@
 						<section class="panel">
 							<header class="panel-heading">
 								<h2 class="panel-title">
-									Productos registrados
+									Registro de canjes
 								</h2>
 							</header>
 							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="mb-md">
-											<a href="nuevo_producto.php">
-											<button id="nproducto" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
-											</a>
-										</div>
-									</div>
-								</div>
 								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
 									<thead>
 										<tr>
-											<th><i class="fa fa-file-image-o"></i></th>
-											<th>Nombre</th>
-											<th>Descripción</th>
-											<th>Valor</th>
-											<th>Acciones</th>
+											<th>Fecha</th>
+											<th>Usuario</th>
+											<th>Valor de canje</th>
+											<th>Producto</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr class="gradeX">
-											<td></td>
-											<td><a href="producto.php">Producto 1</a></td>
-											<td>Descripción producto 1</td>
-											<td>1360</td>
+											<td>01/12/2018</td>
+											<td>Mónica Hidalgo</td>
+											<td>500 </td>
 											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+												
 											</td>
 										</tr>
 										<tr class="gradeX">
-											<td></td>
-											<td><a href="producto.php">Producto 2</a></td>
-											<td>Descripción producto 2</td>
-											<td>1360</td>
+											<td>12/12/2018</td>
+											<td>Roberto Álvarez</td>
+											<td>750</td>
 											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+												
 											</td>
 										</tr>
 									</tbody>
@@ -246,6 +229,6 @@
 
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-productos.js"></script>
+		<script src="js/tabla-canjes.js"></script>
 	</body>
 </html>

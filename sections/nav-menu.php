@@ -26,7 +26,6 @@
 				<li> <a href="nominaciones.php"> Ver nominaciones </a> </li>
 				<li> <a href="nuevo_nominacion.php"> Nueva nominación </a> </li>
 				<li> <a href="atributos.php"> Atributos </a> </li>
-				<li> <a href="#!"> Canjes </a> </li>
 			</ul>
 		</li>
 		<li class="nav-parent">
@@ -35,12 +34,9 @@
 				<span>Productos</span>
 			</a>
 			<ul class="nav nav-children">
-				<li>
-					<a href="productos.php">Ver productos</a>
-				</li>
-				<li>
-					<a href="nuevo_producto.php">Nuevo producto</a>
-				</li>
+				<li> <a href="productos.php">Ver productos</a> </li>
+				<li><a href="nuevo_producto.php">Nuevo producto</a> </li>
+				<li> <a href="canjes.php"> Canjes </a> </li>
 			</ul>
 		</li>
 	</ul>

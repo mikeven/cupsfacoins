@@ -80,9 +80,7 @@
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="mb-md">
-											<a href="nuevo_usuario.php">
 											<button id="addToTable" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
-											</a>
 										</div>
 									</div>
 								</div>
