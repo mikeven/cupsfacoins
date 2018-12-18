@@ -87,8 +87,6 @@
 							</div>
 						</section>
 					</div>
-						
-					
 					<!-- end: page -->
 				</section>
 			</div>
