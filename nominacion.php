@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nominaciones :: Cupfsa Coins</title>
+		<title>Nominación :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -53,7 +53,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-bookmark"></i> Nominaciones</h2>
+						<h2><i class="fa fa-bookmark"></i> Nominación</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -61,73 +61,34 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span>Nominaciones</span></li>
+								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
+								<li><span>Nominación</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
 					<!-- start: page -->
-					<div id="nom_paneles">
-						<h5>
-							<a href="#!" class="sel_panel_nom" data-i="#nom_paneles" 
-							data-d="#nom_tabla">
-							<i class="fa fa-table"></i> Ver tabla</a>
-						</h5>
-						
-						<?php for( $v = 0; $v<12; $v++ ) { ?>
-							<div class="col-sm-6 col-xs-6">
-								<section class="panel panel-horizontal">
-									<header class="panel-heading bg-primary">
-										<div class="panel-heading-icon">
-											<i class="fa fa-bookmark"></i>
-										</div>
-									</header>
-									<div class="panel-body p-lg">
-										<h4 class="text-semibold mt-sm">Nombre participante</h4>
-										<h5 class="">Nombre atributo</h5>
-										<p><a href=""><i class="fa fa-hand-o-down"></i> Votar</a></p>
-									</div>
-								</section>
+					
+					<div class="col-sm-6 col-xs-6">
+						<section class="panel">
+							<header class="panel-heading bg-primary">
+								<div class="panel-heading-icon">
+									<i class="fa fa-bookmark"></i>
+								</div>
+							</header>
+							<div class="panel-body text-center">
+								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
+								<p class="text-center">Atributo</p>
+								<p class="text-center">(0000 pts)</p>
+								<hr class="solid short">
+								<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg"><i class="fa fa-thumbs-up"></i> </button>
+								<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg"><i class="fa fa-thumbs-down"></i> </button>
 							</div>
-						<?php } ?>
+						</section>
 					</div>
-					<div id="nom_tabla" style="display: none;">
-						<h5>
-							<a href="#!" class="sel_panel_nom" data-i="#nom_tabla" 
-							data-d="#nom_paneles">
-							<i class="fa fa-th-large"></i> Ver fichas</a>
-						</h5>
-						<table class="table table-bordered table-striped mb-none" 
-						id="datatable-tnominaciones">
-							<thead>
-								<tr>
-									<th>Fecha</th>
-									<th>Participante</th>
-									<th>Atributo</th>
-									<th>Valor</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="gradeX">
-									<td>01/12/2018</td>
-									<td>Mónica Hidalgo</td>
-									<td>500 </td>
-									<td class="actions">
-										
-									</td>
-								</tr>
-								<tr class="gradeX">
-									<td>12/12/2018</td>
-									<td>Roberto Álvarez</td>
-									<td>750</td>
-									<td class="actions">
-										
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+						
+					
 					<!-- end: page -->
 				</section>
 			</div>
