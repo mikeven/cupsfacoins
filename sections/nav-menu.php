@@ -24,6 +24,7 @@
 			</a>
 			<ul class="nav nav-children">
 				<li> <a href="nominaciones.php"> Ver nominaciones </a> </li>
+				<li> <a href="nominaciones2.php"> Ver nominaciones por aprobar</a> </li>
 				<li> <a href="nuevo_nominacion.php"> Nueva nominación </a> </li>
 				<li> <a href="atributos.php"> Atributos </a> </li>
 			</ul>

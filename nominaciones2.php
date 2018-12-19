@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Atributos :: Cupfsa Coins</title>
+		<title>Nominaciones :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -53,7 +53,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-flag"></i> Atributos</h2>
+						<h2><i class="fa fa-bookmark"></i> Nominaciones</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -62,108 +62,67 @@
 									</a>
 								</li>
 								<li><span>Nominaciones</span></li>
-								<li><span>Atributos</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
-
 					<!-- start: page -->
-						<section class="panel">
-							<header class="panel-heading">
-								<h2 class="panel-title">
-									Atributos registrados
-								</h2>
-							</header>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="mb-md">
-											<button id="addToTable" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
+					<div id="nom_paneles">
+						<h5>
+							<a href="#!" class="sel_panel_nom" data-i="#nom_paneles" 
+							data-d="#nom_tabla">
+							<i class="fa fa-table"></i> Ver tabla</a>
+						</h5>
+						
+						<?php for( $v = 0; $v<12; $v++ ) { ?>
+							<div class="col-sm-6 col-xs-6">
+								<a href="aprobar_nominacion.php">
+								<section class="panel panel-horizontal">
+									<header class="panel-heading bg-primary">
+										<div class="panel-heading-icon">
+											<i class="fa fa-bookmark"></i>
 										</div>
+									</header>
+									<div class="panel-body p-lg">
+										<h4 class="text-semibold mt-sm">Nombre participante</h4>
+										<h5 class="">Nombre atributo</h5>
 									</div>
-								</div>
-								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
-									<thead>
-										<tr>
-											<th>Nombre</th>
-											<th>Valor</th>
-											<th>Prioridad</th>
-											<th>Acciones</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="gradeX">
-											<td>TRANSFORMACIONALES</td>
-											<td>30 </td>
-											<td>1 </td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ORIENTADOS A RESULTADOS</td>
-											<td>25</td>
-											<td>2</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ÁGILES</td>
-											<td>20</td>
-											<td>3</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ORIENTADOS A RELACIONES</td>
-											<td>15</td>
-											<td>4</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>CULTOS</td>
-											<td>10</td>
-											<td>5</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>HUMILDES</td>
-											<td>5</td>
-											<td>6</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								</section>
+								</a>
 							</div>
-						</section>
+						<?php } ?>
+					</div>
+					<div id="nom_tabla" style="display: none;">
+						<h5>
+							<a href="#!" class="sel_panel_nom" data-i="#nom_tabla" 
+							data-d="#nom_paneles">
+							<i class="fa fa-th-large"></i> Ver fichas</a>
+						</h5>
+						<table class="table table-bordered table-striped mb-none" 
+						id="datatable-tnominaciones">
+							<thead>
+								<tr>
+									<th>Fecha</th>
+									<th>Participante</th>
+									<th>Atributo</th>
+									<th>Valor</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php for( $v = 0; $v<12; $v++ ) { ?>
+								<tr class="gradeX">
+									<td>01/12/2018</td>
+									<td>Participante <?php echo $v+1; ?></td>
+									<td>500 </td>
+									<td class="actions">
+										
+									</td>
+								</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					</div>
 					<!-- end: page -->
 				</section>
 			</div>
@@ -286,6 +245,6 @@
 
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-editable-atributos.js"></script>
+		<script src="js/tabla-nominaciones.js"></script>
 	</body>
 </html>

@@ -244,3 +244,12 @@ $(".sel_panel_nom").on('click', function (e) {
 	$(orig).fadeOut(300);
 	$(dest).fadeIn(300);
 });
+
+$(".cnf-voto").on('click', function (e) {
+	$("#confirmar_seleccion").fadeIn(300);
+});
+
+$("#btn_votar").on('click', function (e) {
+	$("#panel_voto").fadeOut(360);
+	$("#panel_resultado").fadeIn(4000);
+});

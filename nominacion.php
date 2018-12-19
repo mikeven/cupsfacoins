@@ -82,8 +82,19 @@
 								<p class="text-center">Atributo</p>
 								<p class="text-center">(0000 pts)</p>
 								<hr class="solid short">
-								<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg"><i class="fa fa-thumbs-up"></i> </button>
-								<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg"><i class="fa fa-thumbs-down"></i> </button>
+								<div id="panel_voto">
+									<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg cnf-voto"><i class="fa fa-thumbs-up"></i> </button>
+									<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg cnf-voto"><i class="fa fa-thumbs-down"></i> </button>
+									<div id="confirmar_seleccion" style="display: none;">
+										<hr class="solid short">
+										<div>Haga clic en Votar para confirmar su selección</div>
+										<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-hand-o-down"></i> Votar</button>
+									</div>
+								</div>
+								<div id="panel_resultado" style="display: none;">
+									<i class="fa fa-3x fa-check-square-o"></i>
+									Voto registrado
+								</div>
 							</div>
 						</section>
 					</div>
@@ -160,29 +171,6 @@
 			</aside>
 		</section>
 
-		<div id="dialog" class="modal-block mfp-hide">
-			<section class="panel">
-				<header class="panel-heading">
-					<h2 class="panel-title">Are you sure?</h2>
-				</header>
-				<div class="panel-body">
-					<div class="modal-wrapper">
-						<div class="modal-text">
-							<p>Are you sure that you want to delete this row?</p>
-						</div>
-					</div>
-				</div>
-				<footer class="panel-footer">
-					<div class="row">
-						<div class="col-md-12 text-right">
-							<button id="dialogConfirm" class="btn btn-primary">Confirm</button>
-							<button id="dialogCancel" class="btn btn-default">Cancel</button>
-						</div>
-					</div>
-				</footer>
-			</section>
-		</div>
-
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -205,7 +193,6 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
-
 
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->

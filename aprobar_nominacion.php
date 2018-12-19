@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Atributos :: Cupfsa Coins</title>
+		<title>Nominación :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -53,7 +53,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-flag"></i> Atributos</h2>
+						<h2><i class="fa fa-bookmark"></i> Revisar nominación</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -61,109 +61,42 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span>Nominaciones</span></li>
-								<li><span>Atributos</span></li>
+								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
+								<li><span>Nominación</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
-
 					<!-- start: page -->
+					
+					<div class="col-sm-6 col-xs-6">
 						<section class="panel">
-							<header class="panel-heading">
-								<h2 class="panel-title">
-									Atributos registrados
-								</h2>
+							<header class="panel-heading bg-primary">
+								<div class="panel-heading-icon">
+									<i class="fa fa-bookmark"></i>
+								</div>
 							</header>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="mb-md">
-											<button id="addToTable" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
-										</div>
+							<div class="panel-body text-center">
+								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
+								<p class="text-center">Atributo</p>
+								<p class="text-center">(0000 pts)</p>
+								<p class="text-center">Motivo:</p>
+								<hr class="solid short">
+								<div id="panel_aprobacion">
+									<div id="confirmar_seleccion">
+										<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-check"></i> Aprobar</button>
+										<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-file-o"></i> Solicitar sustento</button>
 									</div>
 								</div>
-								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
-									<thead>
-										<tr>
-											<th>Nombre</th>
-											<th>Valor</th>
-											<th>Prioridad</th>
-											<th>Acciones</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="gradeX">
-											<td>TRANSFORMACIONALES</td>
-											<td>30 </td>
-											<td>1 </td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ORIENTADOS A RESULTADOS</td>
-											<td>25</td>
-											<td>2</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ÁGILES</td>
-											<td>20</td>
-											<td>3</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ORIENTADOS A RELACIONES</td>
-											<td>15</td>
-											<td>4</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>CULTOS</td>
-											<td>10</td>
-											<td>5</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>HUMILDES</td>
-											<td>5</td>
-											<td>6</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								<div id="panel_resultado" style="display: none;">
+									<i class="fa fa-3x fa-check-square-o"></i>
+									Voto registrado
+								</div>
 							</div>
 						</section>
+					</div>
+
 					<!-- end: page -->
 				</section>
 			</div>
@@ -237,29 +170,6 @@
 			</aside>
 		</section>
 
-		<div id="dialog" class="modal-block mfp-hide">
-			<section class="panel">
-				<header class="panel-heading">
-					<h2 class="panel-title">Are you sure?</h2>
-				</header>
-				<div class="panel-body">
-					<div class="modal-wrapper">
-						<div class="modal-text">
-							<p>Are you sure that you want to delete this row?</p>
-						</div>
-					</div>
-				</div>
-				<footer class="panel-footer">
-					<div class="row">
-						<div class="col-md-12 text-right">
-							<button id="dialogConfirm" class="btn btn-primary">Confirm</button>
-							<button id="dialogCancel" class="btn btn-default">Cancel</button>
-						</div>
-					</div>
-				</footer>
-			</section>
-		</div>
-
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -283,9 +193,8 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-editable-atributos.js"></script>
+		<script src="js/tabla-nominaciones.js"></script>
 	</body>
 </html>
