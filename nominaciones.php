@@ -86,7 +86,7 @@
 									<div class="panel-body p-lg">
 										<h4 class="text-semibold mt-sm">Nombre participante</h4>
 										<h5 class="">Nombre atributo</h5>
-										<p><a href=""><i class="fa fa-hand-o-down"></i> Votar</a></p>
+										<p><a href="nominacion.php"><i class="fa fa-hand-o-down"></i> Votar</a></p>
 									</div>
 								</section>
 							</div>

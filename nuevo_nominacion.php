@@ -38,6 +38,7 @@
 		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />
 		<link rel="stylesheet" href="assets/vendor/codemirror/lib/codemirror.css" />
 		<link rel="stylesheet" href="assets/vendor/codemirror/theme/monokai.css" />
+		<link rel="stylesheet" href="assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -104,7 +105,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Atributo <span class="required">*</span></label>
 												<div class="col-sm-9">
-													<select class="form-control" data-plugin-multiselect data-plugin-options='{ "enableCaseInsensitiveFiltering": false }' id="ms_example6">
+													<select class="form-control mb-md">
 														<option value="eficiente">Eficiencia</option>
 														<option value="algebra">Emprendimiento</option>
 													</select>
@@ -127,15 +128,22 @@
 											</div>
 
 											<div class="form-group">
-												<label class="col-sm-3 control-label">Sustento</label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														
-														<input type="file" name="sustento" class="form-control"/>
+												<label class="col-md-3 control-label">Sustento</label>
+												<div class="col-md-9">
+													<div class="fileupload fileupload-new" data-provides="fileupload">
+														<div class="input-append">
+															<div class="uneditable-input">
+																<i class="fa fa-file fileupload-exists"></i>
+																<span class="fileupload-preview"></span>
+															</div>
+															<span class="btn btn-default btn-file">
+																<span class="fileupload-exists">Cambiar</span>
+																<span class="fileupload-new">Archivo</span>
+																<input type="file" />
+															</span>
+															<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Quitar</a>
+														</div>
 													</div>
-												</div>
-												<div class="col-sm-9">
-
 												</div>
 											</div>
 
@@ -279,6 +287,7 @@
 		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>

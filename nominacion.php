@@ -1,7 +1,6 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -34,6 +33,70 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
+
+		<style type="text/css">
+			.seleccion_opcion{
+				padding: 12px; 
+			}
+
+			.game_nows{
+				-webkit-border-radius: 7px;
+				-moz-border-radius: 7px;
+				border-radius: 7px;
+				-webkit-animation-name: gtoday;  /* Safari and Chrome */
+				-webkit-animation-duration: 0.5s;  /* Safari and Chrome */
+				-webkit-animation-iteration-count: infinite; /* Safari and Chrome */
+		    	animation-iteration-count: infinite;
+			}
+			
+			@-webkit-keyframes gtoday {
+				from {
+					padding: 0px 0px; 
+				}
+				to {
+					padding: 12px 16px; 
+				}
+			}
+
+			.game_now {
+			 
+
+			 -webkit-animation: zoom-in-out 1s linear 0s infinite normal ;
+ animation: zoom-in-out 1s linear 0s infinite normal ;
+			}
+
+			@-webkit-keyframes zoom-in-out {
+  0%{
+	-webkit-transform: scale(1);
+	transform: scale(1);
+  }
+  50%{
+	-webkit-transform: scale(1.2);
+	transform: scale(1.2);
+  }
+  100%{
+	-webkit-transform: scale(1);
+	transform: scale(1);
+  }
+}
+
+@keyframes zoom-in-out {
+  0%{
+	-ms-transform: scale(1);
+	transform: scale(1);
+  }
+  50%{
+	-ms-transform: scale(1.2);
+	transform: scale(1.2);
+  }
+  100%{
+	-ms-transform: scale(1);
+	transform: scale(1);
+  }
+}
+			
+			
+		</style>
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
@@ -83,11 +146,12 @@
 								<p class="text-center">(0000 pts)</p>
 								<hr class="solid short">
 								<div id="panel_voto">
-									<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg cnf-voto"><i class="fa fa-thumbs-up"></i> </button>
-									<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg cnf-voto"><i class="fa fa-thumbs-down"></i> </button>
+									<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg cnf-voto" data-valor="si"><i class="fa fa-thumbs-up"></i> </button>
+									<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg cnf-voto" data-valor="no"><i class="fa fa-thumbs-down"></i> </button>
 									<div id="confirmar_seleccion" style="display: none;">
 										<hr class="solid short">
 										<div>Haga clic en Votar para confirmar su selección</div>
+										<input id="valor_voto" type="hidden" name="voto" value="">
 										<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-hand-o-down"></i> Votar</button>
 									</div>
 								</div>

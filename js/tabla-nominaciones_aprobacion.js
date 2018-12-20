@@ -42,7 +42,8 @@
 					null,
 					null,
 					null,
-					null
+					null,
+					{ "orderable": false }
 				]
 			});
 
@@ -258,3 +259,27 @@ $("#btn_votar").on('click', function (e) {
 	$("#panel_voto").fadeOut(360);
 	$("#panel_resultado").fadeIn(4000);
 });
+
+/*
+	Flot: Pie
+	*/
+	(function() {
+		var plot = $.plot('#flotPie', flotPieData, {
+			series: {
+				pie: {
+					show: true,
+					combine: {
+						color: '#999',
+						threshold: 0.1
+					}
+				}
+			},
+			legend: {
+				show: false
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			}
+		});
+	})();

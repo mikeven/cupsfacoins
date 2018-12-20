@@ -25,6 +25,7 @@
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		<link rel="stylesheet" href="assets/vendor/morris/morris.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -53,7 +54,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-bookmark"></i> Nominaciones</h2>
+						<h2><i class="fa fa-bookmark"></i> Nominaciones por aprobar</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -107,16 +108,28 @@
 									<th>Participante</th>
 									<th>Atributo</th>
 									<th>Valor</th>
+									<th>Votación</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php for( $v = 0; $v<12; $v++ ) { ?>
 								<tr class="gradeX">
 									<td>01/12/2018</td>
-									<td>Participante <?php echo $v+1; ?></td>
-									<td>500 </td>
-									<td class="actions">
-										
+									<td>
+										<a href="aprobar_nominacion.php">
+											Participante <?php echo $v+1; ?></a>
+									</td>
+									<td>Nombre atributo </td>
+									<td>320</td>
+									<td class="">
+										<div class="">
+											<div class="small-chart text-center sparklinePie" id="sparklinePies"></div>
+											
+											<script type="text/javascript">
+												var sparklinePieData = [25, 34];
+											</script>
+										</div>
+											
 									</td>
 								</tr>
 								<?php } ?>
@@ -232,6 +245,20 @@
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+
+		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
+		<script src="assets/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
+		<script src="assets/vendor/flot/jquery.flot.js"></script>
+		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
+		<script src="assets/vendor/flot/jquery.flot.pie.js"></script>
+		<script src="assets/vendor/flot/jquery.flot.categories.js"></script>
+		<script src="assets/vendor/flot/jquery.flot.resize.js"></script>
+		<script src="assets/vendor/jquery-sparkline/jquery.sparkline.js"></script>
+		<script src="assets/vendor/raphael/raphael.js"></script>
+		<script src="assets/vendor/morris/morris.js"></script>
+		<script src="assets/vendor/gauge/gauge.js"></script>
+		<script src="assets/vendor/snap-svg/snap.svg.js"></script>
+		<script src="assets/vendor/liquid-meter/liquid.meter.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -245,6 +272,7 @@
 
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-nominaciones.js"></script>
+		<script src="js/tabla-nominaciones_aprobacion.js"></script>
+		<script src="js/fn-graphs.js"></script>
 	</body>
 </html>
