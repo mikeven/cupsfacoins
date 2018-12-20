@@ -49,7 +49,7 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar.php" );?>
+				<?php include( "sections/left-sidebar-a.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">

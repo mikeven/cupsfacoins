@@ -1,7 +1,6 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -35,25 +34,85 @@
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
 
+		<style type="text/css">
+			.seleccion_opcion{
+				padding: 12px; 
+			}
+
+			.game_nows{
+				-webkit-border-radius: 7px;
+				-moz-border-radius: 7px;
+				border-radius: 7px;
+				-webkit-animation-name: gtoday;  /* Safari and Chrome */
+				-webkit-animation-duration: 0.5s;  /* Safari and Chrome */
+				-webkit-animation-iteration-count: infinite; /* Safari and Chrome */
+		    	animation-iteration-count: infinite;
+			}
+			
+			@-webkit-keyframes gtoday {
+				from {
+					padding: 0px 0px; 
+				}
+				to {
+					padding: 12px 16px; 
+				}
+			}
+
+			.game_now {
+			 
+
+			 -webkit-animation: zoom-in-out 1s linear 0s infinite normal ;
+			 animation: zoom-in-out 1s linear 0s infinite normal ;
+						}
+
+						@-webkit-keyframes zoom-in-out {
+			  0%{
+				-webkit-transform: scale(1);
+				transform: scale(1);
+			  }
+			  50%{
+				-webkit-transform: scale(1.2);
+				transform: scale(1.2);
+			  }
+			  100%{
+				-webkit-transform: scale(1);
+				transform: scale(1);
+			  }
+			}
+
+			@keyframes zoom-in-out {
+			  0%{
+				-ms-transform: scale(1);
+				transform: scale(1);
+			  }
+			  50%{
+				-ms-transform: scale(1.2);
+				transform: scale(1.2);
+			  }
+			  100%{
+				-ms-transform: scale(1);
+				transform: scale(1);
+			  }
+			}
+		</style>
+
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<body>
 		<section class="body">
-
 			<!-- start: header -->
 			<?php include( "sections/header.php" );?>
 			<!-- end: header -->
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar-e.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-bookmark"></i> Revisar nominación</h2>
+						<h2><i class="fa fa-bookmark"></i> Nominación</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -79,19 +138,17 @@
 							</header>
 							<div class="panel-body text-center">
 								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
-								<p class="text-center">Atributo (puntos)</p>
-								<p class="text-center">Motivo:</p>
-								<p class="text-center">Texto descriptivo de motivo</p>
-								<p class="text-center">
-									<a href="#!">
-									<i class="fa fa-external-link"></i> Sustento
-									</a>
-								</p>
+								<p class="text-center">Atributo</p>
+								<p class="text-center">(0000 pts)</p>
 								<hr class="solid short">
-								<div id="panel_aprobacion">
-									<div id="confirmar_seleccion">
-										<button id="btn_aprobar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-check"></i> Aprobar</button>
-										<button id="btn_sustento" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-file-o"></i> Solicitar sustento</button>
+								<div id="panel_voto">
+									<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg cnf-voto" data-valor="si"><i class="fa fa-thumbs-up"></i> </button>
+									<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg cnf-voto" data-valor="no"><i class="fa fa-thumbs-down"></i> </button>
+									<div id="confirmar_seleccion" style="display: none;">
+										<hr class="solid short">
+										<div>Haga clic en Votar para confirmar su selección</div>
+										<input id="valor_voto" type="hidden" name="voto" value="">
+										<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-hand-o-down"></i> Votar</button>
 									</div>
 								</div>
 								<div id="panel_resultado" style="display: none;">
@@ -101,42 +158,6 @@
 							</div>
 						</section>
 					</div>
-
-					<div class="col-sm-6 col-xs-6">
-						<section class="panel">
-							<header class="panel-heading">
-								<div class="panel-actions">
-									<a href="#" class="fa fa-caret-down"></a>
-									<a href="#" class="fa fa-times"></a>
-								</div>
-				
-								<h2 class="panel-title">Resultados</h2>
-								<p class="panel-subtitle">Votación hasta el momento</p>
-							</header>
-							<div class="panel-body text-center">
-								<div class="chart chart-md" id="flotPie"></div>
-											
-								<script type="text/javascript">
-						
-									var flotPieData = [{
-										label: "Sí",
-										data: [
-											[1, 60]
-										],
-										color: '#47a447'
-									}, {
-										label: "No",
-										data: [
-											[1, 40]
-										],
-										color: '#d64742'
-									}];
-				
-								</script>
-							</div>
-						</section>
-					</div>
-
 					<!-- end: page -->
 				</section>
 			</div>
@@ -223,20 +244,6 @@
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
-
-		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
-		<script src="assets/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.js"></script>
-		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.pie.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.categories.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.resize.js"></script>
-		<script src="assets/vendor/jquery-sparkline/jquery.sparkline.js"></script>
-		<script src="assets/vendor/raphael/raphael.js"></script>
-		<script src="assets/vendor/morris/morris.js"></script>
-		<script src="assets/vendor/gauge/gauge.js"></script>
-		<script src="assets/vendor/snap-svg/snap.svg.js"></script>
-		<script src="assets/vendor/liquid-meter/liquid.meter.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -249,31 +256,6 @@
 
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-
-		<script>
-			/*
-			Flot: Pie
-			*/
-			(function() {
-				var plot = $.plot('#flotPie', flotPieData, {
-					series: {
-						pie: {
-							show: true,
-							combine: {
-								color: '#999',
-								threshold: 0.5
-							}
-						}
-					},
-					legend: {
-						show: false
-					},
-					grid: {
-						hoverable: false,
-						clickable: true
-					}
-				});
-			})();
-		</script>
+		<script src="js/tabla-nominaciones.js"></script>
 	</body>
 </html>

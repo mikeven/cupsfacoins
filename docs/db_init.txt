@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `coins`.`ACCION` (
   `nombre` VARCHAR(45) NOT NULL,
   `descripcion` VARCHAR(100) NULL,
   PRIMARY KEY (`idACCION`),
-  UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC) VISIBLE)
+  UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC) )
 ENGINE = InnoDB;
 
 
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `coins`.`ATRIBUTO` (
   `nombre` VARCHAR(45) NOT NULL,
   `valor` INT NOT NULL,
   PRIMARY KEY (`idATRIBUTO`),
-  UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC) VISIBLE)
+  UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC) )
 ENGINE = InnoDB;
 
 

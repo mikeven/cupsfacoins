@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nominación :: Cupfsa Coins</title>
+		<title>Registro de canjes :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -53,7 +53,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-bookmark"></i> Revisar nominación</h2>
+						<h2><i class="fa fa-exchange"></i> Canjes</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -61,82 +61,52 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
-								<li><span>Nominación</span></li>
+								<li><span><a href="productos.php">Productos</a></span></li>
+								<li><span>Registro de canjes</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
-					<!-- start: page -->
-					
-					<div class="col-sm-6 col-xs-6">
-						<section class="panel">
-							<header class="panel-heading bg-primary">
-								<div class="panel-heading-icon">
-									<i class="fa fa-bookmark"></i>
-								</div>
-							</header>
-							<div class="panel-body text-center">
-								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
-								<p class="text-center">Atributo (puntos)</p>
-								<p class="text-center">Motivo:</p>
-								<p class="text-center">Texto descriptivo de motivo</p>
-								<p class="text-center">
-									<a href="#!">
-									<i class="fa fa-external-link"></i> Sustento
-									</a>
-								</p>
-								<hr class="solid short">
-								<div id="panel_aprobacion">
-									<div id="confirmar_seleccion">
-										<button id="btn_aprobar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-check"></i> Aprobar</button>
-										<button id="btn_sustento" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-file-o"></i> Solicitar sustento</button>
-									</div>
-								</div>
-								<div id="panel_resultado" style="display: none;">
-									<i class="fa fa-3x fa-check-square-o"></i>
-									Voto registrado
-								</div>
-							</div>
-						</section>
-					</div>
 
-					<div class="col-sm-6 col-xs-6">
+					<!-- start: page -->
 						<section class="panel">
 							<header class="panel-heading">
-								<div class="panel-actions">
-									<a href="#" class="fa fa-caret-down"></a>
-									<a href="#" class="fa fa-times"></a>
-								</div>
-				
-								<h2 class="panel-title">Resultados</h2>
-								<p class="panel-subtitle">Votación hasta el momento</p>
+								<h2 class="panel-title">
+									Registro de canjes
+								</h2>
 							</header>
-							<div class="panel-body text-center">
-								<div class="chart chart-md" id="flotPie"></div>
-											
-								<script type="text/javascript">
-						
-									var flotPieData = [{
-										label: "Sí",
-										data: [
-											[1, 60]
-										],
-										color: '#47a447'
-									}, {
-										label: "No",
-										data: [
-											[1, 40]
-										],
-										color: '#d64742'
-									}];
-				
-								</script>
+							<div class="panel-body">
+								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
+									<thead>
+										<tr>
+											<th>Fecha</th>
+											<th>Usuario</th>
+											<th>Valor de canje</th>
+											<th>Producto</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="gradeX">
+											<td>01/12/2018</td>
+											<td>Mónica Hidalgo</td>
+											<td>500 </td>
+											<td class="actions">
+												
+											</td>
+										</tr>
+										<tr class="gradeX">
+											<td>12/12/2018</td>
+											<td>Roberto Álvarez</td>
+											<td>750</td>
+											<td class="actions">
+												
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</section>
-					</div>
-
 					<!-- end: page -->
 				</section>
 			</div>
@@ -210,6 +180,29 @@
 			</aside>
 		</section>
 
+		<div id="dialog" class="modal-block mfp-hide">
+			<section class="panel">
+				<header class="panel-heading">
+					<h2 class="panel-title">Are you sure?</h2>
+				</header>
+				<div class="panel-body">
+					<div class="modal-wrapper">
+						<div class="modal-text">
+							<p>Are you sure that you want to delete this row?</p>
+						</div>
+					</div>
+				</div>
+				<footer class="panel-footer">
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<button id="dialogConfirm" class="btn btn-primary">Confirm</button>
+							<button id="dialogCancel" class="btn btn-default">Cancel</button>
+						</div>
+					</div>
+				</footer>
+			</section>
+		</div>
+
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -223,20 +216,6 @@
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
-
-		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
-		<script src="assets/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.js"></script>
-		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.pie.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.categories.js"></script>
-		<script src="assets/vendor/flot/jquery.flot.resize.js"></script>
-		<script src="assets/vendor/jquery-sparkline/jquery.sparkline.js"></script>
-		<script src="assets/vendor/raphael/raphael.js"></script>
-		<script src="assets/vendor/morris/morris.js"></script>
-		<script src="assets/vendor/gauge/gauge.js"></script>
-		<script src="assets/vendor/snap-svg/snap.svg.js"></script>
-		<script src="assets/vendor/liquid-meter/liquid.meter.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -247,33 +226,9 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
+
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-
-		<script>
-			/*
-			Flot: Pie
-			*/
-			(function() {
-				var plot = $.plot('#flotPie', flotPieData, {
-					series: {
-						pie: {
-							show: true,
-							combine: {
-								color: '#999',
-								threshold: 0.5
-							}
-						}
-					},
-					legend: {
-						show: false
-					},
-					grid: {
-						hoverable: false,
-						clickable: true
-					}
-				});
-			})();
-		</script>
+		<script src="js/tabla-canjes.js"></script>
 	</body>
 </html>

@@ -1,14 +1,13 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nominación :: Cupfsa Coins</title>
+		<title>Inicio :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
-		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
-		<meta name="author" content="okler.net">
+		<meta name="description" content="JSOFT Admin - Responsive HTML5 Template">
+		<meta name="author" content="JSOFT.net">
 
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -23,8 +22,12 @@
 		<link rel="stylesheet" href="assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 
 		<!-- Specific Page Vendor CSS -->
-		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
-		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
+		<link rel="stylesheet" href="assets/vendor/morris/morris.css" />
+
+		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.carousel.css" />
+		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.theme.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -37,107 +40,63 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<body>
 		<section class="body">
 
-			<!-- start: header -->
 			<?php include( "sections/header.php" );?>
-			<!-- end: header -->
 
 			<div class="inner-wrapper">
+				
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar-e.php" );?>
 				<!-- end: sidebar -->
 
-				<section role="main" class="content-body">
+				<section role="main" class="content-body hidden_">
 					<header class="page-header">
-						<h2><i class="fa fa-bookmark"></i> Revisar nominación</h2>
+						<h2>Inicio</h2>
+					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
-									<a href="index.php">
+									<a href="#!">
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
-								<li><span>Nominación</span></li>
 							</ol>
-					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
-					<!-- start: page -->
-					
-					<div class="col-sm-6 col-xs-6">
-						<section class="panel">
-							<header class="panel-heading bg-primary">
-								<div class="panel-heading-icon">
-									<i class="fa fa-bookmark"></i>
+
+					<div class="row">
+						<div class="col-sm-12 col-xs-12">
+							<section class="panel">
+								<header class="panel-heading">
+									<h2 class="panel-title">Últimas nominaciones</h2>
+									<p class="panel-subtitle"></p>
+								</header>
+								<div class="panel-body">
+									<div class="owl-carousel" data-plugin-carousel data-plugin-options='{ "autoPlay": 4000, "items": 3, "itemsDesktop": [1199,4], "itemsDesktopSmall": [979,3], "itemsTablet": [768,2], "itemsMobile": [479,1] }'>
+										<?php for( $v = 0; $v<12; $v++ ) { ?>
+										<div class="item spaced">
+											<header class="panel-heading bg-primary">
+												<h5 class="">Nombre atributo</h5>
+											</header>
+											<div class="panel-body p-lg" style="border:1px solid #ccc">
+												<h4 class="text-semibold mt-sm">
+													Participante <?php echo $v+1;?>
+												</h4>
+												<p><a href="nominacion-e.php"><i class="fa fa-hand-o-down"></i> Votar</a></p>
+											</div>
+										</div>
+										<?php } ?>
+								 	</div>		
 								</div>
-							</header>
-							<div class="panel-body text-center">
-								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
-								<p class="text-center">Atributo (puntos)</p>
-								<p class="text-center">Motivo:</p>
-								<p class="text-center">Texto descriptivo de motivo</p>
-								<p class="text-center">
-									<a href="#!">
-									<i class="fa fa-external-link"></i> Sustento
-									</a>
-								</p>
-								<hr class="solid short">
-								<div id="panel_aprobacion">
-									<div id="confirmar_seleccion">
-										<button id="btn_aprobar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-check"></i> Aprobar</button>
-										<button id="btn_sustento" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-file-o"></i> Solicitar sustento</button>
-									</div>
-								</div>
-								<div id="panel_resultado" style="display: none;">
-									<i class="fa fa-3x fa-check-square-o"></i>
-									Voto registrado
-								</div>
-							</div>
-						</section>
+							</section>
+							
+						</div>
 					</div>
 
-					<div class="col-sm-6 col-xs-6">
-						<section class="panel">
-							<header class="panel-heading">
-								<div class="panel-actions">
-									<a href="#" class="fa fa-caret-down"></a>
-									<a href="#" class="fa fa-times"></a>
-								</div>
-				
-								<h2 class="panel-title">Resultados</h2>
-								<p class="panel-subtitle">Votación hasta el momento</p>
-							</header>
-							<div class="panel-body text-center">
-								<div class="chart chart-md" id="flotPie"></div>
-											
-								<script type="text/javascript">
-						
-									var flotPieData = [{
-										label: "Sí",
-										data: [
-											[1, 60]
-										],
-										color: '#47a447'
-									}, {
-										label: "No",
-										data: [
-											[1, 40]
-										],
-										color: '#d64742'
-									}];
-				
-								</script>
-							</div>
-						</section>
-					</div>
-
-					<!-- end: page -->
 				</section>
 			</div>
 
@@ -220,11 +179,12 @@
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Specific Page Vendor -->
-		<script src="assets/vendor/select2/select2.js"></script>
-		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/owl-carousel/owl.carousel.js"></script>
 
+		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
 		<script src="assets/vendor/jquery-appear/jquery.appear.js"></script>
+		<script src="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
 		<script src="assets/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
 		<script src="assets/vendor/flot/jquery.flot.js"></script>
 		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
@@ -237,6 +197,15 @@
 		<script src="assets/vendor/gauge/gauge.js"></script>
 		<script src="assets/vendor/snap-svg/snap.svg.js"></script>
 		<script src="assets/vendor/liquid-meter/liquid.meter.js"></script>
+		<script src="assets/vendor/jqvmap/jquery.vmap.js"></script>
+		<script src="assets/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
+		<script src="assets/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
+		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
+		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
+		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
+		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
+		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
+		<script src="assets/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -247,33 +216,8 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-		<!-- Examples -->
-		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
 
-		<script>
-			/*
-			Flot: Pie
-			*/
-			(function() {
-				var plot = $.plot('#flotPie', flotPieData, {
-					series: {
-						pie: {
-							show: true,
-							combine: {
-								color: '#999',
-								threshold: 0.5
-							}
-						}
-					},
-					legend: {
-						show: false
-					},
-					grid: {
-						hoverable: false,
-						clickable: true
-					}
-				});
-			})();
-		</script>
+		<!-- Examples -->
+		<script src="assets/javascripts/dashboard/examples.dashboard.js"></script>
 	</body>
 </html>

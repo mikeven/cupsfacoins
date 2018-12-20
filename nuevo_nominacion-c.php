@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nuevo usuario :: Cupfsa Coins</title>
+		<title>Nominar :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -24,6 +24,8 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+
+		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
@@ -36,6 +38,7 @@
 		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />
 		<link rel="stylesheet" href="assets/vendor/codemirror/lib/codemirror.css" />
 		<link rel="stylesheet" href="assets/vendor/codemirror/theme/monokai.css" />
+		<link rel="stylesheet" href="assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -59,12 +62,12 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar-c.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-user" aria-hidden="true"></i> Nuevo usuario</h2>
+						<h2><i class="fa fa fa-bookmark" aria-hidden="true"></i>Nueva nominación</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -73,8 +76,8 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span><a href="usuarios.php">Usuarios</a></span></li>
-								<li><span>Nuevo usuario</span></li>
+								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
+								<li><span>Nueva nominación</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
@@ -86,69 +89,61 @@
 							<div class="col-sm-8 col-xs-12">
 								<section class="panel">
 									<header class="panel-heading">
-										<h2 class="panel-title">Datos de nuevo usuario</h2>
+										<h2 class="panel-title">Nominación</h2>
 									</header>
 									<div class="panel-body">
 										<form id="frm_nusuario" class="form-horizontal form-bordered" action="#">
 											<div class="form-group">
-												<label class="col-sm-3 control-label">Nombre <span class="required">*</span></label>
+												<label class="col-sm-3 control-label">Persona <span class="required">*</span></label>
 												<div class="col-sm-9">
 													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-user"></i>
-														</span>
-														<input type="text" name="nombre" class="form-control" placeholder="Ej.: Miguel" required/>
+														<a class="modal-with-form modal-with-move-anim btn btn-default" href="#modalForm">Seleccione</a>
 													</div>
 												</div>
 											</div>
 
 											<div class="form-group">
-												<label class="col-sm-3 control-label">Apellido <span class="required">*</span></label>
+												<label class="col-sm-3 control-label">Atributo <span class="required">*</span></label>
 												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-user"></i>
-														</span>
-														<input type="text" name="rangel" class="form-control" placeholder="Ej.: Rangel" required/>
-													</div>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Email <span class="required">*</span></label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-envelope"></i>
-														</span>
-														<input type="email" name="email" class="form-control" placeholder="Ej.: email@email.com" required/>
-													</div>
-												</div>
-												<div class="col-sm-9">
-
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Cargo </label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-sitemap"></i>
-														</span>
-														<input type="text" name="rangel" class="form-control" placeholder="Ej.: Ejecutivo de negocios"/>
-													</div>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-3 control-label">Rol</label>
-												<div class="col-md-6">
-													<select class="form-control" multiple="multiple" data-plugin-multiselect id="ms_example0" name="rol">
-														<option value="Colaborador">Colaborador</option>
-														<option value="Evaluador">Evaluador</option>
-														<option value="Administrador">Administrador</option>
+													<select class="form-control mb-md">
+														<option value="eficiente">Eficiencia</option>
+														<option value="algebra">Emprendimiento</option>
 													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label">Motivo <span class="required">*</span></label>
+												<div class="col-sm-9">
+													<div class="input-group">
+														<span class="input-group-addon">
+															<i class="fa fa-pencil"></i>
+														</span>
+														<input type="text" name="motivo" class="form-control" placeholder="Ej.: Opinión personal" required/>
+													</div>
+												</div>
+												<div class="col-sm-9">
+
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-md-3 control-label">Sustento</label>
+												<div class="col-md-9">
+													<div class="fileupload fileupload-new" data-provides="fileupload">
+														<div class="input-append">
+															<div class="uneditable-input">
+																<i class="fa fa-file fileupload-exists"></i>
+																<span class="fileupload-preview"></span>
+															</div>
+															<span class="btn btn-default btn-file">
+																<span class="fileupload-exists">Cambiar</span>
+																<span class="fileupload-new">Archivo</span>
+																<input type="file" />
+															</span>
+															<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Quitar</a>
+														</div>
+													</div>
 												</div>
 											</div>
 
@@ -157,7 +152,7 @@
 									<footer class="panel-footer">
 										<div class="row">
 											<div class="col-sm-12" align="right">
-												<button class="btn btn-primary">Guardar</button>
+												<button class="btn btn-primary">Nominar</button>
 											</div>
 										</div>
 									</footer>
@@ -166,6 +161,24 @@
 						</div>
 						
 					<!-- end: page -->
+				</section>
+			</div>
+
+			<div id="modalForm" class="zoom-anim-dialog modal-block modal-block-lg mfp-hide">
+				<section class="panel">
+					<header class="panel-heading">
+						<h2 class="panel-title">Usuarios registrados</h2>
+					</header>
+					<div class="panel-body">
+						<?php include( "sections/tablas/tabla-modal-usuarios.php" ); ?>	
+					</div>
+					<footer class="panel-footer">
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<button class="btn btn-default modal-dismiss">Cancelar</button>
+							</div>
+						</div>
+					</footer>
 				</section>
 			</div>
 
@@ -272,6 +285,9 @@
 		<script src="assets/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
 		<script src="assets/vendor/ios7-switch/ios7-switch.js"></script>
 		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
+		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -282,10 +298,11 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
 		<!-- Examples -->
 		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
-		<script src="js/fn-usuarios.js"></script>
+		<script src="js/tabla-modal-usuarios.js"></script>
+		<script src="js/init.modals.js"></script>
+		<script src="js/fn-nominaciones.js"></script>
 
 	</body>
 </html>

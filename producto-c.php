@@ -5,7 +5,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nuevo usuario :: Cupfsa Coins</title>
+		<title>Nombre de producto :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -29,6 +29,16 @@
 		<link rel="stylesheet" href="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css" />
+
+		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+		<link rel="stylesheet" href="assets/vendor/morris/morris.css" />
+		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.carousel.css" />
+		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.theme.css" />
+
+		<link rel="stylesheet" href="assets/vendor/dropzone/css/basic.css" />
+		<link rel="stylesheet" href="assets/vendor/dropzone/css/dropzone.css" />
+		<link rel="stylesheet" href="assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
+
 		<link rel="stylesheet" href="assets/vendor/dropzone/css/basic.css" />
 		<link rel="stylesheet" href="assets/vendor/dropzone/css/dropzone.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
@@ -49,6 +59,20 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 
+		<style>
+			.frm_imgupl .control-label{
+				text-align: right;
+			}
+
+			.dropzone {
+			    min-height: 250px;
+			}
+
+			.dz-message{
+				border: 2px dotted #CCC;
+			}
+		</style>
+
 	</head>
 	<body>
 		<section class="body">
@@ -59,12 +83,12 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar-c.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-user" aria-hidden="true"></i> Nuevo usuario</h2>
+						<h2><i class="fa fa-cube" aria-hidden="true"></i> Nombre de producto</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -73,8 +97,8 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span><a href="usuarios.php">Usuarios</a></span></li>
-								<li><span>Nuevo usuario</span></li>
+								<li><span><a href="productos.php">Productos</a></span></li>
+								<li><span>Nombre de producto</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
@@ -84,85 +108,62 @@
 					<!-- start: page -->
 						<div class="row">
 							<div class="col-sm-8 col-xs-12">
-								<section class="panel">
-									<header class="panel-heading">
-										<h2 class="panel-title">Datos de nuevo usuario</h2>
-									</header>
-									<div class="panel-body">
-										<form id="frm_nusuario" class="form-horizontal form-bordered" action="#">
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Nombre <span class="required">*</span></label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-user"></i>
-														</span>
-														<input type="text" name="nombre" class="form-control" placeholder="Ej.: Miguel" required/>
-													</div>
-												</div>
+							<section class="panel">
+								
+								<div class="panel-body">
+									<div class="col-sm-6 col-xs-12">
+										<div class="isotope-item ">
+										<div class="thumbnail">
+											<div class="thumb-preview">
+												<a class="thumb-image" href="assets/images/projects/project-1.jpg">
+													<img src="assets/images/projects/project-1.jpg" class="img-responsive" alt="Project" width="447">
+												</a>
+												
 											</div>
-
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Apellido <span class="required">*</span></label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-user"></i>
-														</span>
-														<input type="text" name="rangel" class="form-control" placeholder="Ej.: Rangel" required/>
-													</div>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Email <span class="required">*</span></label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-envelope"></i>
-														</span>
-														<input type="email" name="email" class="form-control" placeholder="Ej.: email@email.com" required/>
-													</div>
-												</div>
-												<div class="col-sm-9">
-
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Cargo </label>
-												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-sitemap"></i>
-														</span>
-														<input type="text" name="rangel" class="form-control" placeholder="Ej.: Ejecutivo de negocios"/>
-													</div>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-3 control-label">Rol</label>
-												<div class="col-md-6">
-													<select class="form-control" multiple="multiple" data-plugin-multiselect id="ms_example0" name="rol">
-														<option value="Colaborador">Colaborador</option>
-														<option value="Evaluador">Evaluador</option>
-														<option value="Administrador">Administrador</option>
-													</select>
-												</div>
-											</div>
-
-										</form>
-									</div>
-									<footer class="panel-footer">
-										<div class="row">
-											<div class="col-sm-12" align="right">
-												<button class="btn btn-primary">Guardar</button>
-											</div>
+											
 										</div>
-									</footer>
-								</section>
-							</div>
+									</div>			
+									</div>
+									<div class="col-sm-6 col-xs-12">
+										<div class="form-group">
+											<h4>Nombre de producto</h4>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Descripción de producto</label>
+										</div>
+										<section class="panel panel-featured-left panel-featured-primary">
+											<div class="panel-body">
+												<div class="widget-summary">
+													<div class="widget-summary-col widget-summary-col-icon">
+														<div class="summary-icon bg-primary">
+															<i class="fa fa-cube"></i>
+														</div>
+													</div>
+													<div class="widget-summary-col">
+														<div class="summary">
+															<h4 class="title">Valor de canje</h4>
+															<div class="info">
+																<strong class="amount">1360 coins</strong>
+															</div>
+														</div>
+														<div class="summary-footer">
+															<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-exchange"></i> Canjear</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</section>
+									</div>
+								</div>
+								<footer class="panel-footer hidden">
+									<div class="row">
+										<div class="col-sm-12" align="right">
+											
+										</div>
+									</div>
+								</footer>
+							</section>
+							</div>	
 						</div>
 						
 					<!-- end: page -->
@@ -285,7 +286,24 @@
 
 		<!-- Examples -->
 		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
-		<script src="js/fn-usuarios.js"></script>
+		<script src="assets/javascripts/ui-elements/examples.widgets.js"></script>
+		<script src="js/fn-productos.js"></script>
+		<script type="text/javascript">
+			$( document ).ready(function() {
+				Dropzone.options.myAwesomeDropzone = {
+				  maxFiles: 1,
+				  accept: function(file, done) {
+				    console.log("uploaded");
+				    done();
+				  },
+				  init: function() {
+				    this.on("maxfilesexceeded", function(file){
+				        alert("No more files please!");
+				    });
+				  }
+				};
+			});
+		</script>
 
 	</body>
 </html>

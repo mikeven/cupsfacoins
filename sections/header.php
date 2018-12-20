@@ -1,3 +1,19 @@
+<style>
+	.panel-heading-icon_p{
+		margin: 0 auto;
+	    font-size: 18px;
+	    font-size: 0.9rem;
+	    width: 40px;
+	    height: 40px;
+	    line-height: 12px;
+	    text-align: center;
+	    color: #fff;
+	    background-color: rgba(0, 0, 0, 0.1);
+	    -webkit-border-radius: 55px;
+	    border-radius: 55px;
+	    border: 1px solid #ccc;
+	}
+</style>
 <!-- start: header -->
 <header class="header">
 	<div class="logo-container">
@@ -189,7 +205,10 @@
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
-					<img src="assets/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" />
+					<div class="panel-heading-icon_p">
+						<div style="margin-top: 8px;">350</div>
+						<div style="font-size: 5px;">coins</div>
+					</div>
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
 					<span class="name">John Doe Junior</span>

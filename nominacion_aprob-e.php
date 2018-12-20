@@ -48,7 +48,7 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar-e.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
@@ -89,15 +89,9 @@
 								</p>
 								<hr class="solid short">
 								<div id="panel_aprobacion">
-									<div id="confirmar_seleccion">
-										<button id="btn_aprobar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-check"></i> Aprobar</button>
-										<button id="btn_sustento" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-file-o"></i> Solicitar sustento</button>
-									</div>
+									Aprobada: 12/12/2018
 								</div>
-								<div id="panel_resultado" style="display: none;">
-									<i class="fa fa-3x fa-check-square-o"></i>
-									Voto registrado
-								</div>
+								
 							</div>
 						</section>
 					</div>
@@ -111,7 +105,7 @@
 								</div>
 				
 								<h2 class="panel-title">Resultados</h2>
-								<p class="panel-subtitle">Votación hasta el momento</p>
+								<p class="panel-subtitle">Votación final</p>
 							</header>
 							<div class="panel-body text-center">
 								<div class="chart chart-md" id="flotPie"></div>
@@ -121,13 +115,13 @@
 									var flotPieData = [{
 										label: "Sí",
 										data: [
-											[1, 60]
+											[1, 35]
 										],
 										color: '#47a447'
 									}, {
 										label: "No",
 										data: [
-											[1, 40]
+											[1, 65]
 										],
 										color: '#d64742'
 									}];
