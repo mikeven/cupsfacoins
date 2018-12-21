@@ -1,17 +1,18 @@
 <?php
+	/* ----------------------------------------------------------------------------------- */
 	/* Cupfsa Coins - Conexión a base de datos */
+	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
 	ini_set( 'display_errors', 1 );
 
 	$cfg = obtenerConfigBD();
-	echo "u:".$cfg["username"]."<br>";
-	echo "p:".$cfg["password"]."<br>";
-	echo "b:".$cfg["database"]."<br>";
 
-	$servidor = "127.0.0.1";
-	$usuariobd = $cfg["username"];
-	$passbd = $cfg["password"];
-	$basedatos = $cfg["database"];
+	print_r($cfg);
+
+	$servidor 	= $cfg["server"];
+	$usuariobd 	= $cfg["username"];
+	$passbd 	= $cfg["password"];
+	$basedatos 	= $cfg["database"];
 	//require_once($_SERVER['DOCUMENT_ROOT'].'/lib/FirePHPCore/fb.php');
 	
 	$dbh = mysqli_connect ( $servidor, $usuariobd, $passbd ) 

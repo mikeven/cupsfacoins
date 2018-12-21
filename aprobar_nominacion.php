@@ -105,11 +105,6 @@
 					<div class="col-sm-6 col-xs-6">
 						<section class="panel">
 							<header class="panel-heading">
-								<div class="panel-actions">
-									<a href="#" class="fa fa-caret-down"></a>
-									<a href="#" class="fa fa-times"></a>
-								</div>
-				
 								<h2 class="panel-title">Resultados</h2>
 								<p class="panel-subtitle">Votación hasta el momento</p>
 							</header>
