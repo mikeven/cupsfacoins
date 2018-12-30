@@ -1,3 +1,16 @@
+<?php
+    /*
+     * Cupfsa Coins - Nominaciones
+     * 
+     */
+    session_start();
+    $pagina = "pg_nominacion";
+    ini_set( 'display_errors', 1 );
+    //include( "database/data-usuario.php" );
+    include( "database/data-acceso.php" );
+    include( "fn/fn-acceso.php" );
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
@@ -59,48 +72,43 @@
 			}
 
 			.game_now {
-			 
-
-			 -webkit-animation: zoom-in-out 1s linear 0s infinite normal ;
- animation: zoom-in-out 1s linear 0s infinite normal ;
+				-webkit-animation: zoom-in-out 1s linear 0s infinite normal ;
+ 				animation: zoom-in-out 1s linear 0s infinite normal ;
 			}
 
-			@-webkit-keyframes zoom-in-out {
-  0%{
-	-webkit-transform: scale(1);
-	transform: scale(1);
-  }
-  50%{
-	-webkit-transform: scale(1.2);
-	transform: scale(1.2);
-  }
-  100%{
-	-webkit-transform: scale(1);
-	transform: scale(1);
-  }
-}
+			@-webkit-keyframes zoom-in-out {			
+				0%{
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+			  	50%{
+					-webkit-transform: scale(1.2);
+					transform: scale(1.2);
+			  	}
+			  	100%{
+					-webkit-transform: scale(1);
+					transform: scale(1);
+			  	}
+			}
 
-@keyframes zoom-in-out {
-  0%{
-	-ms-transform: scale(1);
-	transform: scale(1);
-  }
-  50%{
-	-ms-transform: scale(1.2);
-	transform: scale(1.2);
-  }
-  100%{
-	-ms-transform: scale(1);
-	transform: scale(1);
-  }
-}
-			
-			
+			@keyframes zoom-in-out {
+				0%{
+					-ms-transform: scale(1);
+					transform: scale(1);
+			  	}	
+			  	50%{
+					-ms-transform: scale(1.2);
+					transform: scale(1.2);
+			  	}
+			  	100%{
+					-ms-transform: scale(1);
+					transform: scale(1);
+			  	}
+			}
 		</style>
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<body>
 		<section class="body">
@@ -142,26 +150,59 @@
 							</header>
 							<div class="panel-body text-center">
 								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
-								<p class="text-center">Atributo</p>
-								<p class="text-center">(0000 pts)</p>
-								<hr class="solid short">
-								<div id="panel_voto">
-									<button type="button" class="mb-xs mt-xs mr-xs btn btn-success btn-lg cnf-voto" data-valor="si"><i class="fa fa-thumbs-up"></i> </button>
-									<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger btn-lg cnf-voto" data-valor="no"><i class="fa fa-thumbs-down"></i> </button>
-									<div id="confirmar_seleccion" style="display: none;">
-										<hr class="solid short">
-										<div>Haga clic en Votar para confirmar su selección</div>
-										<input id="valor_voto" type="hidden" name="voto" value="">
-										<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-hand-o-down"></i> Votar</button>
-									</div>
-								</div>
-								<div id="panel_resultado" style="display: none;">
-									<i class="fa fa-3x fa-check-square-o"></i>
-									Voto registrado
-								</div>
+								<p class="text-center">Atributo (puntos)</p>
+								<p class="text-center">Motivo:</p>
+								<p class="text-center">Texto descriptivo de motivo</p>
+								<p class="text-center">
+									<a href="#!">
+									<i class="fa fa-external-link"></i> Sustento
+									</a>
+								</p>
+								<?php 
+									if( isV( 'en_votar' ) ) { 
+										include( "sections/panel_voto.php" );
+									}
+									if( isV( 'en_aprob_nom' ) ) { 
+										include( "sections/panel_aprobacion.php" );
+									}
+									if( isV( 'pan_nom_aprob' ) ) { 
+										include( "sections/panel_nominacion_aprobada.php" );
+									}
+								?>
 							</div>
 						</section>
 					</div>
+					<?php if( isV( "result_nom" ) ) { ?>
+						<div class="col-sm-6 col-xs-6">
+							<section class="panel">
+								<header class="panel-heading">
+									<h2 class="panel-title">Resultados</h2>
+									<p class="panel-subtitle">Votación final: 00 votos</p>
+								</header>
+								<div class="panel-body text-center">
+									<div class="chart chart-md" id="flotPie"></div>
+												
+									<script type="text/javascript">
+							
+										var flotPieData = [{
+											label: "Sí",
+											data: [
+												[1, 35]
+											],
+											color: '#47a447'
+										}, {
+											label: "No",
+											data: [
+												[1, 42]
+											],
+											color: '#d64742'
+										}];
+					
+									</script>
+								</div>
+							</section>
+						</div>
+					<?php } ?>	
 					<!-- end: page -->
 				</section>
 			</div>
@@ -248,6 +289,9 @@
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/flot/jquery.flot.js"></script>
+		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
+		<script src="assets/vendor/flot/jquery.flot.pie.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -261,5 +305,30 @@
 		<!-- Examples -->
 		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
 		<script src="js/tabla-nominaciones.js"></script>
+		<script>
+			/*
+			Flot: Pie
+			*/
+			(function() {
+				var plot = $.plot('#flotPie', flotPieData, {
+					series: {
+						pie: {
+							show: true,
+							combine: {
+								color: '#999',
+								threshold: 0.5
+							}
+						}
+					},
+					legend: {
+						show: false
+					},
+					grid: {
+						hoverable: true,
+						clickable: true
+					}
+				});
+			})();
+		</script>
 	</body>
 </html>

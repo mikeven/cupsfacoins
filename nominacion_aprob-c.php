@@ -1,3 +1,16 @@
+<?php
+    /*
+     * Cupfsa Coins - Nominaciones
+     * 
+     */
+    session_start();
+    $pagina = "pg_nominaciones";
+    ini_set( 'display_errors', 1 );
+    //include( "database/data-usuario.php" );
+    include( "database/data-acceso.php" );
+    include( "fn/fn-acceso.php" );
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
@@ -37,7 +50,6 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<body>
 		<section class="body">
@@ -147,7 +159,6 @@
 							<div class="sidebar-widget widget-calendar">
 								<h6>Upcoming Tasks</h6>
 								<div data-plugin-datepicker data-plugin-skin="dark" ></div>
-			
 								<ul>
 									<li>
 										<time datetime="2014-04-19T00:00+00:00">04/19/2014</time>

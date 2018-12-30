@@ -30,6 +30,13 @@
 		}
 	});
 
+	$("#frm_nusuario").on('submit', function(e) {
+        if ( $("#frm_nusuario").valid() ) {
+            e.preventDefault();
+            agregarUsuario();
+        }
+    });
+
 	// validation summary
 	var $summaryForm = $("#summary-form");
 	$summaryForm.validate({
@@ -51,3 +58,27 @@
 	});
 
 }).apply( this, [ jQuery ]);
+
+/* --------------------------------------------------------- */
+
+function agregarUsuario(){
+
+	var fs = $('#frm_nusuario').serialize();
+	var br = $("#btn_res_fnu");	
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-usuarios.php",
+        data:{ form_nu: fs },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 ){
+				$(br).click();
+				notificar( "Nuevo usuario", res.mje, "success" );
+			}
+			else
+				notificar( "Nuevo usuario", res.mje, "error" );
+        }
+    });
+}

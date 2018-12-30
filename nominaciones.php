@@ -1,3 +1,20 @@
+<?php
+    /*
+     * Cupfsa Coins - Nominaciones
+     * 
+     */
+    session_start();
+    $pagina = "pg_nominaciones";
+    ini_set( 'display_errors', 1 );
+    //include( "database/data-usuario.php" );
+    include( "database/data-acceso.php" );
+    include( "database/data-nominaciones.php" );
+    include( "fn/fn-acceso.php" );
+    include( "fn/fn-nominaciones.php" );
+    isAccesible( $pagina );
+    $nominaciones = obtenerNominaciones( $accesos_usess );
+
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
@@ -37,7 +54,6 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<body>
 		<section class="body">
@@ -75,7 +91,9 @@
 							<i class="fa fa-table"></i> Ver tabla</a>
 						</h5>
 						
-						<?php for( $v = 0; $v<12; $v++ ) { ?>
+						<?php for( $v = 0; $v<12; $v++ ) { 
+							$enl = enlaceVerNominacion();//
+						?>
 							<div class="col-sm-6 col-xs-6">
 								<section class="panel panel-horizontal">
 									<header class="panel-heading bg-primary">
@@ -86,7 +104,10 @@
 									<div class="panel-body p-lg">
 										<h4 class="text-semibold mt-sm">Nombre participante</h4>
 										<h5 class="">Nombre atributo</h5>
-										<p><a href="nominacion-e.php"><i class="fa fa-hand-o-down"></i> Votar</a></p>
+										<p>
+											<a href="nominacion.php?id=<?php echo $v;?>">
+											<?php echo $enl; ?>
+										</p>
 									</div>
 								</section>
 							</div>
@@ -109,22 +130,17 @@
 								</tr>
 							</thead>
 							<tbody>
+								<?php for( $v = 0; $v<12; $v++ ) { ?>
 								<tr class="gradeX">
 									<td>01/12/2018</td>
-									<td>Mónica Hidalgo</td>
-									<td>500 </td>
+									<td><a href="nominacion.php?id=<?php echo $v;?>">Mónica Hidalgo</a></td>
+									<td>Cultos </td>
 									<td class="actions">
 										
 									</td>
 								</tr>
-								<tr class="gradeX">
-									<td>12/12/2018</td>
-									<td>Roberto Álvarez</td>
-									<td>750</td>
-									<td class="actions">
-										
-									</td>
-								</tr>
+								<?php } ?>
+								
 							</tbody>
 						</table>
 					</div>

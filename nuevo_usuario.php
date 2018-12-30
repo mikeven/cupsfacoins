@@ -1,3 +1,19 @@
+<?php
+    /*
+     * Cupfsa Coins - Nuevo usuarios
+     * 
+     */
+    session_start();
+
+    $pagina = "pg_nvo_usuario";
+    ini_set( 'display_errors', 1 );
+    include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-acceso.php" );
+    include( "fn/fn-acceso.php" );
+
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
@@ -24,16 +40,17 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+		<!--<link rel="stylesheet" href="assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css" />
 		<link rel="stylesheet" href="assets/vendor/dropzone/css/basic.css" />
 		<link rel="stylesheet" href="assets/vendor/dropzone/css/dropzone.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
 		<link rel="stylesheet" href="assets/vendor/summernote/summernote.css" />
-		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />
+		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />-->
 		<link rel="stylesheet" href="assets/vendor/codemirror/lib/codemirror.css" />
 		<link rel="stylesheet" href="assets/vendor/codemirror/theme/monokai.css" />
 
@@ -50,6 +67,9 @@
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 
 	</head>
+	<?php 
+		$roles = obtenerRolesRegistrados( $dbh );
+	?>
 	<body>
 		<section class="body">
 
@@ -88,9 +108,11 @@
 									<header class="panel-heading">
 										<h2 class="panel-title">Datos de nuevo usuario</h2>
 									</header>
-									<div class="panel-body">
-										<form id="frm_nusuario" class="form-horizontal form-bordered" action="#">
+									<form id="frm_nusuario" class="form-horizontal form-bordered">
+										<div class="panel-body">
+										
 											<div class="form-group">
+												<input type="hidden" name="idusesion" value="<?php echo $accesos_usess["idUSUARIO"]?>">
 												<label class="col-sm-3 control-label">Nombre <span class="required">*</span></label>
 												<div class="col-sm-9">
 													<div class="input-group">
@@ -109,7 +131,7 @@
 														<span class="input-group-addon">
 															<i class="fa fa-user"></i>
 														</span>
-														<input type="text" name="rangel" class="form-control" placeholder="Ej.: Rangel" required/>
+														<input type="text" name="apellido" class="form-control" placeholder="Ej.: Rangel" required/>
 													</div>
 												</div>
 											</div>
@@ -136,31 +158,34 @@
 														<span class="input-group-addon">
 															<i class="fa fa-sitemap"></i>
 														</span>
-														<input type="text" name="rangel" class="form-control" placeholder="Ej.: Ejecutivo de negocios"/>
+														<input type="text" name="cargo" class="form-control" placeholder="Ej.: Ejecutivo de negocios"/>
 													</div>
 												</div>
 											</div>
 
 											<div class="form-group">
 												<label class="col-md-3 control-label">Rol</label>
-												<div class="col-md-6">
-													<select class="form-control" multiple="multiple" data-plugin-multiselect id="ms_example0" name="rol">
-														<option value="Colaborador">Colaborador</option>
-														<option value="Evaluador">Evaluador</option>
-														<option value="Administrador">Administrador</option>
+												<div class="col-md-9">
+													<select class="form-control" multiple="multiple" name="rol[]" data-plugin-multiselect id="ms_example0">
+													<?php foreach ( $roles as $rl){ ?>
+													<option value="<?php echo $rl["idROL"] ?>"><?php echo $rl["nombre"] ?></option>
+													<?php } ?>
 													</select>
 												</div>
 											</div>
 
-										</form>
-									</div>
-									<footer class="panel-footer">
-										<div class="row">
-											<div class="col-sm-12" align="right">
-												<button class="btn btn-primary">Guardar</button>
-											</div>
 										</div>
-									</footer>
+										<footer class="panel-footer">
+											<div class="row">
+												<div class="col-sm-12" align="right">
+													<button class="btn btn-primary">Guardar</button>
+													<button id="btn_res_fnu" type="reset" class="btn btn-default hidden">Reset</button>
+												</div>
+											</div>
+										</footer>
+
+									</form>
+
 								</section>
 							</div>
 						</div>
@@ -249,18 +274,20 @@
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
 		<script src="assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
 		<script src="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+		<!--
 		<script src="assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
 		<script src="assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 		<script src="assets/vendor/fuelux/js/spinner.js"></script>
 		<script src="assets/vendor/dropzone/dropzone.js"></script>
 		<script src="assets/vendor/bootstrap-markdown/js/markdown.js"></script>
 		<script src="assets/vendor/bootstrap-markdown/js/to-markdown.js"></script>
-		<script src="assets/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+		<script src="assets/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>-->
 		<script src="assets/vendor/codemirror/lib/codemirror.js"></script>
 		<script src="assets/vendor/codemirror/addon/selection/active-line.js"></script>
 		<script src="assets/vendor/codemirror/addon/edit/matchbrackets.js"></script>
@@ -282,9 +309,8 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
 		<!-- Examples -->
-		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
+		<script src="js/fn-ui.js"></script>
 		<script src="js/fn-usuarios.js"></script>
 
 	</body>

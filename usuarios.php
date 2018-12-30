@@ -1,3 +1,19 @@
+<?php
+    /*
+     * Cupfsa Coins - Usuarios
+     * 
+     */
+    session_start();
+
+    $pagina = "pg_usuarios";
+    ini_set( 'display_errors', 1 );
+    include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-acceso.php" );
+    include( "fn/fn-acceso.php" );
+
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
@@ -38,6 +54,9 @@
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 
 	</head>
+	<?php 
+		$usuarios = obtenerUsuariosRegistrados( $dbh );
+	?>
 	<body>
 		<section class="body">
 
@@ -80,7 +99,7 @@
 									<div class="col-sm-6">
 										<div class="mb-md">
 											<a href="nuevo_usuario.php">
-											<button id="addToTable" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
+											<button id="btn_nuevou" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
 											</a>
 										</div>
 									</div>
@@ -92,34 +111,19 @@
 											<th>Apellido</th>
 											<th>Email</th>
 											<th>Rol</th>
-											<th>Acciones</th>
+											<th>Activo</th>
 										</tr>
 									</thead>
 									<tbody>
+										<?php foreach ( $usuarios as $u ) { ?>
 										<tr class="gradeX">
-											<td>Roberto</td>
-											<td>Álvarez </td>
-											<td>ralvarez@hotmail.com</td>
-											<td>Administrador</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
+											<td><?php echo $u["nombre"] ?></td>
+											<td><?php echo $u["apellido"] ?></td>
+											<td><?php echo $u["email"] ?></td>
+											<td><?php echo $u["rol"] ?></td>
+											<td><?php echo $u["activo"] ?></td>
 										</tr>
-										<tr class="gradeX">
-											<td>Mónica</td>
-											<td>Hildalgo</td>
-											<td>hmonica@hotmail.com</td>
-											<td>Administrador</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
+										<?php } ?>
 									</tbody>
 								</table>
 							</div>

@@ -1,3 +1,16 @@
+<?php
+    /*
+     * Cupfsa Coins - Listado todos los canjes 
+     * 
+     */
+    session_start();
+    ini_set( 'display_errors', 1 );
+    $pagina = "pg_canjes";
+    //include( "database/data-usuario.php" );
+    include( "database/data-acceso.php" );
+    include( "fn/fn-acceso.php" );
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>

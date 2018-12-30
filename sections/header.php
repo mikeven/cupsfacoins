@@ -210,9 +210,12 @@
 						<div style="font-size: 5px;">coins</div>
 					</div>
 				</figure>
-				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-					<span class="name">John Doe Junior</span>
-					<span class="role">administrator</span>
+				<div class="profile-info" 
+				data-lock-name="<?php echo $_SESSION["user"]["nombre"] ?>" 
+				data-lock-email="<?php echo $_SESSION["user"]["email"] ?>">
+					<span class="name"><?php echo $_SESSION["user"]["nombre"] ?></span>
+					<span class="role"><?php echo hrolesUsuario( $accesos_usess["roles"] )?>
+					</span>
 				</div>
 
 				<i class="fa custom-caret"></i>
@@ -221,14 +224,9 @@
 			<div class="dropdown-menu">
 				<ul class="list-unstyled">
 					<li class="divider"></li>
+					
 					<li>
-						<a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
-					</li>
-					<li>
-						<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
-					</li>
-					<li>
-						<a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fa fa-power-off"></i> Logout</a>
+						<a role="menuitem" tabindex="-1" href="inicio.php?logout"><i class="fa fa-power-off"></i> Salir</a>
 					</li>
 				</ul>
 			</div>

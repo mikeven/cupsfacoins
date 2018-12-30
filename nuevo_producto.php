@@ -1,3 +1,16 @@
+<?php
+    /*
+     * Cupfsa Coins - Nuevo producto
+     * 
+     */
+    session_start();
+    $pagina = "pg_nvo_producto";
+    ini_set( 'display_errors', 1 );
+    //include( "database/data-usuario.php" );
+    include( "database/data-acceso.php" );
+    include( "fn/fn-acceso.php" );
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
