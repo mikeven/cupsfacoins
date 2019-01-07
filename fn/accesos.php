@@ -36,12 +36,9 @@
 		array('id'=>'pg_canjes', 'desc'=>'Página consulta de canjes')
 	);
 
-	$esq_secciones["votar_nominacion"] = array(
-		array('id'=>'', 'desc'=>'')
-	);
-
 	$esq_secciones["ver_todas_nominaciones"] = array(
 		array('id'=>'mp_ver_nom', 'desc'=>'Menu ppal Ver nominaciones'),
+		array('id'=>'ver_tnominac', 'desc'=>'Menu ppal Ver nominaciones'),
 		array('id'=>'pg_nominaciones', 'desc'=>'Página consulta nominaciones')
 	);
 

@@ -5,9 +5,9 @@
 	/* --------------------------------------------------------- */
 	function obtenerAccionesRol( $dbh, $idr ){
 		//
-		$q = "select a.idAccion, a.nombre, a.descripcion from ACCION a, PERMISO p 
+		$q = "select a.idAccion, a.nombre, a.descripcion from accion a, permiso p 
 		where a.idAccion = p.idAccion and p.idROL = $idr";
-		//echo $q;
+		
 		$data = mysqli_query( $dbh, $q );
 
 		return obtenerListaRegistros( $data );

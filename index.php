@@ -1,3 +1,13 @@
+<?php
+    /*
+     * Cupfsa Coins - Ingreso
+     * 
+     */
+    ini_set( 'display_errors', 1 );
+    include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
+
+?>
 <!doctype html>
 <html class="fixed">
 	<head>
@@ -35,6 +45,9 @@
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 
 	</head>
+	<?php 
+		$usuarios = obtenerUsuariosRegistrados( $dbh );
+	?>
 	<body>
 		<!-- start: page -->
 		<section class="body-sign">
@@ -53,9 +66,11 @@
 								<input name="login" type="hidden" value="1"/>
 								<label>ROL</label>
 								<select name="rol" class="form-control input-lg mb-md">
-									<option value="1">Administrador</option>
-									<option value="2">Colaborador</option>
-									<option value="3">Evaluador</option>
+									<?php foreach ( $usuarios as $u ) { ?>
+									<option value="<?php echo $u["idROL"]?>">
+										<?php echo $u["nombre"]." (".$u["rol"].")" ?>
+									</option>
+									<?php } ?>
 								</select>
 							</div>
 

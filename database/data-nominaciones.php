@@ -20,7 +20,16 @@
 	}
 	/* --------------------------------------------------------- */
 	function obtenerNominaciones( $dbh ){
-		//
+		//Devuelve los registros de nominaciones
+
+		$q = "select n.idNOMINACION as id, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
+		u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
+		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro   
+		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
+		and n.idATRIBUTO = a.idATRIBUTO order by fregistro desc";
+
+		$data = mysqli_query( $dbh, $q );
+		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
 	function obtenerNominacionesPersonales( $dbh, $idu, $p ){
@@ -36,12 +45,36 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
-	function obtenerNominacionesAccion( $dbh, $idu, $accion ){
-		//Invoca la obtención de nominaciones hechas o recibidas por un usuario
-		if( $accion == "hechas" ) 		$p = "n.idNOMINADOR";
-		if( $accion == "recibidas" ) 	$p = "n.idNOMINADO";
+	function obtenerNominacionesPorVotar( $dbh, $idu ){
+		//Devuelve los registros de nominaciones que no ha sido votada por un usuario dado su id.
 
-		return obtenerNominacionesPersonales( $dbh, $idu, $p );
+		$q = "select n.idNOMINACION as id, n.idNOMINADOR, n.idNOMINADO, 
+		u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
+		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro   
+		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
+		and n.idATRIBUTO = a.idATRIBUTO and n.idNOMINACION not in 
+		(select idNOMINACION from voto where idUSUARIO = $idu ) order by fregistro desc";
+
+		$data = mysqli_query( $dbh, $q );
+		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
+	function obtenerNominacionesAccion( $dbh, $idu, $accion ){
+		//Invoca la obtención de nominaciones hechas/recibidas/no votadas por un usuario
+		
+		if( $accion == "hechas" ){ 		
+			$p = "n.idNOMINADOR";
+			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p );
+		}
+		if( $accion == "recibidas" ){
+			$p = "n.idNOMINADO";
+			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p );
+		}
+		if( $accion == "votar" ){
+			$nominaciones = obtenerNominacionesPorVotar( $dbh, $idu );
+		}
+
+		return $nominaciones;
 	}
 	/* --------------------------------------------------------- */
 	function nombrePrefijo(){
@@ -79,10 +112,61 @@
 		return mysqli_insert_id( $dbh );
 	}
 	/* --------------------------------------------------------- */
+	function registrarVoto( $dbh, $voto ){
+		//Guarda un nuevo registro de voto
+
+		$q = "insert into voto ( idUSUARIO, idNOMINACION, valor, fecha_voto ) 
+		values ( $voto[idusuario], $voto[idnominacion], '$voto[voto]', NOW() )";
+		
+		$data = mysqli_query( $dbh, $q );
+
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
+	function esVotada( $dbh, $idu, $idn ){
+		//Devuelve si una nominación fue votada por un usuario
+		$votada = false;
+
+		$q = "select idUSUARIO, idNOMINACION from voto 
+		where idUSUARIO = $idu and idNOMINACION = $idn";
+		
+		$nrows 	= mysqli_num_rows( mysqli_query ( $dbh, $q ) );
+		if( $nrows > 0 ) 
+			$votada = true;
+
+		return $votada;
+	}
+	/* --------------------------------------------------------- */
+	function obtenerVotosNominacion( $dbh, $idn, $cond ){
+		//Devulve la cantidad de registros de votos de una nominación
+		$c["todos"] = "";
+		$c["si"] = "and valor = 'si'";
+		$c["no"] = "and valor = 'no'";
+
+		$q = "select count( idNOMINACION ) as votos from voto 
+				where idNOMINACION = $idn $c[$cond]";
+
+		$data = mysqli_query( $dbh, $q );
+		$cant = mysqli_fetch_array( $data );
+		return $cant["votos"];
+	}
+	/* --------------------------------------------------------- */
+	function contarVotos( $dbh, $idn ){
+		//Devuelve la cantidad de votos totales, y votos por cada opción
+		$votacion["votos"] 	= obtenerVotosNominacion( $dbh, $idn, 'todos' );
+		$votacion["si"] 	= obtenerVotosNominacion( $dbh, $idn, 'si' );
+		$votacion["no"] 	= obtenerVotosNominacion( $dbh, $idn, 'no' );
+
+		return $votacion;
+	}
+	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["nva_nominacion"] ) ){
-		include( "bd.php" );	
+		//Solicitud para registrar una nueva nominación
+
+		include( "bd.php" );
+
 		$nominacion["idnominador"] 	= $_POST["nva_nominacion"];
 		$nominacion["idnominado"] 	= $_POST["id_persona"];
 		$nominacion["idatributo"] 	= $_POST["atributo"];
@@ -112,4 +196,20 @@
 		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
+	if( isset( $_POST["votar"] ) ){
+		//Solicitud para registrar un voto sobre nominación
+		include( "bd.php" );
+
+		parse_str( $_POST["votar"], $voto );
+		$id = registrarVoto( $dbh, $voto );
+		
+		if( ( $id != 0 ) && ( $id != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Voto registrado con éxito";
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al registrar voto";
+		}
+		echo json_encode( $res );
+	}
 ?>

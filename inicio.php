@@ -10,6 +10,7 @@
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
     $idu = $_SESSION["user"]["idUSUARIO"];
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -90,7 +91,7 @@
 					<div class="row">
 						<div class="col-sm-12 col-xs-12">
 							<?php 
-								//print_r( $accesos_usess["accesos"] );
+								//print_r( $accesos_usess["acciones"] );
 							?>
 							<section class="panel">
 								<?php if( isV( 'mp_nom_pers' ) ) { ?>

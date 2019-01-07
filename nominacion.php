@@ -12,6 +12,7 @@
     include( "fn/fn-acceso.php" );
 
     isAccesible( $pagina );
+    $idu = $_SESSION["user"]["idUSUARIO"];
     if( isset( $_GET["id"] ) )
     	$idn = $_GET["id"];
 
@@ -41,6 +42,7 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
 		<!-- Theme CSS -->
@@ -116,7 +118,11 @@
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
 	<?php 
+		$votacion = contarVotos( $dbh, $idn );
 		$nominacion = obtenerNominacionPorId( $dbh, $idn );
+		if( isV( 'en_votar' ) ) { //Evaluador
+			$votada = esVotada( $dbh, $idu, $idn );
+		}
 	?>
 	<body>
 		<section class="body">
@@ -140,11 +146,11 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
+								<li><span><a href="nominaciones.php">Nominaciones</a></span></li>
 								<li><span>Nominación</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open=""></a>
 						</div>
 					</header>
 					<!-- start: page -->
@@ -177,42 +183,54 @@
 									<i class="fa fa-file-text-o"></i> Sustento
 									</a>
 								</p>
-								<?php 
-									if( isV( 'en_votar' ) ) { 
+								<?php
+									if( isV( 'en_votar' ) ) { 		//Evaluador
 										include( "sections/panel_voto.php" );
 									}
-									if( isV( 'en_aprob_nom' ) ) { 
+									if( isV( 'en_aprob_nom' ) ) { 	//Administrador
 										include( "sections/panel_aprobacion.php" );
 									}
-									if( isV( 'pan_nom_aprob' ) ) { 
+									if( isV( 'pan_nom_aprob' ) ) { 	//Colaborador 
 										include( "sections/panel_nominacion_aprobada.php" );
 									}
 								?>
 							</div>
+							<?php if( isV( 'en_aprob_nom' ) ) { //Administrador ?>	
+							<footer class="panel-footer panel_comentario" style="display: none;">
+								<div class="row">
+									<div class="col-sm-12" align="right">
+										<button class="btn btn-primary">Enviar</button>
+									</div>
+								</div>
+							</footer>
+							<?php } ?>
 						</section>
 					</div>
-					<?php if( isV( "result_nom" ) ) { ?>
+					<?php if( isV( "result_nom" ) || isV( "en_votar" ) && ( $votada ) ) { ?>
+
 						<div class="col-sm-6 col-xs-6">
 							<section class="panel">
 								<header class="panel-heading">
 									<h2 class="panel-title">Resultados</h2>
-									<p class="panel-subtitle">Votación final: 00 votos</p>
+									<p class="panel-subtitle">
+										Votación final: <?php echo $votacion["votos"]; ?> votos
+									</p>
 								</header>
 								<div class="panel-body text-center">
 									<div class="chart chart-md" id="flotPie"></div>
-												
+											
 									<script type="text/javascript">
 							
 										var flotPieData = [{
 											label: "Sí",
 											data: [
-												[1, 35]
+												[1, <?php echo $votacion["si"]; ?>]
 											],
 											color: '#47a447'
 										}, {
 											label: "No",
 											data: [
-												[1, 42]
+												[1, <?php echo $votacion["no"]; ?>]
 											],
 											color: '#d64742'
 										}];
@@ -226,79 +244,13 @@
 				</section>
 			</div>
 
-			<aside id="sidebar-right" class="sidebar-right">
-				<div class="nano">
-					<div class="nano-content">
-						<a href="#" class="mobile-close visible-xs">
-							Collapse <i class="fa fa-chevron-right"></i>
-						</a>
-			
-						<div class="sidebar-right-wrapper">
-			
-							<div class="sidebar-widget widget-calendar">
-								<h6>Upcoming Tasks</h6>
-								<div data-plugin-datepicker data-plugin-skin="dark" ></div>
-			
-								<ul>
-									<li>
-										<time datetime="2014-04-19T00:00+00:00">04/19/2014</time>
-										<span>Company Meeting</span>
-									</li>
-								</ul>
-							</div>
-			
-							<div class="sidebar-widget widget-friends">
-								<h6>Friends</h6>
-								<ul>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-								</ul>
-							</div>
-			
-						</div>
-					</div>
-				</div>
-			</aside>
 		</section>
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
+		<script src="assets/vendor/jquery-form/jquery.form.js"></script>
 		<script src="assets/vendor/nanoscroller/nanoscroller.js"></script>
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
@@ -308,9 +260,11 @@
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		<script src="assets/vendor/flot/jquery.flot.js"></script>
 		<script src="assets/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
 		<script src="assets/vendor/flot/jquery.flot.pie.js"></script>
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -321,8 +275,9 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-		<!-- Examples -->
-		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
+		<!-- Func. particular -->
+		<script src="js/fn-ui.js"></script>
+		<script src="js/fn-nominaciones.js"></script>
 		<script src="js/tabla-nominaciones.js"></script>
 		<script>
 			/*
@@ -343,11 +298,12 @@
 						show: false
 					},
 					grid: {
-						hoverable: true,
+						hoverable: false,
 						clickable: true
 					}
 				});
 			})();
 		</script>
+		
 	</body>
 </html>

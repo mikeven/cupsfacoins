@@ -237,24 +237,3 @@
 	});
 
 }).apply( this, [ jQuery ]);
-
-$(".sel_panel_nom").on('click', function (e) {
-	var orig = $(this).attr("data-i");
-	var dest = $(this).attr("data-d");
-	$(orig).fadeOut(300);
-	$(dest).fadeIn(300);
-});
-
-$(".cnf-voto").on('click', function (e) {
-	$(".cnf-voto").removeClass("game_now");
-	$(this).addClass("game_now");
-	var valor = $(this).attr("data-valor");
-	$("#valor_voto").val(valor);
-	$("#confirmar_seleccion").fadeIn(300);
-
-});
-
-$("#btn_votar").on('click', function (e) {
-	$("#panel_voto").fadeOut(360);
-	$("#panel_resultado").fadeIn(4000);
-});
