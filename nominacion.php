@@ -6,10 +6,15 @@
     session_start();
     $pagina = "pg_nominacion";
     ini_set( 'display_errors', 1 );
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
+    include( "database/data-nominaciones.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
+
     isAccesible( $pagina );
+    if( isset( $_GET["id"] ) )
+    	$idn = $_GET["id"];
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -110,6 +115,9 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
+	<?php 
+		$nominacion = obtenerNominacionPorId( $dbh, $idn );
+	?>
 	<body>
 		<section class="body">
 
@@ -149,13 +157,24 @@
 								</div>
 							</header>
 							<div class="panel-body text-center">
-								<h3 class="text-semibold mt-sm text-center">Nombre participante</h3>
-								<p class="text-center">Atributo (puntos)</p>
-								<p class="text-center">Motivo:</p>
-								<p class="text-center">Texto descriptivo de motivo</p>
+								<h3 class="text-semibold mt-sm text-center">
+									<?php echo $nominacion["atributo"]; ?>
+								</h3>
 								<p class="text-center">
-									<a href="#!">
-									<i class="fa fa-external-link"></i> Sustento
+									<?php echo $nominacion['valor']." pts"; ?>
+								</p>
+								<h4 class="text-semibold mt-sm text-center">
+								<?php echo $nominacion["nombre2"]." ".
+												$nominacion["apellido2"]; ?>
+								</h4>
+								
+								<p class="text-center">
+									Motivo:
+									<?php echo $nominacion["motivo1"]; ?>
+								</p>
+								<p class="text-center">
+									<a href="<?php echo $nominacion["sustento1"]; ?>" target="_blank">
+									<i class="fa fa-file-text-o"></i> Sustento
 									</a>
 								</p>
 								<?php 

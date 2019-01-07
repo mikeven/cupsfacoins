@@ -5,9 +5,11 @@
      */
     session_start();
     ini_set( 'display_errors', 1 );
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
+    include( "database/data-nominaciones.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
+    $idu = $_SESSION["user"]["idUSUARIO"];
 ?>
 <!doctype html>
 <html class="fixed">
@@ -52,6 +54,12 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
+	<?php 
+		if( isV( 'mp_nom_pers' ) ) {
+			$nominaciones_h = obtenerNominacionesAccion( $dbh, $idu, "hechas" );
+			$nominaciones_r = obtenerNominacionesAccion( $dbh, $idu, "recibidas" );
+		}
+	?>
 	<body>
 		<section class="body">
 
@@ -84,30 +92,57 @@
 							<?php 
 								//print_r( $accesos_usess["accesos"] );
 							?>
-							<section class="panel hidden">
+							<section class="panel">
+								<?php if( isV( 'mp_nom_pers' ) ) { ?>
 								<header class="panel-heading">
-									<h2 class="panel-title">Últimas nominaciones</h2>
+									<h2 class="panel-title">Últimas nominaciones hechas</h2>
 									<p class="panel-subtitle"></p>
 								</header>
 								
 								<div class="panel-body">
 									<div class="owl-carousel" data-plugin-carousel data-plugin-options='{ "autoPlay": 4000, "items": 3, "itemsDesktop": [1199,4], "itemsDesktopSmall": [979,3], "itemsTablet": [768,2], "itemsMobile": [479,1] }'>
-										<?php 
-										for( $v = 0; $v<12; $v++ ) { ?>
+										<?php foreach ( $nominaciones_h as $nom ) { ?>
 										<div class="item spaced">
 											<header class="panel-heading bg-primary">
-												<h5 class="">Nombre atributo</h5>
+												<h5><?php echo $nom["atributo"]?></h5>
 											</header>
 											<div class="panel-body p-lg" style="border:1px solid #ccc">
+												<p><?php echo $nom["fregistro"]?></p>
 												<h4 class="text-semibold mt-sm">
-													Participante <?php echo $v+1;?>
+													<?php echo $nom["nombre2"]?>
 												</h4>
-												<p><a href="nominacion.php"><i class="fa fa-hand-o-down"></i> Votar</a></p>
+												<p>
+													<a href="nominacion.php?id=<?php echo $nom["id"]?>"><i class="fa fa-eye"></i> Ver</a>
+												</p>
 											</div>
 										</div>
 										<?php } ?>
-								 	</div>		
+								 	</div>	
+								 	<hr class="solid short">
+								 	<h2 class="panel-title">Últimas nominaciones recibidas</h2>
+									<p class="panel-subtitle"></p>
+
+									<div class="owl-carousel" data-plugin-carousel data-plugin-options='{ "autoPlay": 4000, "items": 3, "itemsDesktop": [1199,4], "itemsDesktopSmall": [979,3], "itemsTablet": [768,2], "itemsMobile": [479,1] }'>
+										<?php foreach ( $nominaciones_r as $nom ) { ?>
+										<div class="item spaced">
+											<header class="panel-heading bg-primary">
+												<h5><?php echo $nom["atributo"]?></h5>
+											</header>
+											<div class="panel-body p-lg" style="border:1px solid #ccc">
+												<p><?php echo $nom["fregistro"]?></p>
+												<h4 class="text-semibold mt-sm">
+													<?php echo $nom["nombre2"]?>
+												</h4>
+												<p>
+													<a href="nominacion.php?id=<?php echo $nom["id"]?>"><i class="fa fa-eye"></i> Ver</a>
+												</p>
+											</div>
+										</div>
+										<?php } ?>
+								 	</div>	
 								</div>
+
+								<?php } ?>
 							</section>
 							
 						</div>

@@ -7,15 +7,15 @@
 		</tr>
 	</thead>
 	<tbody>
+		<?php foreach ( $usuarios as $usuario ){ ?>
 		<tr class="gradeX">
-			<td><a href="#!">Roberto Álvarez</a></td>
-			<td>ralvarez@hotmail.com</td>
-			<td>Administrador</td>
+			<td>
+				<a class="sel_persona" href="#!" 
+				data-idp="<?php echo $usuario["idUSUARIO"] ?>"><?php echo $usuario["nombre"]." ".$usuario["apellido"] ?> </a>
+			</td>
+			<td><?php echo $usuario["email"] ?></td>
+			<td><?php echo $usuario["rol"] ?></td>
 		</tr>
-		<tr class="gradeX">
-			<td><a href="#!">Mónica Hildalgo</a></td>
-			<td>hmonica@hotmail.com</td>
-			<td>Administrador</td>			
-		</tr>
+		<?php } ?>
 	</tbody>
 </table>

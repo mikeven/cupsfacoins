@@ -309,7 +309,7 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-		<!-- Examples -->
+		<!-- Func. particular -->
 		<script src="js/fn-ui.js"></script>
 		<script src="js/fn-usuarios.js"></script>
 

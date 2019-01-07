@@ -6,7 +6,9 @@
     session_start();
     $pagina = "pg_nvo_nominacion";
     ini_set( 'display_errors', 1 );
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-atributos.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
     isAccesible( $pagina );
@@ -14,7 +16,6 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -37,10 +38,10 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
-
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
+		<!--<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css" />
@@ -48,7 +49,7 @@
 		<link rel="stylesheet" href="assets/vendor/dropzone/css/dropzone.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
 		<link rel="stylesheet" href="assets/vendor/summernote/summernote.css" />
-		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />
+		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />-->
 		<link rel="stylesheet" href="assets/vendor/codemirror/lib/codemirror.css" />
 		<link rel="stylesheet" href="assets/vendor/codemirror/theme/monokai.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css" />
@@ -62,10 +63,18 @@
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
 
+		<style type="text/css">
+			#persona_seleccion{
+			}
+		</style>
+
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
+	<?php 
+		$usuarios = obtenerUsuariosRegistrados( $dbh );
+		$atributos = obtenerAtributosRegistrados( $dbh );
+	?>
 	<body>
 		<section class="body">
 
@@ -104,39 +113,41 @@
 									<header class="panel-heading">
 										<h2 class="panel-title">Nominación</h2>
 									</header>
-									<div class="panel-body">
-										<form id="frm_nusuario" class="form-horizontal form-bordered" action="#">
+									<form id="frm_nnominacion" class="form-horizontal form-bordered" action="">
+										<div class="panel-body">
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Persona <span class="required">*</span></label>
+												<input type="hidden" name="nva_nominacion" value="<?php echo $_SESSION["user"]["idUSUARIO"] ?>">
 												<div class="col-sm-9">
 													<div class="input-group">
-														<a class="modal-with-form modal-with-move-anim btn btn-default" href="#modalForm">Seleccione</a>
+														<span class="input-group-btn">
+															<a class="modal-with-form modal-with-move-anim" href="#modalForm">
+															<button class="btn btn-primary" type="button">Seleccione</button></a>
+														</span>
+														<input type="text" class="form-control" id="persona_seleccion" required readonly>
+														<input type="hidden" name="id_persona" id="idpersona">
 													</div>
 												</div>
+												
 											</div>
 
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Atributo <span class="required">*</span></label>
 												<div class="col-sm-9">
-													<select class="form-control mb-md">
-														<option value="eficiente">Eficiencia</option>
-														<option value="algebra">Emprendimiento</option>
+													<select id="atributo" class="form-control" name="atributo" required>
+														<option value="">Seleccione</option>
+											<?php foreach ( $atributos as $attr ){ ?>
+													<option value="<?php echo $attr["idATRIBUTO"] ?>" data-v="<?php echo $attr["valor"] ?>"><?php echo $attr["nombre"] ?></option>
+											<?php } ?>
 													</select>
+													<input type="hidden" name="valor_atributo" id="valattr">
 												</div>
 											</div>
 
 											<div class="form-group">
 												<label class="col-sm-3 control-label">Motivo <span class="required">*</span></label>
 												<div class="col-sm-9">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-pencil"></i>
-														</span>
-														<input type="text" name="motivo" class="form-control" placeholder="Ej.: Opinión personal" required/>
-													</div>
-												</div>
-												<div class="col-sm-9">
-
+													<textarea class="form-control" rows="3" id="textareaAutosize" name="motivo" data-plugin-textarea-autosize="" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 74px; width: 100%;" required></textarea>
 												</div>
 											</div>
 
@@ -152,23 +163,23 @@
 															<span class="btn btn-default btn-file">
 																<span class="fileupload-exists">Cambiar</span>
 																<span class="fileupload-new">Archivo</span>
-																<input type="file" />
+																<input type="file" name="archivo"/>
 															</span>
 															<a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Quitar</a>
 														</div>
 													</div>
 												</div>
 											</div>
-
-										</form>
-									</div>
-									<footer class="panel-footer">
-										<div class="row">
-											<div class="col-sm-12" align="right">
-												<button class="btn btn-primary">Nominar</button>
-											</div>
 										</div>
-									</footer>
+										<footer class="panel-footer">
+											<div class="row">
+												<div class="col-sm-12" align="right">
+													<button class="btn btn-primary">Nominar</button>
+												</div>
+											</div>
+										</footer>
+										<div id="divToUpdate"></div>
+									</form>
 								</section>
 							</div>
 						</div>
@@ -188,7 +199,7 @@
 					<footer class="panel-footer">
 						<div class="row">
 							<div class="col-md-12 text-right">
-								<button class="btn btn-default modal-dismiss">Cancelar</button>
+								<button id="btn_cerrar_usuarios" class="btn btn-default modal-dismiss">Cancelar</button>
 							</div>
 						</div>
 					</footer>
@@ -266,6 +277,7 @@
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
+		<script src="assets/vendor/jquery-form/jquery.form.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
 		<script src="assets/vendor/nanoscroller/nanoscroller.js"></script>
@@ -277,6 +289,7 @@
 		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
 		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
 		<script src="assets/vendor/select2/select2.js"></script>
+		<!--
 		<script src="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
 		<script src="assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
 		<script src="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
@@ -286,7 +299,7 @@
 		<script src="assets/vendor/dropzone/dropzone.js"></script>
 		<script src="assets/vendor/bootstrap-markdown/js/markdown.js"></script>
 		<script src="assets/vendor/bootstrap-markdown/js/to-markdown.js"></script>
-		<script src="assets/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+		<script src="assets/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script> -->
 		<script src="assets/vendor/codemirror/lib/codemirror.js"></script>
 		<script src="assets/vendor/codemirror/addon/selection/active-line.js"></script>
 		<script src="assets/vendor/codemirror/addon/edit/matchbrackets.js"></script>
@@ -297,6 +310,7 @@
 		<script src="assets/vendor/summernote/summernote.js"></script>
 		<script src="assets/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
 		<script src="assets/vendor/ios7-switch/ios7-switch.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
@@ -311,7 +325,8 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-		<!-- Examples -->
+		<!-- Func. particular -->
+		<script src="js/fn-ui.js"></script>
 		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
 		<script src="js/tabla-modal-usuarios.js"></script>
 		<script src="js/init.modals.js"></script>

@@ -6,14 +6,14 @@
     session_start();
     $pagina = "pg_nominaciones";
     ini_set( 'display_errors', 1 );
-    //include( "database/data-usuario.php" );
+    
+    include( "database/bd.php" );
     include( "database/data-acceso.php" );
     include( "database/data-nominaciones.php" );
     include( "fn/fn-acceso.php" );
     include( "fn/fn-nominaciones.php" );
+    $idu = $_SESSION["user"]["idUSUARIO"];
     isAccesible( $pagina );
-    $nominaciones = obtenerNominaciones( $accesos_usess );
-
 ?>
 <!doctype html>
 <html class="fixed">
@@ -55,6 +55,10 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
+	<?php 
+		if( isset( $_GET["param"] ) )
+		$nominaciones = obtenerNominacionesAccion( $dbh, $idu, $_GET["param"] );
+	?>
 	<body>
 		<section class="body">
 
@@ -91,7 +95,7 @@
 							<i class="fa fa-table"></i> Ver tabla</a>
 						</h5>
 						
-						<?php for( $v = 0; $v<12; $v++ ) { 
+						<?php foreach ( $nominaciones as $nom ) { 
 							$enl = enlaceVerNominacion();//
 						?>
 							<div class="col-sm-6 col-xs-6">
@@ -102,10 +106,13 @@
 										</div>
 									</header>
 									<div class="panel-body p-lg">
-										<h4 class="text-semibold mt-sm">Nombre participante</h4>
-										<h5 class="">Nombre atributo</h5>
+										<h4 class="text-semibold mt-sm">
+											<?php echo $nom["nombre2"]." ".
+														$nom["apellido2"]; ?>
+										</h4>
+										<h5 class=""><?php echo $nom["atributo"]?></h5>
 										<p>
-											<a href="nominacion.php?id=<?php echo $v;?>">
+											<a href="nominacion.php?id=<?php echo $nom["id"];?>">
 											<?php echo $enl; ?>
 										</p>
 									</div>
@@ -130,11 +137,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php for( $v = 0; $v<12; $v++ ) { ?>
+								<?php foreach ( $nominaciones as $nom ) { ?>
 								<tr class="gradeX">
-									<td>01/12/2018</td>
-									<td><a href="nominacion.php?id=<?php echo $v;?>">Mónica Hidalgo</a></td>
-									<td>Cultos </td>
+									<td><?php echo $nom["fregistro"]; ?></td>
+									<td>
+										<a href="nominacion.php?id=<?php echo $nom[id];?>"><?php echo $nom["nombre2"]." ".$nom["apellido2"]; ?>
+										</a>
+									</td>
+									<td><?php echo $nom["atributo"]?></td>
 									<td class="actions">
 										
 									</td>

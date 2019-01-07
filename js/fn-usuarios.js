@@ -60,11 +60,10 @@
 }).apply( this, [ jQuery ]);
 
 /* --------------------------------------------------------- */
-
 function agregarUsuario(){
 
 	var fs = $('#frm_nusuario').serialize();
-	var br = $("#btn_res_fnu");	
+	var bot_reset = $("#btn_res_fnu");	
 
 	$.ajax({
         type:"POST",
@@ -74,7 +73,7 @@ function agregarUsuario(){
         	console.log( response );
 			res = jQuery.parseJSON( response );
 			if( res.exito == 1 ){
-				$(br).click();
+				$( bot_reset ).click();
 				notificar( "Nuevo usuario", res.mje, "success" );
 			}
 			else

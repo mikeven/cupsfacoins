@@ -2,15 +2,15 @@
 	.panel-heading-icon_p{
 		margin: 0 auto;
 	    font-size: 18px;
-	    font-size: 0.9rem;
-	    width: 40px;
-	    height: 40px;
+	    /*font-size: 0.9rem;*/
+	    width: 80px;
+	    height: auto;
 	    line-height: 12px;
 	    text-align: center;
 	    color: #fff;
 	    background-color: rgba(0, 0, 0, 0.1);
-	    -webkit-border-radius: 55px;
-	    border-radius: 55px;
+	    /*-webkit-border-radius: 55px;
+	    border-radius: 55px;*/
 	    border: 1px solid #ccc;
 	}
 </style>
@@ -206,8 +206,8 @@
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
 					<div class="panel-heading-icon_p">
-						<div style="margin-top: 8px;">350</div>
-						<div style="font-size: 5px;">coins</div>
+						<div style="margin-top: 10px;">10350</div>
+						<div style="font-size: 10px; margin-bottom: 5px;">coins</div>
 					</div>
 				</figure>
 				<div class="profile-info" 

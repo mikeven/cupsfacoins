@@ -50,11 +50,12 @@
 		array('id'=>'en_ver_nom', 'desc'=>'Enlace para ver nominación'),
 		array('id'=>'en_aprob_nom', 'desc'=>'Enlace para aprobar nominación'),
 		array('id'=>'result_nom', 'desc'=>'Resultados de nominaciones')
-
 	);
+	
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
+
 	//Rol: COLABORADOR - ACCIONES:
 	$esq_secciones["agregar_nominacion"] = array(
 		array('id'=>'mp_nom_pers', 'desc'=>'Menu ppal Nueva nominación'),
@@ -79,9 +80,11 @@
 		array('id'=>'mp_ver_miscanj', 'desc'=>'Menu ppal Ver mis canjes'),
 		array('id'=>'pg_mis_canjes', 'desc'=>'Página consulta canjes de usuario')
 	);
+
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
+
 	//Rol: EVALUADOR - ACCIONES:
 	$esq_secciones["votar_nominacion"] = array(
 		array('id'=>'en_votar', 'desc'=>'Enlace para votar nominación'),
