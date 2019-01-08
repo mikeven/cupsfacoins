@@ -290,7 +290,7 @@
 							show: true,
 							combine: {
 								color: '#999',
-								threshold: 0.5
+								threshold: 0.05
 							}
 						}
 					},

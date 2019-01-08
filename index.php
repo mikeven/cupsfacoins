@@ -67,7 +67,7 @@
 								<label>ROL</label>
 								<select name="rol" class="form-control input-lg mb-md">
 									<?php foreach ( $usuarios as $u ) { ?>
-									<option value="<?php echo $u["idROL"]?>">
+									<option value="<?php echo $u["idUSUARIO"]?>">
 										<?php echo $u["nombre"]." (".$u["rol"].")" ?>
 									</option>
 									<?php } ?>
