@@ -26,7 +26,8 @@ body {
 	overflow-y: scroll;
 }
 
-h1, h2, h3, h4, h5, .btn, .sidebar-title{
+h1, h2, h3, h4, h5, .btn, .sidebar-title, .profile-info, 
+.panel-heading-icon_p, .nav-main, #flotPie{
 	font-family: chanel;
 }
 

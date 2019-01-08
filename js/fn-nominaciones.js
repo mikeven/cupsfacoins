@@ -30,6 +30,25 @@
 		}
 	});
 
+	$("#frm_sustento2").validate({
+		highlight: function( label ) {
+			$(label).closest('.form-group').removeClass('has-success').addClass('has-error');
+		},
+		success: function( label ) {
+			$(label).closest('.form-group').removeClass('has-error');
+			label.remove();
+		},
+		errorPlacement: function( error, element ) {
+			var placement = element.closest('.input-group');
+			if (!placement.get(0)) {
+				placement = element;
+			}
+			if (error.text() !== '') {
+				placement.after(error);
+			}
+		}
+	});
+
 	// validation summary
 	var $summaryForm = $("#summary-form");
 	$summaryForm.validate({
@@ -60,7 +79,7 @@ $('.modal-with-move-anim').magnificPopup({
 
 /* --------------------------------------------------------- */
 function votar(){
-	//Invoca al servidor para registrar el voto del usuario
+	// Invoca al servidor para registrar el voto del usuario
 	var fs = $('#nvoto').serialize();
 
 	$.ajax({
@@ -77,6 +96,28 @@ function votar(){
 			}
 			else
 				notificar( "Votación", res.mje, "error" );
+        }
+    });	
+}
+/* --------------------------------------------------------- */
+function evaluar(){
+	// Invoca al servidor para registrar la evaluación de una nominación
+	// Aprobación - Rechazo - Solicitud de sustento
+	var fs = $('#frm_admineval').serialize();
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-nominaciones.php",
+        data:{ evaluar: fs  },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 ){
+				$(".panel_comentario").fadeOut(1000);
+				notificar( "Nominación", res.mje, "success" );
+			}
+			else
+				notificar( "Nominación", res.mje, "error" );
         }
     });	
 }
@@ -100,7 +141,7 @@ $(".sel_persona").on('click', function (e) {
 /* --------------------------------------------------------- */ 
 $('#frm_nnominacion').ajaxForm({ 
 	// Invocación asíncrona del registro de una nominación nueva a través del formulario
-	//parámetro de invocación: nva_nominacion
+	// parámetro de invocación: nva_nominacion
 
     type: 		"POST",
     url:        'database/data-nominaciones.php', 
@@ -122,7 +163,7 @@ $("#frm_nnominacion").on('submit', function(e) {
 });
 /* --------------------------------------------------------- */ 
 $(".sel_panel_nom").on('click', function (e) {
-	// 
+	// Cambio de vista tabla-fichas para mostrar las nominaciones 
 	var orig = $(this).attr("data-i");
 	var dest = $(this).attr("data-d");
 	$(orig).fadeOut(300);
@@ -138,14 +179,43 @@ $(".cnf-voto").on('click', function (e) {
 	$("#confirmar_seleccion").fadeIn(300);
 
 });
-/* --------------------------------------------------------- */ 
+/* --------------------------------------------------------- */
 $("#btn_votar").on('click', function (e) {
-	// Invoca el registro de la votación hecha
 	votar();
 });
+/* --------------------------------------------------------- */
+$('#frm_sustento2').ajaxForm({ 
+	// Invocación asíncrona para enviar segundo sustento sobre una nominación
 
-$(".adminev").on('click', function (e) {
-	// Muestra el panel de comentario de administrador
-	$(".panel_comentario").fadeIn(300);
+    type: 		"POST",
+    url:        'database/data-nominaciones.php', 
+    success:    function(response) { 
+    	console.log(response);
+    	res = jQuery.parseJSON( response );
+    	if( res.exito == 1 ){
+			$(".panel_sustento2").fadeOut( 1000 );
+			notificar( "Nominación", res.mje, "success" );
+		}
+		else
+			notificar( "Nominación", res.mje, "error" );
+    }
 });
 /* --------------------------------------------------------- */ 
+$("#frm_sustento2").on('submit', function(e) {
+	// Evita el envío del formulario para checar su validez
+    if ( $("#frm_sustento2").valid() ) {
+        e.preventDefault();
+    }
+});
+/* --------------------------------------------------------- */
+function sustento2(){
+	$("#frm_sustento2").submit();
+}
+/* --------------------------------------------------------- */ 
+$(".adminev").on('click', function (e) {
+	// Muestra el panel de comentario de administrador, asigna valor de evaluación a campo oculto
+	$(".panel_comentario").fadeIn(300);
+	$("#estado_nom").val( $(this).attr( "data-a" ) );
+	$(".adminev").prop( "disabled", false );
+	$(this).prop( "disabled", true );
+});

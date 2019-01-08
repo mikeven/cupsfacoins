@@ -10,7 +10,8 @@
 			<input id="idnominacion" type="hidden" name="idnominacion" value="<?php echo $idn;?>">
 			<input id="idusuario" type="hidden" name="idusuario" value="<?php echo $idu;?>">
 			<input id="valor_voto" type="hidden" name="voto" value="">
-			<button id="btn_votar" type="button" class="mb-xs mt-xs mr-xs btn btn-primary">
+			<button id="btn_votar" type="button" 
+			class="mb-xs mt-xs mr-xs btn btn-primary">
 				<i class="fa fa-hand-o-down"></i> Votar
 			</button>
 		</form>

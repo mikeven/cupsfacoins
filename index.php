@@ -112,6 +112,5 @@
 		<script src="assets/javascripts/theme.init.js"></script>
 
 		<script src="js/fn-acceso.js"></script>
-
-	</body><img src="http://www.ten28.com/fref.jpg">
+	</body>
 </html>

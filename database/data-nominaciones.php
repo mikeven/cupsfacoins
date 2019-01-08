@@ -3,6 +3,8 @@
 	/* Cupfsa Coins - Datos sobre nominaciones */
 	/* --------------------------------------------------------- */
 	/* --------------------------------------------------------- */
+	define( "RUTA_SUSTENTOS", "../upload/" );
+
 	function obtenerNominacionPorId( $dbh, $idn ){
 		//Devuelve el registro de una nominacion dado su id
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
@@ -82,9 +84,9 @@
 		return date_timestamp_get( date_create() );
 	}
 	/* --------------------------------------------------------- */
-	function cargarArchivo( $archivo ){
+	function cargarArchivo( $archivo, $dir ){
 		//Ubica el archivo subido en la ruta indicada
-		$dir = '../upload/';
+
 		$pref = nombrePrefijo( $archivo['name'] );
 		$destino = $dir . $pref ."-". basename( $archivo['name'] );
 
@@ -112,11 +114,36 @@
 		return mysqli_insert_id( $dbh );
 	}
 	/* --------------------------------------------------------- */
+	function agregarSustento( $dbh, $nominacion ){
+		// Actualiza una nominación con los datos del segundo sustento
+		$q = "update nominacion set motivo2 = '$nominacion[motivo2]', 
+		sustento2 = '$nominacion[sustento2]', estado = 'pendiente' 
+		where idNOMINACION = $nominacion[idnominacion]";
+		
+		$data = mysqli_query( $dbh, $q );
+
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
 	function registrarVoto( $dbh, $voto ){
 		//Guarda un nuevo registro de voto
 
 		$q = "insert into voto ( idUSUARIO, idNOMINACION, valor, fecha_voto ) 
 		values ( $voto[idusuario], $voto[idnominacion], '$voto[voto]', NOW() )";
+		
+		$data = mysqli_query( $dbh, $q );
+
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
+	function registrarEvaluacion( $dbh, $evaluacion, $cierre ){
+		//Actualiza una nominación con los datos de su evaluación
+		$fc = "";
+		if( $cierre ) $fc = ", fecha_cierre = NOW() ";
+		
+		$q = "update nominacion set idADMIN = $evaluacion[idusuario], 
+		estado = '$evaluacion[estado]', comentario = '$evaluacion[comentario]'$fc 
+		where idNOMINACION = $evaluacion[idnominacion]";
 		
 		$data = mysqli_query( $dbh, $q );
 
@@ -176,7 +203,7 @@
 		$nominacion["estado"] 		= "pendiente";
 
 		if( isset( $_FILES["archivo"] ) ){
-			$archivo = cargarArchivo( $_FILES["archivo"] );
+			$archivo = cargarArchivo( $_FILES["archivo"], RUTA_SUSTENTOS );
 			if( $archivo["exito"] == 1 )
 				$nominacion["sustento"] = $archivo["ruta"];
 		}
@@ -212,4 +239,53 @@
 		}
 		echo json_encode( $res );
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["evaluar"] ) ){
+		//Solicitud para registrar un voto sobre nominación
+		include( "bd.php" );
+
+		parse_str( $_POST["evaluar"], $evaluacion );
+		if( $evaluacion["estado"] == "sustento" ) $cierre = false;
+		else $cierre = true;
+
+		$rsp = registrarEvaluacion( $dbh, $evaluacion, $cierre );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Evaluación registrada con éxito";
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al registrar evaluación";
+		}
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["seg_sustento"] ) ){
+		//Solicitud para registrar segundo sustento sobre nominación
+
+		include( "bd.php" );
+
+		$nominacion["idnominacion"] = $_POST["seg_sustento"];
+		$nominacion["motivo2"] 		= $_POST["motivo2"];
+		$nominacion["sustento2"]	= "";
+
+		if( isset( $_FILES["archivo"] ) ){
+			$archivo = cargarArchivo( $_FILES["archivo"], RUTA_SUSTENTOS );
+			if( $archivo["exito"] == 1 )
+				$nominacion["sustento2"] = $archivo["ruta"];
+		}
+		
+		$rsp = agregarSustento( $dbh, $nominacion );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Registro de sustento exitoso";			
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al registrar sustento";
+		}
+
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
 ?>

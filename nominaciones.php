@@ -107,12 +107,12 @@
 						?>
 							<div class="col-sm-6 col-xs-6">
 								<section class="panel panel-horizontal">
-									<header class="panel-heading bg-primary">
+									<header class="panel-heading bg-primary" style="width: 30%;">
 										<div class="panel-heading-icon">
 											<i class="fa fa-bookmark"></i>
 										</div>
 									</header>
-									<div class="panel-body p-lg">
+									<div class="panel-body p-lg" style="width: 70%;">
 										<h4 class="text-semibold mt-sm">
 											<?php echo $nom["nombre2"]." ".
 														$nom["apellido2"]; ?>
@@ -148,7 +148,7 @@
 								<tr class="gradeX">
 									<td><?php echo $nom["fregistro"]; ?></td>
 									<td>
-										<a href="nominacion.php?id=<?php echo $nom[id];?>"><?php echo $nom["nombre2"]." ".$nom["apellido2"]; ?>
+										<a href="nominacion.php?id=<?php echo $nom['id'];?>"><?php echo $nom["nombre2"]." ".$nom["apellido2"]; ?>
 										</a>
 									</td>
 									<td><?php echo $nom["atributo"]?></td>
