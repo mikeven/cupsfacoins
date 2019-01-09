@@ -10,6 +10,7 @@
     include( "database/data-nominaciones.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
+    include( "fn/fn-nominaciones.php" );
 
     isAccesible( $pagina );
     $idu = $_SESSION["user"]["idUSUARIO"];
@@ -53,64 +54,15 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
+		<link rel="stylesheet" href="assets/stylesheets/cupfsa-custom.css">
 
 		<style type="text/css">
-			.seleccion_opcion{
-				padding: 12px; 
-			}
-
-			.game_nows{
-				-webkit-border-radius: 7px;
-				-moz-border-radius: 7px;
-				border-radius: 7px;
-				-webkit-animation-name: gtoday;  /* Safari and Chrome */
-				-webkit-animation-duration: 0.5s;  /* Safari and Chrome */
-				-webkit-animation-iteration-count: infinite; /* Safari and Chrome */
-		    	animation-iteration-count: infinite;
-			}
-			
-			@-webkit-keyframes gtoday {
-				from {
-					padding: 0px 0px; 
-				}
-				to {
-					padding: 12px 16px; 
-				}
-			}
-
-			.game_now {
-				-webkit-animation: zoom-in-out 1s linear 0s infinite normal ;
- 				animation: zoom-in-out 1s linear 0s infinite normal ;
-			}
-
-			@-webkit-keyframes zoom-in-out {			
-				0%{
-					-webkit-transform: scale(1);
-					transform: scale(1);
-				}
-			  	50%{
-					-webkit-transform: scale(1.2);
-					transform: scale(1.2);
-			  	}
-			  	100%{
-					-webkit-transform: scale(1);
-					transform: scale(1);
-			  	}
-			}
-
-			@keyframes zoom-in-out {
-				0%{
-					-ms-transform: scale(1);
-					transform: scale(1);
-			  	}	
-			  	50%{
-					-ms-transform: scale(1.2);
-					transform: scale(1.2);
-			  	}
-			  	100%{
-					-ms-transform: scale(1);
-					transform: scale(1);
-			  	}
+			.panel-heading-icon{
+			    font-size: 35px;
+			    font-size: 3.2rem;
+			    width: 60px;
+			    height: 60px;
+			    line-height: 60px;
 			}
 		</style>
 
@@ -157,7 +109,7 @@
 					
 					<div class="col-sm-6 col-xs-6">
 						<section class="panel">
-							<header class="panel-heading bg-primary">
+							<header class="panel-heading bg-primary enc_nom">
 								<div class="panel-heading-icon">
 									<i class="fa fa-bookmark"></i>
 								</div>
@@ -167,6 +119,7 @@
 									<?php echo $nominacion["atributo"]; ?>
 								</h3>
 								<p class="text-center">
+									<i class="fa fa-circle" style="color:#eccd28"></i>
 									<?php echo $nominacion['valor']." coins"; ?>
 								</p>
 								<h4 class="text-semibold mt-sm text-center">
@@ -176,7 +129,7 @@
 								<hr class="solid short">
 								<!-- ------------------------------ SUSTENTO -->
 								<div class="form-group">
-									<label class="col-sm-4">Motivo: </label>
+									<label class="col-sm-4 text-right">Motivo: </label>
 									<div class="col-sm-8 text-left">
 										<?php echo $nominacion["motivo1"]; ?>
 									</div>
@@ -193,7 +146,8 @@
 								<!-- ------------------------------ SUSTENTO -->
 								<?php if( $nominacion["motivo2"] != "" ) { ?>
 								<div class="form-group">
-									<label class="col-sm-4">Motivo 2: </label>
+									<label class="col-sm-4 text-right">Motivo 2: 
+									</label>
 									<div class="col-sm-8 text-left">
 										<?php echo $nominacion["motivo2"]; ?>
 									</div>
@@ -209,15 +163,40 @@
 									</div>
 								</div>
 								<?php } ?>
-								
+								<!-- ------------------------------ SUSTENTO -->
 								<div class="form-group">
-									<label class="col-sm-4">Nominado por: </label>
+									<label class="col-sm-4 text-right">Nominado por: </label>
 									<div class="col-sm-8 text-left">
 										<?php echo $nominacion["nombre1"]." ".
 												$nominacion["apellido1"]; ?>
 									</div>
 								</div>
-								<!-- ------------------------------ SUSTENTO -->
+
+								<div class="form-group">
+									<label class="col-sm-4 text-right">Estado: 
+									</label>
+									<div class="col-sm-8 text-left">
+									<?php 
+										echo iconoEstadoNominacion( $nominacion["estado"] ); 
+									?>
+									<?php 
+										echo estadoNominacion( $nominacion["estado"] ); 
+									?>
+									</div>
+								</div>
+
+								<?php if( $nominacion["comentario"] != "" ) { ?>
+								<div class="form-group">
+									<label class="col-sm-4 text-right">Observaciones: 
+									</label>
+									<div class="col-sm-8 text-left">
+										<?php echo $nominacion["comentario"]; ?>
+									</div>
+								</div>
+								<?php } ?>
+
+								<!-- ----------------------- PANELES ACCIONES -->
+								
 								<?php
 									if( isV( 'en_votar' ) ) { 		//Evaluador
 										include( "sections/panel_voto.php" );
@@ -230,7 +209,7 @@
 									}
 								?>
 							</div>
-							<!-- ---------------------------------------- PIE FORMULARIOS -->
+							<!-- ---------------------------- PIE FORMULARIOS -->
 							<?php if( isV( 'en_aprob_nom' ) ) { 	//Administrador ?>	
 							<footer class="panel-footer panel_comentario" style="display: none;">
 								<div class="row">
@@ -289,14 +268,12 @@
 											data: [
 												[1, <?php echo $votacion["si"]; ?>]
 											],
-											location_value: "Majiwada,Pune",
 											color: '#47a447'
 										}, {
 											label: "No",
 											data: [
 												[1, <?php echo $votacion["no"]; ?>]
 											],
-											location_value: "2222",
 											color: '#d64742'
 										}];
 					

@@ -113,7 +113,8 @@ function evaluar(){
         	console.log( response );
 			res = jQuery.parseJSON( response );
 			if( res.exito == 1 ){
-				$(".panel_comentario").fadeOut(1000);
+				$(".panel_comentario").fadeOut( 1000 );
+				$("#panel_aprobacion").slideUp( 1000 );
 				notificar( "Nominación", res.mje, "success" );
 			}
 			else
@@ -166,17 +167,17 @@ $(".sel_panel_nom").on('click', function (e) {
 	// Cambio de vista tabla-fichas para mostrar las nominaciones 
 	var orig = $(this).attr("data-i");
 	var dest = $(this).attr("data-d");
-	$(orig).fadeOut(300);
-	$(dest).fadeIn(300);
+	$(orig).fadeOut( 300 );
+	$(dest).fadeIn( 300 );
 });
 /* --------------------------------------------------------- */ 
 $(".cnf-voto").on('click', function (e) {
 	// Asigna el valor del voto seleccionado y destaca la opción seleccionada
-	$(".cnf-voto").removeClass("game_now");
-	$(this).addClass("game_now");
-	var valor = $(this).attr("data-valor");
-	$("#valor_voto").val(valor);
-	$("#confirmar_seleccion").fadeIn(300);
+	$(".cnf-voto").removeClass( "game_now" );
+	$(this).addClass( "game_now" );
+	var valor = $(this).attr( "data-valor" );
+	$("#valor_voto").val( valor );
+	$("#confirmar_seleccion").fadeIn( 300 );
 
 });
 /* --------------------------------------------------------- */

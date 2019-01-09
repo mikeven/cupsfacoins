@@ -1,4 +1,5 @@
 <hr class="solid short">
+
 <div id="panel_aprobacion">
 	<?php 
 		if ( $nominacion["estado"] == "pendiente" || $nominacion["estado"] == "sustento" ){ ?>
@@ -47,7 +48,8 @@
 				</div>
 			</div>
 		</div>
-		<input id="idnominacion" type="hidden" name="seg_sustento" value="<?php echo $idn;?>">
+		<input id="idnominacion" type="hidden" name="seg_sustento" 
+		value="<?php echo $idn;?>">
 	</form>
 </div>
 <?php } ?>

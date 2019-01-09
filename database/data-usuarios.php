@@ -9,7 +9,7 @@
 		u.activo, date_format(u.fecha_creacion,'%d/%m/%Y') as fregistro, 
 		r.nombre as rol from usuario u, usuario_rol ur, rol r 
 		where u.idUSUARIO = ur.idUSUARIO and ur.idROL = r.idROL";
-		//echo $q;
+		
 		$data = mysqli_query( $dbh, $q );
 
 		return obtenerListaRegistros( $data );
@@ -18,7 +18,7 @@
 	function obtenerRolesRegistrados( $dbh ){
 		//Devuelve todos los registros de usuarios
 		$q = "select idROL, nombre, descripcion from rol";
-		//echo $q;
+		
 		$data = mysqli_query( $dbh, $q );
 
 		return obtenerListaRegistros( $data );
@@ -37,7 +37,7 @@
 	function agregarAsociacionRolUsuario( $dbh, $idu, $idr ){
 		//Registra la asociación de un usuario con su rol
 		$q = "insert into usuario_rol ( idUSUARIO, idROL ) values ( $idu, $idr )";
-		echo $q;
+		
 		$data = mysqli_query( $dbh, $q );
 	}
 	/* --------------------------------------------------------- */

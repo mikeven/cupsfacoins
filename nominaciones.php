@@ -12,6 +12,7 @@
     include( "database/data-nominaciones.php" );
     include( "fn/fn-acceso.php" );
     include( "fn/fn-nominaciones.php" );
+
     $idu = $_SESSION["user"]["idUSUARIO"];
     isAccesible( $pagina );
 ?>
@@ -50,6 +51,7 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
+		<link rel="stylesheet" href="assets/stylesheets/cupfsa-custom.css">
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
@@ -61,8 +63,10 @@
 		else{
 			$nominaciones = obtenerNominacionesAccion( $dbh, $idu, "hechas" );
 		}
-		if( isV( 'en_votar' ) )
-			$nominaciones = obtenerNominacionesAccion( $dbh, $idu, "votar" );
+
+		/*if( isV( 'en_votar' ) )
+			$nominaciones = obtenerNominacionesAccion( $dbh, $idu, "votar" );*/
+
 		if( isV( 'ver_tnominac' ) )
 			$nominaciones = obtenerNominaciones( $dbh );
 	?>
@@ -103,7 +107,7 @@
 						</h5>
 						
 						<?php foreach ( $nominaciones as $nom ) { 
-							$enl = enlaceVerNominacion();//
+							$enl = enlaceVerNominacion( $dbh, $idu, $nom );//
 						?>
 							<div class="col-sm-6 col-xs-6">
 								<section class="panel panel-horizontal">
@@ -119,8 +123,19 @@
 										</h4>
 										<h5 class=""><?php echo $nom["atributo"]?></h5>
 										<p>
-											<a href="nominacion.php?id=<?php echo $nom["id"];?>">
-											<?php echo $enl; ?>
+											<a href="nominacion.php?id=<?php echo $nom["idNOMINACION"];?>">
+											<?php echo $enl; ?></a>
+											 
+											<?php if ( $nom["estado"] == "sustento" 
+												    && $nom["idNOMINADOR"] == $idu ) { 
+												// Nominación pendiente por 2do sustento
+												// usuario en sesión es el nominador
+											?>
+												| <code> <?php 
+													echo estadoNominacion( $nom["estado"] ); 
+												?> 
+												</code>
+											<?php } ?>
 										</p>
 									</div>
 								</section>
@@ -141,6 +156,7 @@
 									<th>Participante</th>
 									<th>Atributo</th>
 									<th>Valor</th>
+									<th>Estado</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -148,12 +164,23 @@
 								<tr class="gradeX">
 									<td><?php echo $nom["fregistro"]; ?></td>
 									<td>
-										<a href="nominacion.php?id=<?php echo $nom['id'];?>"><?php echo $nom["nombre2"]." ".$nom["apellido2"]; ?>
+										<a href="nominacion.php?id=<?php echo $nom['id'];?>">
+								<?php echo $nom["nombre2"]." ".$nom["apellido2"]; ?>
 										</a>
 									</td>
 									<td><?php echo $nom["atributo"]?></td>
 									<td class="actions">
-										
+										<i class="fa fa-circle" 
+										style="color:#eccd28"></i>
+										<?php echo $nom["valor"]?>	
+									</td>
+									<td>
+										<?php 
+										echo iconoEstadoNominacion( $nom["estado"] ); 
+										?>
+										<?php 
+										echo estadoNominacion( $nom["estado"] ); 
+										?>
 									</td>
 								</tr>
 								<?php } ?>

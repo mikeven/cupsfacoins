@@ -113,7 +113,7 @@
 													<?php echo $nom["nombre2"]?>
 												</h4>
 												<p>
-													<a href="nominacion.php?id=<?php echo $nom["id"]?>"><i class="fa fa-eye"></i> Ver</a>
+													<a href="nominacion.php?id=<?php echo $nom["idNOMINACION"]?>"><i class="fa fa-eye"></i> Ver</a>
 												</p>
 											</div>
 										</div>
@@ -135,7 +135,7 @@
 													<?php echo $nom["nombre2"]?>
 												</h4>
 												<p>
-													<a href="nominacion.php?id=<?php echo $nom["id"]?>"><i class="fa fa-eye"></i> Ver</a>
+													<a href="nominacion.php?id=<?php echo $nom["idNOMINACION"]?>"><i class="fa fa-eye"></i> Ver</a>
 												</p>
 											</div>
 										</div>
