@@ -1,7 +1,7 @@
 <div id="panel_aprobacion">
 	<hr class="solid short">
 	<div id="confirmar_seleccion">
-
+		
 		<?php if( $votacion["si"] > $votacion["no"] ) { ?>
 		<button id="btn_aprobar" type="button" data-a="aprobada"
 		class="mb-xs mt-xs mr-xs btn btn-primary adminev">

@@ -9,6 +9,7 @@
     
     include( "database/bd.php" );
     include( "database/data-acceso.php" );
+    include( "database/data-usuarios.php" );
     include( "database/data-nominaciones.php" );
     include( "fn/fn-acceso.php" );
     include( "fn/fn-nominaciones.php" );
@@ -125,7 +126,8 @@
 										<p>
 											<a href="nominacion.php?id=<?php echo $nom["idNOMINACION"];?>">
 											<?php echo $enl; ?></a>
-											 
+											
+											<span id="enlaces_nominacion" class="accion-adj">
 											<?php if ( $nom["estado"] == "sustento" 
 												    && $nom["idNOMINADOR"] == $idu ) { 
 												// Nominación pendiente por 2do sustento
@@ -136,6 +138,25 @@
 												?> 
 												</code>
 											<?php } ?>
+
+											<?php if ( $nom["estado"] == "aprobada" 
+												    && $nom["idNOMINADOR"] == $idu ) { 
+												// Nominación aprobada y usuario en sesión es el nominador
+											?>
+												|  
+												<?php 
+													echo iconoEstadoNominacion( $nom["estado"] );
+													echo estadoNominacion( $nom["estado"] ); 
+												?>
+
+												| <a href="#!" class="adjudicacion" href="#!" 
+												data-idn="<?php echo $nom["idNOMINACION"]; ?>" 
+												data-o="resumen">
+													<i class='fa fa-gift'></i> Adjudicar
+												</a> 
+												
+											<?php } ?>
+											</span>
 										</p>
 									</div>
 								</section>

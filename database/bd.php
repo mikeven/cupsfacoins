@@ -23,12 +23,12 @@
 	function obtenerConfigBD(){
 		//
 		$config = array();
-		$file = fopen( __DIR__."/database_l.ini", "r") or exit("Unable to open file!");
+		$file = fopen( __DIR__."/database_l.ini", "r" ) or exit( "Error al leer archivo" );
 		
 		fgets( $file );
 		while( !feof( $file ) )	{
 			list( $key, $val ) = explode('=', fgets( $file ) );
-			$config[$key] = trim($val);
+			$config[$key] = trim( $val );
 		}
 
 		fclose( $file );

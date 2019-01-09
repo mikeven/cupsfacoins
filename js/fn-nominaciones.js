@@ -104,11 +104,15 @@ function evaluar(){
 	// Invoca al servidor para registrar la evaluación de una nominación
 	// Aprobación - Rechazo - Solicitud de sustento
 	var fs = $('#frm_admineval').serialize();
+	var espera = "<img src='../assets/images/loading.gif'>";
 
 	$.ajax({
         type:"POST",
         url:"database/data-nominaciones.php",
         data:{ evaluar: fs  },
+        beforeSend: function() {
+        	$("#panel_aprobacion").html( espera );
+        },
         success: function( response ){
         	console.log( response );
 			res = jQuery.parseJSON( response );
@@ -203,7 +207,9 @@ $('#frm_sustento2').ajaxForm({
 });
 /* --------------------------------------------------------- */ 
 $("#frm_sustento2").on('submit', function(e) {
-	// Evita el envío del formulario para checar su validez
+	// Evita el envío del formulario al ser validado
+	var icono = "<img src='../assets/images/loading.gif'>";
+	$("#panel_sustento2").html( icono );
     if ( $("#frm_sustento2").valid() ) {
         e.preventDefault();
     }
@@ -212,6 +218,32 @@ $("#frm_sustento2").on('submit', function(e) {
 function sustento2(){
 	$("#frm_sustento2").submit();
 }
+/* --------------------------------------------------------- */
+function adjudicarNominacion( origen, idn ){
+	// Invocación asíncrona para adjudicar una nominación
+	
+	var espera = "<img src='../assets/images/loading.gif' width='30'>";
+	$.ajax({
+        type:"POST",
+        url:"database/data-nominaciones.php",
+        data:{ adjudicar: idn  },
+        beforeSend: function() {
+        	$(".accion-adj").html( espera );
+        },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 ){
+				$(".accion-adj").html("| <i class='fa fa-gift'></i> Adjudicada");
+				if( origen = "full")
+					$(".panel-heading-icon").html("<i class='fa fa-bookmark'></i>");
+				notificar( "Nominación", res.mje, "success" );
+			}
+			else
+				notificar( "Nominación", res.mje, "error" );
+        }
+    });
+}
 /* --------------------------------------------------------- */ 
 $(".adminev").on('click', function (e) {
 	// Muestra el panel de comentario de administrador, asigna valor de evaluación a campo oculto
@@ -219,4 +251,11 @@ $(".adminev").on('click', function (e) {
 	$("#estado_nom").val( $(this).attr( "data-a" ) );
 	$(".adminev").prop( "disabled", false );
 	$(this).prop( "disabled", true );
+});
+/* --------------------------------------------------------- */ 
+$(".adjudicacion").on('click', function (e) {
+	// Inicia la invocación para adjudicar una nominación
+	var origen = $(this).attr( "data-o" );
+	var idn = $(this).attr( "data-idn" );
+	adjudicarNominacion( origen, idn );
 });

@@ -1,3 +1,19 @@
+<?php
+    /*
+     * Cupfsa Coins - Producto
+     * 
+     */
+    session_start();
+    $pagina = "pg_producto";
+    ini_set( 'display_errors', 1 );
+    include( "database/bd.php" );
+    include( "database/data-acceso.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-productos.php" );
+    include( "fn/fn-acceso.php" );
+
+    isAccesible( $pagina );
+?>
 <!doctype html>
 <html class="fixed">
 	<head>

@@ -79,7 +79,7 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
@@ -97,7 +97,7 @@
 								<li><span>Nuevo usuario</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
 

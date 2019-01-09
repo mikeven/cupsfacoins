@@ -10,10 +10,13 @@
 	    color: #fff;
 	    background-color: rgba(0, 0, 0, 0.1);
 	    /*-webkit-border-radius: 55px;
-	    border-radius: 55px;*/
-	    border: 1px solid #ccc;
+	    border-radius: 55px;
+	    border: 1px solid #ccc;*/
 	}
 </style>
+<?php
+	$coins = obtenerCoinsUsuario( $dbh ,$_SESSION["user"]["idUSUARIO"] );
+?>
 <!-- start: header -->
 <header class="header">
 	<div class="logo-container">
@@ -204,12 +207,7 @@
 
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
-				<figure class="profile-picture">
-					<div class="panel-heading-icon_p">
-						<div style="margin-top: 10px;">10350</div>
-						<div style="font-size: 10px; margin-bottom: 5px;">coins</div>
-					</div>
-				</figure>
+				
 				<div class="profile-info" 
 				data-lock-name="<?php echo $_SESSION["user"]["nombre"] ?>" 
 				data-lock-email="<?php echo $_SESSION["user"]["email"] ?>">
@@ -217,6 +215,12 @@
 					<span class="role"><?php echo hrolesUsuario( $accesos_usess["roles"] )?>
 					</span>
 				</div>
+				<figure class="profile-picture">
+					<div class="panel-heading-icon_p">
+						<div style="margin-top: 10px;"><?php echo $coins ?></div>
+						<div style="font-size: 10px; margin-bottom: 5px;">coins</div>
+					</div>
+				</figure>
 
 				<i class="fa custom-caret"></i>
 			</a>

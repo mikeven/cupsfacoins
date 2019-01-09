@@ -4,17 +4,19 @@
      * 
      */
     session_start();
-    $pagina = "pg_nvo_producto";
+    $pagina = "pg_productos";
     ini_set( 'display_errors', 1 );
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
     include( "database/data-acceso.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-productos.php" );
     include( "fn/fn-acceso.php" );
+    
     isAccesible( $pagina );
 ?>
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -80,7 +82,6 @@
 				border: 2px dotted #CCC;
 			}
 		</style>
-
 	</head>
 	<body>
 		<section class="body">
@@ -91,7 +92,7 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
@@ -109,7 +110,7 @@
 								<li><span>Nuevo producto</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
 
@@ -316,7 +317,7 @@
 				Dropzone.options.myAwesomeDropzone = {
 				  maxFiles: 1,
 				  accept: function(file, done) {
-				    console.log("uploaded");
+				    console.log(file);
 				    done();
 				  },
 				  init: function() {

@@ -12,7 +12,8 @@
 		u2.apellido as apellido2, n.valor_atributo as valor, a.nombre as atributo, 
 		n.estado, n.motivo1, n.sustento1, n.motivo2, n.sustento2, n.comentario, 
 		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro, 
-		date_format(n.fecha_cierre,'%d/%m/%Y') as fcierre 
+		date_format(n.fecha_cierre,'%d/%m/%Y') as fcierre,
+		date_format(n.fecha_adjudicacion,'%d/%m/%Y') as fadjudicada 
 		from nominacion n, usuario u1, usuario u2, atributo a 
 		where n.idNOMINADOR = u1.idUSUARIO and n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO and n.idNOMINACION = $idn";
@@ -188,6 +189,15 @@
 		return $votacion;
 	}
 	/* --------------------------------------------------------- */
+	function adjudicarNominacion( $dbh, $idn ){
+		// Adjudica una nominación al nominado: hace disponible los coins
+		$q = "update nominacion set estado = 'adjudicada', 
+		fecha_adjudicacion = NOW() where idNOMINACION = $idn";
+		
+		mysqli_query( $dbh, $q );
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["nva_nominacion"] ) ){
@@ -289,4 +299,20 @@
 		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
+	if( isset( $_POST["adjudicar"] ) ){
+		//Solicitud para adjudicar una nominación
+		include( "bd.php" );
+		
+		$rsp = adjudicarNominacion( $dbh, $_POST["adjudicar"] );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Nominación adjudicada";			
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al adjudicar nominación";
+		}
+
+		echo json_encode( $res );
+	}
 ?>

@@ -1,17 +1,3 @@
-<hr class="solid short">
-
-<div id="panel_aprobacion">
-	<?php 
-		if ( $nominacion["estado"] == "pendiente" || $nominacion["estado"] == "sustento" ){ ?>
-		Fecha nominación: <?php echo $nominacion["fregistro"]; ?>
-	<?php } 
-		if ( $nominacion["estado"] == "aprobada" || $nominacion["estado"] == "rechazada" ) { ?>
-		<p>Fecha nominación: <?php echo $nominacion["fregistro"]; ?></p>
-		<p>Fecha cierre: <?php echo $nominacion["fcierre"]; ?></p>
-	<?php } ?>
-</div>
-
-
 <?php if ( $nominacion["estado"] == "sustento" && $nominacion["idNOMINADOR"] == $idu ) { 
 	// Solicitar segunda sustentación: 
 	// Nominación pendiente por 2do sustento
@@ -52,4 +38,13 @@
 		value="<?php echo $idn;?>">
 	</form>
 </div>
+<?php } ?>
+
+<?php if ( $nominacion["estado"] == "aprobada" && $nominacion["idNOMINADOR"] == $idu ) { 
+	// Nominación aprobada y el usuario en sesión es el nominador de la nominación actual
+?>
+	<hr class="solid short">
+	<a class="adjudicacion accion-adj" href="#!" data-idn="<?php echo $nominacion["idNOMINACION"]; ?>">
+		<i class='fa fa-gift'></i> Adjudicar 
+	</a>
 <?php } ?>

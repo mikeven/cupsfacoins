@@ -70,7 +70,7 @@
 		array('id'=>'mp_nom_pers', 'desc'=>'Menu ppal Ver nominaciones recibidas'),
 		array('id'=>'pg_nominaciones', 'desc'=>'Página consulta nominaciones'),
 		array('id'=>'pg_nominacion', 'desc'=>'Página ficha nominación'),
-		array('id'=>'pan_nom_aprob', 'desc'=>'Información de nominación aprobada')
+		array('id'=>'pan_nom_aprob', 'desc'=>'Información de nominación hecha/recibida y aprobada')
 	);
 
 	$esq_secciones["consultar_canjes_propios"] = array(

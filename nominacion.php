@@ -7,6 +7,7 @@
     $pagina = "pg_nominacion";
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
     include( "database/data-nominaciones.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
@@ -109,9 +110,19 @@
 					
 					<div class="col-sm-6 col-xs-6">
 						<section class="panel">
+							<?php if( nominacionVisible( $idu, $nominacion ) ) { ?>
 							<header class="panel-heading bg-primary enc_nom">
 								<div class="panel-heading-icon">
-									<i class="fa fa-bookmark"></i>
+									<?php if ( $nominacion["estado"] == "aprobada" && $nominacion["idNOMINADOR"] == $idu ) { 
+										// Nominación aprobada y el usuario en sesión es el nominador de la nominación actual
+									?>
+									<a class="adjudicacion icon_adj" href="#!" data-o="full"
+									data-idn="<?php echo $nominacion["idNOMINACION"]; ?>">
+										<i class="fa fa-gift"></i>
+									</a>
+									<?php } else { ?>
+										<i class="fa fa-bookmark"></i>
+									<?php } ?>
 								</div>
 							</header>
 							<div class="panel-body text-center">
@@ -119,7 +130,7 @@
 									<?php echo $nominacion["atributo"]; ?>
 								</h3>
 								<p class="text-center">
-									<i class="fa fa-circle" style="color:#eccd28"></i>
+									<i class="fa fa-circle" style="color: #ff9900;"></i>
 									<?php echo $nominacion['valor']." coins"; ?>
 								</p>
 								<h4 class="text-semibold mt-sm text-center">
@@ -198,18 +209,21 @@
 								<!-- ----------------------- PANELES ACCIONES -->
 								
 								<?php
+									include( "sections/panel_fechas_nominacion.php" );
 									if( isV( 'en_votar' ) ) { 		//Evaluador
-										include( "sections/panel_voto.php" );
+										include( "sections/panel_votacion.php" );
 									}
 									if( isV( 'en_aprob_nom' ) ) { 	//Administrador
-										include( "sections/panel_aprobacion.php" );
+										if( $nominacion["estado"] != "aprobada" 
+											&& $nominacion["estado"] != "rechazada" )
+											include( "sections/panel_aprobacion.php" );
 									}
 									if( isV( 'pan_nom_aprob' ) ) { 	//Colaborador 
-										include( "sections/panel_nominacion_aprobada.php" );
+										include( "sections/panel_soporte_nominacion.php" );
 									}
 								?>
 							</div>
-							<!-- ---------------------------- PIE FORMULARIOS -->
+							<!-- --------------------------------------- PIE FORMULARIOS -->
 							<?php if( isV( 'en_aprob_nom' ) ) { 	//Administrador ?>	
 							<footer class="panel-footer panel_comentario" style="display: none;">
 								<div class="row">
@@ -220,23 +234,27 @@
 								</div>
 							</footer>
 							<?php } ?>
-							<!-- ---------------------------------------- PIE FORMULARIOS -->
-							<?php if( isV( 'pan_nom_aprob' ) ) { 	//Administrador 	
+							<!-- --------------------------------------- PIE FORMULARIOS -->
+							<?php if( isV( 'pan_nom_aprob' ) ) { 	//Colaborador  	
 									if ( $nominacion["estado"] == "sustento" 
 									  && $nominacion["idNOMINADOR"] == $idu ) { 
 								// Perfil colaborador, nominación pendiente por segundo sustento, 
 								// Usuario en sesión = nominador de la actual nominación
 							?>
-							<footer class="panel-footer panel_sustento2">
-								<div class="row">
-									<div class="col-sm-12" align="right">
-										<button id="btn_sustento2" onclick="sustento2()" 
-										class="btn btn-primary">Enviar</button>
+								<footer class="panel-footer panel_sustento2">
+									<div class="row">
+										<div class="col-sm-12" align="right">
+											<button id="btn_sustento2" onclick="sustento2()" 
+											class="btn btn-primary">Enviar</button>
+										</div>
 									</div>
-								</div>
-							</footer>
+								</footer>
 							<?php } } ?>
 							<!-- ---------------------------------------- PIE FORMULARIOS -->
+
+						<?php } else { ?>
+							<h4>No hay información disponible</h4>
+						<?php } ?>
 						</section>
 					</div>
 					<?php if( isV( "result_nom" ) || ( isV( "en_votar" ) && ( $votada ) ) ) { ?>
@@ -322,6 +340,7 @@
 		<script src="js/fn-ui.js"></script>
 		<script src="js/fn-nominaciones.js"></script>
 		<script src="js/tabla-nominaciones.js"></script>
+
 		<?php if( isV( "result_nom" ) || ( isV( "en_votar" ) && ( $votada ) ) ) { ?>
 		<script>
 			/*
@@ -349,5 +368,6 @@
 			})();
 		</script>
 		<?php } ?>
+
 	</body>
 </html>

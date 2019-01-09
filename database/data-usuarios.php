@@ -41,6 +41,29 @@
 		$data = mysqli_query( $dbh, $q );
 	}
 	/* --------------------------------------------------------- */
+	function obtenerSumaAdjudicada( $dbh, $idu ){
+		// Devuelve la suma acumulada de nominaciones adjudicadas por un usuario
+		$q = "select sum( valor_atributo ) as coins from nominacion 
+		where estado = 'adjudicada' and idNOMINADO = $idu";
+
+		return mysqli_fetch_array( mysqli_query ( $dbh, $q ) );
+	}
+	/* --------------------------------------------------------- */
+	function obtenerSumaCanjes( $dbh, $idu ){
+		// Devuelve la suma acumulada de canjes realizados por un usuario
+		$q = "select sum( valor ) as coins from canje where idUSUARIO = $idu";
+
+		return mysqli_fetch_array( mysqli_query ( $dbh, $q ) );
+	}
+	/* --------------------------------------------------------- */
+	function obtenerCoinsUsuario( $dbh ,$idu ){
+		// Devuelve la cantidad de coins disponibles de un usuario
+		$coins_adjudicados 	= obtenerSumaAdjudicada( $dbh, $idu );
+		$coins_canjeados 	= obtenerSumaCanjes( $dbh, $idu );
+
+		return $coins_adjudicados["coins"] - $coins_canjeados["coins"];
+	}
+	/* --------------------------------------------------------- */
 	function asociarRolesUsuario( $dbh, $usuario ){
 		//Asigna cada rol asociado a un usuario para su registro
 		foreach ( $usuario["rol"] as $rol ) {
