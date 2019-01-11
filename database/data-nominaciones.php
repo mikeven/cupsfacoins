@@ -19,11 +19,12 @@
 		and n.idATRIBUTO = a.idATRIBUTO and n.idNOMINACION = $idn";
 		
 		$data = mysqli_query( $dbh, $q );
-		return mysqli_fetch_array( $data );
+		$data ? $registro = mysqli_fetch_array( $data ) : $registro = NULL;
+		return $registro;
 	}
 	/* --------------------------------------------------------- */
-	function obtenerNominaciones( $dbh ){
-		//Devuelve los registros de nominaciones
+	function obtenerNominacionesRegistradas( $dbh ){
+		//Devuelve los registros de todas las nominaciones
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
 		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo, 
@@ -35,18 +36,20 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
-	function obtenerNominacionesPersonales( $dbh, $idu, $p ){
-		//Devuelve los registros de nominaciones hechas o recibidas por un usuario dado por un parámetro.
+	function obtenerNominacionesPersonales( $dbh, $idu, $p, $p2 ){
+		//Devuelve los registros de nominaciones hechas o recibidas por un usuario.
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
 		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
 		a.imagen, a.valor, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
-		and n.idATRIBUTO = a.idATRIBUTO and $p = $idu order by fregistro desc";
+		and n.idATRIBUTO = a.idATRIBUTO and $p = $idu $p2 order by fregistro desc";
 
 		$data = mysqli_query( $dbh, $q );
 		return obtenerListaRegistros( $data );
 	}
+
+
 	/* --------------------------------------------------------- */
 	function obtenerNominacionesPorVotar( $dbh, $idu ){
 		//Devuelve los registros de nominaciones que no ha sido votada por un usuario dado su id.
@@ -68,11 +71,12 @@
 		
 		if( $accion == "hechas" ){ 		
 			$p = "n.idNOMINADOR";
-			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p );
+			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p, "" );
 		}
 		if( $accion == "recibidas" ){
 			$p = "n.idNOMINADO";
-			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p );
+			$p2 = "and estado = 'aprobada'";
+			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p, $p2 );
 		}
 		if( $accion == "votar" ){
 			$nominaciones = obtenerNominacionesPorVotar( $dbh, $idu );

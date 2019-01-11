@@ -62,12 +62,17 @@
 function agregarUsuario(){
 
 	var fs = $('#frm_nusuario').serialize();
-	var bot_reset = $("#btn_res_fnu");	
+	var bot_reset = $("#btn_res_fnu");
+	var espera = "<img src='assets/images/loading.gif' width='35'>";	
 
 	$.ajax({
         type:"POST",
         url:"database/data-usuarios.php",
         data:{ form_nu: fs },
+        beforeSend: function() {
+        	$("#response").html( espera );
+        	$("#btn_nvo_usuario").prop("disabled", "true");
+        },
         success: function( response ){
         	console.log( response );
 			res = jQuery.parseJSON( response );
@@ -77,6 +82,9 @@ function agregarUsuario(){
 			}
 			else
 				notificar( "Nuevo usuario", res.mje, "error" );
+
+			$("#response").html( "" );
+			$("#btn_nvo_usuario").prop("disabled", "false");
         }
     });
 }

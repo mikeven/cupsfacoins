@@ -44,7 +44,10 @@
 	// Nominación aprobada y el usuario en sesión es el nominador de la nominación actual
 ?>
 	<hr class="solid short">
-	<a class="adjudicacion accion-adj" href="#!" data-idn="<?php echo $nominacion["idNOMINACION"]; ?>">
-		<i class='fa fa-gift'></i> Adjudicar 
-	</a>
+	<div class="accion-adj">
+		<a class="adjudicacion" href="#!" data-idn="<?php echo $nominacion["idNOMINACION"]; ?>"
+			data-o="full">
+			<i class='fa fa-gift'></i> Adjudicar 
+		</a>
+	</div>
 <?php } ?>

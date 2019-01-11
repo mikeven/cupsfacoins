@@ -159,7 +159,8 @@
 															<input type="hidden" name="idproducto" value="<?php echo $producto["idPRODUCTO"]; ?>">
 															<input name="valor" type="hidden" value="<?php 
 																echo $producto["valor"]; ?>">
-														</div></form>
+														</div>
+														</form>
 														<?php } ?>
 													</div>
 												</div>

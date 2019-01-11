@@ -219,6 +219,19 @@ function sustento2(){
 	$("#frm_sustento2").submit();
 }
 /* --------------------------------------------------------- */
+function actualizarVisualAdjudicacion( origen ){
+	// Actualiza los elementos visuales después de adjudicar una nominación
+
+	if( origen == "full" ){
+		/*$(".enc_nom").addClass( "bg-quartenary" );*/
+		$(".adjudicacion").removeClass( "adjudicacion" );
+		$(".accion-adj").html("<i class='fa fa-gift'></i> Adjudicada");
+		$(".panel-heading-icon").html("<i class='fa fa-gift' style='color:#734ba9'></i>");
+	}
+	if( origen == "resumen" )
+		$(".accion-adj").html("| <i class='fa fa-gift'></i> Adjudicada");
+}
+/* --------------------------------------------------------- */
 function adjudicarNominacion( origen, idn ){
 	// Invocación asíncrona para adjudicar una nominación
 	
@@ -234,9 +247,7 @@ function adjudicarNominacion( origen, idn ){
         	console.log( response );
 			res = jQuery.parseJSON( response );
 			if( res.exito == 1 ){
-				$(".accion-adj").html("| <i class='fa fa-gift'></i> Adjudicada");
-				if( origen = "full")
-					$(".panel-heading-icon").html("<i class='fa fa-bookmark'></i>");
+				actualizarVisualAdjudicacion( origen );
 				notificar( "Nominación", res.mje, "success" );
 			}
 			else

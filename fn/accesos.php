@@ -71,17 +71,17 @@
 	);
 
 	$esq_secciones["ver_nominaciones_hechas"] = array(
-		array('id'=>'mp_nom_pers', 'desc'=>'Menu ppal Ver nominaciones hechas'),
+		array('id'=>'mp_nom_pers', 'desc'=>'Menu ppal Ver nominaciones hechas/recibidas'),
 		array('id'=>'pg_nominaciones', 'desc'=>'Página consulta nominaciones'),
 		array('id'=>'en_ver_nom', 'desc'=>'Enlace para ver nominación'),
+		array('id'=>'pan_nom_apoyo', 'desc'=>'Opciones para sustentar y adjudicar nominaciones'),
 		array('id'=>'pg_nominacion', 'desc'=>'Página ficha nominación')
 	);
 
 	$esq_secciones["ver_nominaciones_recibidas"] = array(
-		array('id'=>'mp_nom_pers', 'desc'=>'Menu ppal Ver nominaciones recibidas'),
+		array('id'=>'mp_nom_pers', 'desc'=>'Menu ppal Ver nominaciones hechas/recibidas'),
 		array('id'=>'pg_nominaciones', 'desc'=>'Página consulta nominaciones'),
-		array('id'=>'pg_nominacion', 'desc'=>'Página ficha nominación'),
-		array('id'=>'pan_nom_aprob', 'desc'=>'Información de nominación hecha/recibida y aprobada')
+		array('id'=>'pg_nominacion', 'desc'=>'Página ficha nominación')
 	);
 
 	$esq_secciones["canjear_producto"] = array(

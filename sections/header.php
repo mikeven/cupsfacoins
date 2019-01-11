@@ -9,13 +9,10 @@
 	    text-align: center;
 	    color: #fff;
 	    background-color: rgba(0, 0, 0, 0.1);
-	    /*-webkit-border-radius: 55px;
-	    border-radius: 55px;
-	    border: 1px solid #ccc;*/
 	}
 </style>
 <?php
-	$coins_usuario = obtenerCoinsUsuario( $dbh ,$_SESSION["user"]["idUSUARIO"] );
+	$coins_usuario = obtenerCoinsUsuario( $dbh, $_SESSION["user"]["idUSUARIO"] );
 ?>
 <!-- start: header -->
 <header class="header">

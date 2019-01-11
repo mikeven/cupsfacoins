@@ -83,6 +83,15 @@
 		return $idresult;
 	}
 	/* --------------------------------------------------------- */
+	function checkSession(){
+		// Redirecciona a la página de inicio de sesión en caso de no existir sesión de usuario
+		if( isset( $_SESSION["user"] ) ){
+			
+		}else{
+			echo "<script> window.location = 'index.php'</script>";		
+		}
+	}
+	/* --------------------------------------------------------- */
 	//Inicio de sesión (asinc)
 	if( isset( $_POST["login"] ) ){ 
 		// Invocación desde: js/fn-acceso.js
@@ -99,4 +108,6 @@
 		unset( $_SESSION["user"] );
 		echo "<script> window.location = 'index.php'</script>";		
 	}
+	/* --------------------------------------------------------- */
+	checkSession();
 ?>

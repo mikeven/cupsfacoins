@@ -16,6 +16,7 @@
 
     $idu = $_SESSION["user"]["idUSUARIO"];
     isAccesible( $pagina );
+    //$param_busq = obtenerParametro
 ?>
 <!doctype html>
 <html class="fixed">
@@ -64,18 +65,9 @@
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
 	<?php 
-		if( isset( $_GET["param"] ) ){
-			$nominaciones = obtenerNominacionesAccion( $dbh, $idu, $_GET["param"] );
-		}
-		else{
-			$nominaciones = obtenerNominacionesAccion( $dbh, $idu, "hechas" );
-		}
-
-		/*if( isV( 'en_votar' ) )
-			$nominaciones = obtenerNominacionesAccion( $dbh, $idu, "votar" );*/
-
-		if( isV( 'ver_tnominac' ) )
-			$nominaciones = obtenerNominaciones( $dbh );
+		$data_nominaciones = obtenerListadoNominaciones( $dbh, $idu );
+		$nominaciones = $data_nominaciones["nominaciones"];
+		$titulo = $data_nominaciones["titulo"];
 	?>
 	<body>
 		<section class="body">
@@ -91,11 +83,11 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-bookmark"></i> Nominaciones</h2>
+						<h2><i class="fa fa-bookmark"></i> Nominaciones <?php echo $titulo; ?></h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
-									<a href="index.php">
+									<a href="inicio.php">
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
@@ -173,6 +165,9 @@
 									<th>Atributo</th>
 									<th>Valor</th>
 									<th>Estado</th>
+									<?php if( isV( "en_votar" ) ){ ?>
+										<th>Acción</th>
+									<?php } ?>
 								</tr>
 							</thead>
 							<tbody>
@@ -180,7 +175,7 @@
 								<tr class="gradeX">
 									<td><?php echo $nom["fregistro"]; ?></td>
 									<td>
-										<a href="nominacion.php?id=<?php echo $nom['id'];?>">
+										<a href="nominacion.php?id=<?php echo $nom['idNOMINACION'];?>">
 								<?php echo $nom["nombre2"]." ".$nom["apellido2"]; ?>
 										</a>
 									</td>
@@ -198,6 +193,15 @@
 										echo estadoNominacion( $nom["estado"] ); 
 										?>
 									</td>
+									<?php if( isV( "en_votar" ) ){ ?>
+									<td>
+										<?php if( esVotable( $dbh, $idu, $nom ) ) { ?>
+											<a href="nominacion.php?id=<?php echo $nom['idNOMINACION'];?>">
+												<i class="fa fa-hand-o-down"></i> Votar 
+											</a>
+										<?php } ?>
+									</td>
+									<?php } ?>
 								</tr>
 								<?php } ?>
 								

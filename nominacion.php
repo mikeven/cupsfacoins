@@ -5,7 +5,7 @@
      */
     session_start();
     $pagina = "pg_nominacion";
-    ini_set( 'display_errors', 1 );
+    
     include( "database/bd.php" );
     include( "database/data-usuarios.php" );
     include( "database/data-nominaciones.php" );
@@ -14,9 +14,14 @@
     include( "fn/fn-nominaciones.php" );
 
     isAccesible( $pagina );
+    $idn = NULL;
+    $nominacion = NULL;
     $idu = $_SESSION["user"]["idUSUARIO"];
     if( isset( $_GET["id"] ) )
     	$idn = $_GET["id"];
+
+    if( $idn != NULL )
+		$nominacion = obtenerNominacionPorId( $dbh, $idn );
 ?>
 <!doctype html>
 <html class="fixed">
@@ -71,11 +76,13 @@
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
-	<?php 
-		$votacion = contarVotos( $dbh, $idn );
-		$nominacion = obtenerNominacionPorId( $dbh, $idn );
-		if( isV( 'en_votar' ) ) { //Evaluador
-			$votada = esVotada( $dbh, $idu, $idn );
+	<?php
+		if( $nominacion != NULL ) {
+			$votacion = contarVotos( $dbh, $idn );
+			
+			if( isV( 'en_votar' ) ) { //Evaluador
+				$votada = esVotada( $dbh, $idu, $idn );
+			}
 		}
 	?>
 	<body>
@@ -108,13 +115,13 @@
 						</div>
 					</header>
 					<!-- start: page -->
-					
+					<?php 
+						if( nominacionVisible( $idu, $nominacion ) ) {
+							$cl = claseEstadoNominacion( $nominacion["estado"] ); 
+					?>
+
 					<div class="col-sm-6 col-xs-6">
 						<section class="panel">
-							<?php 
-								if( nominacionVisible( $idu, $nominacion ) ) {
-								$cl = claseEstadoNominacion( $nominacion["estado"] ); 
-							?>
 							<header class="panel-heading <?php echo $cl;?> enc_nom">
 								<div class="panel-heading-icon">
 									<?php if ( $nominacion["estado"] == "aprobada" && $nominacion["idNOMINADOR"] == $idu ) { 
@@ -222,7 +229,7 @@
 											&& $nominacion["estado"] != "rechazada" )
 											include( "sections/panel_aprobacion.php" );
 									}
-									if( isV( 'pan_nom_aprob' ) ) { 	//Colaborador 
+									if( isV( 'pan_nom_apoyo' ) ) { 	//Colaborador 
 										include( "sections/panel_soporte_nominacion.php" );
 									}
 								?>
@@ -239,7 +246,7 @@
 							</footer>
 							<?php } ?>
 							<!-- --------------------------------------- PIE FORMULARIOS -->
-							<?php if( isV( 'pan_nom_aprob' ) ) { 	//Colaborador  	
+							<?php if( isV( 'pan_nom_apoyo' ) ) { 	//Colaborador  	
 									if ( $nominacion["estado"] == "sustento" 
 									  && $nominacion["idNOMINADOR"] == $idu ) { 
 								// Perfil colaborador, nominación pendiente por segundo sustento, 
@@ -256,9 +263,7 @@
 							<?php } } ?>
 							<!-- ---------------------------------------- PIE FORMULARIOS -->
 
-						<?php } else { ?>
-							<h4>No hay información disponible</h4>
-						<?php } ?>
+						
 						</section>
 					</div>
 					<?php if( isV( "result_nom" ) || ( isV( "en_votar" ) && ( $votada ) ) ) { ?>
@@ -305,6 +310,11 @@
 						</div>
 					<?php } ?>	
 					<!-- end: page -->
+
+					<?php } else { ?>
+						<h4>No hay información disponible</h4>
+					<?php } ?>
+
 				</section>
 			</div>
 
