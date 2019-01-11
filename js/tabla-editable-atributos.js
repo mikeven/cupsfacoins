@@ -12,8 +12,14 @@
 			dialog: {
 				wrapper: '#dialog',
 				cancelButton: '#dialogCancel',
-				confirmButton: '#dialogConfirm',
-			}
+				confirmButton: '#dialogConfirm'
+			},
+			columns : [
+	            { "data": "office" },
+	            { "data": "start_date" },
+	            { "data": "start_date" },
+	            { "data": "" }
+	        ]
 		},
 
 		initialize: function() {
@@ -26,6 +32,7 @@
 		setVars: function() {
 			this.$table				= $( this.options.table );
 			this.$addButton			= $( this.options.addButton );
+			this.data				= $( this.options.columns );
 
 			// dialog
 			this.dialog				= {};
@@ -57,7 +64,7 @@
 			this.$table
 				.on('click', 'a.save-row', function( e ) {
 					e.preventDefault();
-
+					console.log(e);
 					_self.rowSave( $(this).closest( 'tr' ) );
 				})
 				.on('click', 'a.cancel-row', function( e ) {
@@ -67,7 +74,7 @@
 				})
 				.on('click', 'a.edit-row', function( e ) {
 					e.preventDefault();
-
+					
 					_self.rowEdit( $(this).closest( 'tr' ) );
 				})
 				.on( 'click', 'a.remove-row', function( e ) {

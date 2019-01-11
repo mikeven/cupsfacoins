@@ -64,6 +64,7 @@
 			    width: 60px;
 			    height: 60px;
 			    line-height: 60px;
+			    background: #FFF; 
 			}
 		</style>
 
@@ -110,8 +111,11 @@
 					
 					<div class="col-sm-6 col-xs-6">
 						<section class="panel">
-							<?php if( nominacionVisible( $idu, $nominacion ) ) { ?>
-							<header class="panel-heading bg-primary enc_nom">
+							<?php 
+								if( nominacionVisible( $idu, $nominacion ) ) {
+								$cl = claseEstadoNominacion( $nominacion["estado"] ); 
+							?>
+							<header class="panel-heading <?php echo $cl;?> enc_nom">
 								<div class="panel-heading-icon">
 									<?php if ( $nominacion["estado"] == "aprobada" && $nominacion["idNOMINADOR"] == $idu ) { 
 										// Nominación aprobada y el usuario en sesión es el nominador de la nominación actual
@@ -121,7 +125,7 @@
 										<i class="fa fa-gift"></i>
 									</a>
 									<?php } else { ?>
-										<i class="fa fa-bookmark"></i>
+										<img src="<?php echo $nominacion["imagen"];?>" width="50">
 									<?php } ?>
 								</div>
 							</header>

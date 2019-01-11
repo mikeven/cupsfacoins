@@ -12,7 +12,8 @@
 	);
 
 	$esq_secciones["agregar_atributo"] = array(
-		array('id'=>'mp_ver_atrib', 'desc'=>'Menu ppal Atributos')
+		array('id'=>'mp_ver_atrib', 'desc'=>'Menu ppal Atributos'),
+		array('id'=>'pg_nvo_atributo', 'desc'=>'Página nuevo atributo'),
 	);
 
 	$esq_secciones["consultrar_atributo"] = array(
@@ -28,7 +29,17 @@
 	$esq_secciones["consultar_producto"] = array(
 		array('id'=>'mp_titm_pro', 'desc'=>'Menu ppal Productos'),
 		array('id'=>'mp_ver_pro', 'desc'=>'Menu ppal Ver productos'),
-		array('id'=>'pg_productos', 'desc'=>'Página consulta de productos')
+		array('id'=>'pg_productos', 'desc'=>'Página consulta de productos'),
+		array('id'=>'pg_producto', 'desc'=>'Página ficha producto')
+	);
+
+	$esq_secciones["modificar_producto"] = array(
+		array('id'=>'en_edit_prod', 'desc'=>'Enlace para editar producto'),
+		array('id'=>'pg_edit_producto', 'desc'=>'Página de edición de producto')
+	);
+
+	$esq_secciones["eliminar_producto"] = array(
+		array('id'=>'en_elim_prod', 'desc'=>'Enlace para eliminar producto')
 	);
 
 	$esq_secciones["consultar_todos_canjes"] = array(
@@ -71,6 +82,10 @@
 		array('id'=>'pg_nominaciones', 'desc'=>'Página consulta nominaciones'),
 		array('id'=>'pg_nominacion', 'desc'=>'Página ficha nominación'),
 		array('id'=>'pan_nom_aprob', 'desc'=>'Información de nominación hecha/recibida y aprobada')
+	);
+
+	$esq_secciones["canjear_producto"] = array(
+		array('id'=>'en_canj_prod', 'desc'=>'Enlace para canjear producto')
 	);
 
 	$esq_secciones["consultar_canjes_propios"] = array(

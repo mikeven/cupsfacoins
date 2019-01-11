@@ -10,8 +10,8 @@
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
 		u1.nombre as nombre1, u1.apellido as apellido1, u2.nombre as nombre2, 
 		u2.apellido as apellido2, n.valor_atributo as valor, a.nombre as atributo, 
-		n.estado, n.motivo1, n.sustento1, n.motivo2, n.sustento2, n.comentario, 
-		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro, 
+		a.imagen, n.estado, n.motivo1, n.sustento1, n.motivo2, n.sustento2, 
+		n.comentario, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro, 
 		date_format(n.fecha_cierre,'%d/%m/%Y') as fcierre,
 		date_format(n.fecha_adjudicacion,'%d/%m/%Y') as fadjudicada 
 		from nominacion n, usuario u1, usuario u2, atributo a 
@@ -27,7 +27,7 @@
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
 		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo, 
-		a.valor, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
+		a.valor, a.imagen, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO order by fregistro desc";
 
@@ -40,7 +40,7 @@
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
 		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
-		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro, a.valor    
+		a.imagen, a.valor, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO and $p = $idu order by fregistro desc";
 
@@ -53,7 +53,7 @@
 
 		$q = "select n.idNOMINACION as id, n.idNOMINADOR, n.idNOMINADO, 
 		u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
-		a.valor, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
+		a.valor, a.imagen, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO and n.idNOMINACION not in 
 		(select idNOMINACION from voto where idUSUARIO = $idu ) 
@@ -177,6 +177,7 @@
 
 		$data = mysqli_query( $dbh, $q );
 		$cant = mysqli_fetch_array( $data );
+		
 		return $cant["votos"];
 	}
 	/* --------------------------------------------------------- */

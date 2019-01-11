@@ -1,4 +1,8 @@
-
+// Inicialización de tablas datatables
+/*
+ * init-tables-default.js
+ *
+ */
 
 (function( $ ) {
 

@@ -46,6 +46,19 @@
 		return $iconos[$estado];
 	}
 	/* --------------------------------------------------------- */
+	function claseEstadoNominacion( $estado ){
+		// Devuelve el ícono de estado de nominación según valor
+		$iconos = array(
+			"pendiente" 	=> "bg-primary",
+			"sustento"		=> "bg-warning",
+			"aprobada"		=> "bg-success",
+			"rechazada"		=> "bg-secondary",
+			"adjudicada"	=> "bg-quartenary"
+		);
+
+		return $iconos[$estado];
+	}
+	/* --------------------------------------------------------- */
 	function nominacionVisible( $idu, $nominacion ){
 		// Devuelve verdadero si el contenido de una nominación es visible según perfil y estado
 		$visible = false;

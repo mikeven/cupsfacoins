@@ -15,7 +15,7 @@
 	}
 </style>
 <?php
-	$coins = obtenerCoinsUsuario( $dbh ,$_SESSION["user"]["idUSUARIO"] );
+	$coins_usuario = obtenerCoinsUsuario( $dbh ,$_SESSION["user"]["idUSUARIO"] );
 ?>
 <!-- start: header -->
 <header class="header">
@@ -217,7 +217,7 @@
 				</div>
 				<figure class="profile-picture">
 					<div class="panel-heading-icon_p">
-						<div style="margin-top: 10px;"><?php echo $coins ?></div>
+						<div style="margin-top: 10px;"><?php echo $coins_usuario ?></div>
 						<div style="font-size: 10px; margin-bottom: 5px;">coins</div>
 					</div>
 				</figure>

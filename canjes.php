@@ -1,14 +1,17 @@
 <?php
     /*
-     * Cupfsa Coins - Listado todos los canjes 
+     * Cupfsa Coins - Listado de todos los canjes
      * 
      */
     session_start();
     ini_set( 'display_errors', 1 );
     $pagina = "pg_canjes";
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-productos.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
+
     isAccesible( $pagina );
 ?>
 <!doctype html>
@@ -50,8 +53,10 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
+	<?php
+	    $canjes = obtenerCanjesRegistrados( $dbh, "" );
+	?>
 	<body>
 		<section class="body">
 
@@ -78,7 +83,7 @@
 								<li><span>Registro de canjes</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
 
@@ -100,22 +105,18 @@
 										</tr>
 									</thead>
 									<tbody>
+										<?php foreach ( $canjes as $c ) { ?>
 										<tr class="gradeX">
-											<td>01/12/2018</td>
-											<td>Mónica Hidalgo</td>
-											<td>500 </td>
-											<td class="actions">
-												
+											<td><?php echo $c["fregistro"]; ?></td>
+											<td>
+												<?php 
+													echo $c["nombre"]." ".$c["apellido"];
+												?>
 											</td>
+											<td><?php echo $c["valor"]; ?></td>
+											<td><?php echo $c["producto"]; ?></td>
 										</tr>
-										<tr class="gradeX">
-											<td>12/12/2018</td>
-											<td>Roberto Álvarez</td>
-											<td>750</td>
-											<td class="actions">
-												
-											</td>
-										</tr>
+										<?php } ?>
 									</tbody>
 								</table>
 							</div>

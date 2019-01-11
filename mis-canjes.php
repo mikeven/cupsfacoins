@@ -6,10 +6,14 @@
     session_start();
     ini_set( 'display_errors', 1 );
     $pagina = "pg_mis_canjes";
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
+    include( "database/data-usuarios.php" );
+    include( "database/data-productos.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
+
     isAccesible( $pagina );
+    $idu = $_SESSION["user"]["idUSUARIO"];
 ?>
 <!doctype html>
 <html class="fixed">
@@ -50,8 +54,10 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
+	<?php
+	    $canjes = obtenerCanjesRegistrados( $dbh, $idu );
+	?>
 	<body>
 		<section class="body">
 
@@ -61,12 +67,12 @@
 
 			<div class="inner-wrapper">
 				<!-- start: sidebar -->
-				<?php include( "sections/left-sidebar-a.php" );?>
+				<?php include( "sections/left-sidebar.php" );?>
 				<!-- end: sidebar -->
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-exchange"></i> Canjes</h2>
+						<h2><i class="fa fa-exchange"></i> Mis Canjes</h2>
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -78,7 +84,7 @@
 								<li><span>Registro de canjes</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
 
@@ -100,22 +106,18 @@
 										</tr>
 									</thead>
 									<tbody>
+										<?php foreach ( $canjes as $c ) { ?>
 										<tr class="gradeX">
-											<td>01/12/2018</td>
-											<td>Mónica Hidalgo</td>
-											<td>500 </td>
-											<td class="actions">
-												
+											<td><?php echo $c["fregistro"]; ?></td>
+											<td>
+												<?php 
+													echo $c["nombre"]." ".$c["apellido"];
+												?>
 											</td>
+											<td><?php echo $c["valor"]; ?></td>
+											<td><?php echo $c["producto"]; ?></td>
 										</tr>
-										<tr class="gradeX">
-											<td>12/12/2018</td>
-											<td>Roberto Álvarez</td>
-											<td>750</td>
-											<td class="actions">
-												
-											</td>
-										</tr>
+										<?php } ?>
 									</tbody>
 								</table>
 							</div>
@@ -124,73 +126,6 @@
 				</section>
 			</div>
 
-			<aside id="sidebar-right" class="sidebar-right">
-				<div class="nano">
-					<div class="nano-content">
-						<a href="#" class="mobile-close visible-xs">
-							Collapse <i class="fa fa-chevron-right"></i>
-						</a>
-			
-						<div class="sidebar-right-wrapper">
-			
-							<div class="sidebar-widget widget-calendar">
-								<h6>Upcoming Tasks</h6>
-								<div data-plugin-datepicker data-plugin-skin="dark" ></div>
-			
-								<ul>
-									<li>
-										<time datetime="2014-04-19T00:00+00:00">04/19/2014</time>
-										<span>Company Meeting</span>
-									</li>
-								</ul>
-							</div>
-			
-							<div class="sidebar-widget widget-friends">
-								<h6>Friends</h6>
-								<ul>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-								</ul>
-							</div>
-			
-						</div>
-					</div>
-				</div>
-			</aside>
 		</section>
 
 		<div id="dialog" class="modal-block mfp-hide">

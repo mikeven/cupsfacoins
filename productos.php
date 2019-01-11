@@ -17,7 +17,6 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -102,41 +101,31 @@
 										</div>
 									</div>
 								</div>
-								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
+								<table class="table table-bordered table-striped mb-none" id="datatable-default">
 									<thead>
 										<tr>
 											<th><i class="fa fa-file-image-o"></i></th>
 											<th>Nombre</th>
 											<th>Descripción</th>
 											<th>Valor</th>
-											<th>Acciones</th>
+											
 										</tr>
 									</thead>
 									<tbody>
+										<?php foreach ( $productos as $p ) { ?>
 										<tr class="gradeX">
-											<td></td>
-											<td><a href="producto.php">Producto 1</a></td>
-											<td>Descripción producto 1</td>
-											<td>1360</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+											<td align="center"> 
+												<img src="<?php echo $p["imagen"]; ?>" width="60">
 											</td>
-										</tr>
-										<tr class="gradeX">
-											<td></td>
-											<td><a href="producto.php">Producto 2</a></td>
-											<td>Descripción producto 2</td>
-											<td>1360</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+											<td>
+												<a href="producto.php?id=<?php echo $p["idPRODUCTO"]; ?>"><?php echo $p["nombre"]; ?>
+												</a>
 											</td>
+											<td><?php echo $p["descripcion"]; ?></td>
+											<td><?php echo $p["valor"]; ?></td>
 										</tr>
+										<?php } ?>
+										
 									</tbody>
 								</table>
 							</div>
@@ -175,13 +164,14 @@
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
 		<script src="assets/vendor/nanoscroller/nanoscroller.js"></script>
-		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+		<script src="assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
@@ -193,9 +183,8 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
 		<!-- Examples -->
-		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-productos.js"></script>
+		<script src="js/init-tables-default.js"></script>
+
 	</body>
 </html>

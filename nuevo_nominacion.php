@@ -90,7 +90,6 @@
 				<section role="main" class="content-body">
 					<header class="page-header">
 						<h2><i class="fa fa fa-bookmark" aria-hidden="true"></i>Nueva nominación</h2>
-					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
@@ -101,7 +100,6 @@
 								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
 								<li><span>Nueva nominación</span></li>
 							</ol>
-					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
@@ -328,7 +326,7 @@
 		<!-- Func. particular -->
 		<script src="js/fn-ui.js"></script>
 		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
-		<script src="js/tabla-modal-usuarios.js"></script>
+		<script src="js/init-tables-default.js"></script>
 		<script src="js/init.modals.js"></script>
 		<script src="js/fn-nominaciones.js"></script>
 

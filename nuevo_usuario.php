@@ -1,6 +1,6 @@
 <?php
     /*
-     * Cupfsa Coins - Nuevo usuarios
+     * Cupfsa Coins - Nuevo usuario
      * 
      */
     session_start();
@@ -17,7 +17,6 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -65,7 +64,6 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<?php 
 		$roles = obtenerRolesRegistrados( $dbh );

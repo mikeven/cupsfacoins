@@ -105,9 +105,12 @@
 								
 								<div class="panel-body">
 									<div class="owl-carousel" data-plugin-carousel data-plugin-options='{ "autoPlay": 4000, "items": 3, "itemsDesktop": [1199,4], "itemsDesktopSmall": [979,3], "itemsTablet": [768,2], "itemsMobile": [479,1] }'>
-										<?php foreach ( $nominaciones_h as $nom ) { ?>
+										<?php 
+											foreach ( $nominaciones_h as $nom ) {
+											$cl = claseEstadoNominacion( $nom["estado"] ); 
+										?>
 										<div class="item spaced">
-											<header class="panel-heading bg-primary">
+											<header class="panel-heading <?php echo $cl;?>">
 												<h5><?php echo $nom["atributo"]?></h5>
 											</header>
 											<div class="panel-body p-lg" style="border:1px solid #ccc">
@@ -115,31 +118,20 @@
 												<h4 class="text-semibold mt-sm">
 													<?php echo $nom["nombre2"]?>
 												</h4>
+
+											<?php 
+
+											echo iconoEstadoNominacion( $nom["estado"] );
+											echo " ".estadoNominacion( $nom["estado"] ); ?> |
+
 												<a href="nominacion.php?id=<?php echo $nom["idNOMINACION"]?>"><i class="fa fa-eye"></i> Ver
 												</a>												
-
 												<span id="enlaces_nominacion" class="accion-adj">
-												<?php if ( $nom["estado"] == "sustento" 
-													    && $nom["idNOMINADOR"] == $idu ) { 
-													// Nominación pendiente por 2do sustento
-													// usuario en sesión es el nominador
-												?>
-													| <code> <?php 
-														echo estadoNominacion( $nom["estado"] ); 
-													?> 
-													</code>
-												<?php } ?>
 
 												<?php if ( $nom["estado"] == "aprobada" 
 												    && $nom["idNOMINADOR"] == $idu ) { 
 													// Nominación aprobada y usuario en sesión es el nominador
 												?> 
-													|  
-													<?php 
-														echo iconoEstadoNominacion( $nom["estado"] );
-														echo estadoNominacion( $nom["estado"] ); 
-													?>
-
 													| <a href="#!" class="adjudicacion" href="#!" 
 													data-idn="<?php echo $nom["idNOMINACION"]; ?>" 
 													data-o="resumen">

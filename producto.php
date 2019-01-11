@@ -5,14 +5,22 @@
      */
     session_start();
     $pagina = "pg_producto";
+
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
     include( "database/data-acceso.php" );
     include( "database/data-usuarios.php" );
     include( "database/data-productos.php" );
+    include( "fn/fn-productos.php" );
     include( "fn/fn-acceso.php" );
 
     isAccesible( $pagina );
+    $idu = $_SESSION["user"]["idUSUARIO"];
+
+    if( isset( $_GET["id"] ) )
+    	$idp = $_GET["id"];
+
+    $producto = obtenerProductoPorId( $dbh, $idp );
 ?>
 <!doctype html>
 <html class="fixed">
@@ -21,7 +29,7 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nombre de producto :: Cupfsa Coins</title>
+		<title><?php echo $producto["nombre"]; ?> :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
@@ -40,23 +48,11 @@
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
-		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css" />
 
 		<link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
-		<link rel="stylesheet" href="assets/vendor/morris/morris.css" />
-		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.carousel.css" />
-		<link rel="stylesheet" href="assets/vendor/owl-carousel/owl.theme.css" />
-
-		<link rel="stylesheet" href="assets/vendor/dropzone/css/basic.css" />
-		<link rel="stylesheet" href="assets/vendor/dropzone/css/dropzone.css" />
-		<link rel="stylesheet" href="assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
-
-		<link rel="stylesheet" href="assets/vendor/dropzone/css/basic.css" />
-		<link rel="stylesheet" href="assets/vendor/dropzone/css/dropzone.css" />
+		
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
+		
 		<link rel="stylesheet" href="assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
 		<link rel="stylesheet" href="assets/vendor/summernote/summernote.css" />
 		<link rel="stylesheet" href="assets/vendor/summernote/summernote-bs3.css" />
@@ -74,21 +70,6 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
-		<style>
-			.frm_imgupl .control-label{
-				text-align: right;
-			}
-
-			.dropzone {
-			    min-height: 250px;
-			}
-
-			.dz-message{
-				border: 2px dotted #CCC;
-			}
-		</style>
-
 	</head>
 	<body>
 		<section class="body">
@@ -104,7 +85,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-cube" aria-hidden="true"></i> Nombre de producto</h2>
+						<h2><i class="fa fa-cube" aria-hidden="true"></i> Producto</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -114,10 +95,10 @@
 									</a>
 								</li>
 								<li><span><a href="productos.php">Productos</a></span></li>
-								<li><span>Nombre de producto</span></li>
+								<li><span><?php echo $producto["nombre"]; ?></span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
 
@@ -132,7 +113,7 @@
 										<div class="thumbnail">
 											<div class="thumb-preview">
 												<a class="thumb-image" href="assets/images/projects/project-1.jpg">
-													<img src="assets/images/projects/project-1.jpg" class="img-responsive" alt="Project" width="447">
+													<img src="<?php echo $producto["imagen"]; ?>" class="img-responsive" alt="Project" width="447">
 												</a>
 												
 											</div>
@@ -142,10 +123,12 @@
 									</div>
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group">
-											<h4>Nombre de producto</h4>
+											<h4><?php echo $producto["nombre"]; ?></h4>
 										</div>
 										<div class="form-group">
-											<label class="control-label">Descripción de producto</label>
+											<label class="control-label">
+												<?php echo $producto["descripcion"]; ?>
+											</label>
 										</div>
 										<section class="panel panel-featured-left panel-featured-primary">
 											<div class="panel-body">
@@ -157,18 +140,39 @@
 													</div>
 													<div class="widget-summary-col">
 														<div class="summary">
-															<h4 class="title">Valor de canje</h4>
+															<span class="title">
+															Valor de canje</span>
 															<div class="info">
-																<strong class="amount">1360 pts</strong>
+																<strong class="amount"><?php 
+																echo $producto["valor"]; ?> coins</strong>
 															</div>
 														</div>
+														<?php 
+														if( isV( 'en_canj_prod' ) 
+															&& solvente( $coins_usuario, $producto["valor"] ) 
+														) { ?>
+														<form id="frm_ncanje">
 														<div class="summary-footer">
-															<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-exchange"></i> Canjear</button>
-														</div>
+															<button id="btn_canje" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fa fa-exchange"></i> Canjear</button>
+															<input type="hidden" name="idusuario" 
+															value="<?php echo $idu;?>">
+															<input type="hidden" name="idproducto" value="<?php echo $producto["idPRODUCTO"]; ?>">
+															<input name="valor" type="hidden" value="<?php 
+																echo $producto["valor"]; ?>">
+														</div></form>
+														<?php } ?>
 													</div>
 												</div>
 											</div>
 										</section>
+										<div id="panel_admin_producto">
+											<?php if( isV( 'en_edit_prod' ) ) { ?>
+											<button id="btn_modificar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev"><i class="fa fa-pencil"></i> Modificar</button>
+											<?php if( isV( 'en_elim_prod' ) ) { ?>
+											<?php } ?>
+											<button id="btn_eliminar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev"> <i class="fa fa-trash"></i> Eliminar</button>
+											<?php } ?>
+										</div>
 									</div>
 								</div>
 								<footer class="panel-footer hidden">
@@ -186,73 +190,6 @@
 				</section>
 			</div>
 
-			<aside id="sidebar-right" class="sidebar-right">
-				<div class="nano">
-					<div class="nano-content">
-						<a href="#" class="mobile-close visible-xs">
-							Collapse <i class="fa fa-chevron-right"></i>
-						</a>
-			
-						<div class="sidebar-right-wrapper">
-			
-							<div class="sidebar-widget widget-calendar">
-								<h6>Upcoming Tasks</h6>
-								<div data-plugin-datepicker data-plugin-skin="dark" ></div>
-			
-								<ul>
-									<li>
-										<time datetime="2014-04-19T00:00+00:00">04/19/2014</time>
-										<span>Company Meeting</span>
-									</li>
-								</ul>
-							</div>
-			
-							<div class="sidebar-widget widget-friends">
-								<h6>Friends</h6>
-								<ul>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-								</ul>
-							</div>
-			
-						</div>
-					</div>
-				</div>
-			</aside>
 		</section>
 
 		<!-- Vendor -->
@@ -260,21 +197,13 @@
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
 		<script src="assets/vendor/nanoscroller/nanoscroller.js"></script>
-		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
-		<script src="assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
-		<script src="assets/vendor/select2/select2.js"></script>
-		<script src="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-		<script src="assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
-		<script src="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
-		<script src="assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
-		<script src="assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		<script src="assets/vendor/fuelux/js/spinner.js"></script>
-		<script src="assets/vendor/dropzone/dropzone.js"></script>
+	
 		<script src="assets/vendor/bootstrap-markdown/js/markdown.js"></script>
 		<script src="assets/vendor/bootstrap-markdown/js/to-markdown.js"></script>
 		<script src="assets/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
@@ -289,6 +218,7 @@
 		<script src="assets/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
 		<script src="assets/vendor/ios7-switch/ios7-switch.js"></script>
 		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -299,27 +229,9 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
-		<!-- Examples -->
-		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
-		<script src="assets/javascripts/ui-elements/examples.widgets.js"></script>
+		<!-- Custom scripts -->
+		<script src="js/fn-ui.js"></script>		
 		<script src="js/fn-productos.js"></script>
-		<script type="text/javascript">
-			$( document ).ready(function() {
-				Dropzone.options.myAwesomeDropzone = {
-				  maxFiles: 1,
-				  accept: function(file, done) {
-				    console.log("uploaded");
-				    done();
-				  },
-				  init: function() {
-				    this.on("maxfilesexceeded", function(file){
-				        alert("No more files please!");
-				    });
-				  }
-				};
-			});
-		</script>
 
 	</body>
 </html>

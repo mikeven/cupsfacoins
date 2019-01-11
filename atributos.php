@@ -6,15 +6,17 @@
     session_start();
     $pagina = "pg_atributos";
     ini_set( 'display_errors', 1 );
-    //include( "database/data-usuario.php" );
+    include( "database/bd.php" );
     include( "database/data-acceso.php" );
+    include( "database/data-atributos.php" );
+    include( "database/data-usuarios.php" );
     include( "fn/fn-acceso.php" );
+
     isAccesible( $pagina );
 ?>
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -38,6 +40,7 @@
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -50,8 +53,10 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
+	<?php 
+		$atributos = obtenerAtributosRegistrados( $dbh );
+	?>
 	<body>
 		<section class="body">
 
@@ -78,11 +83,80 @@
 								<li><span>Atributos</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
 
 					<!-- start: page -->
+					<div class="col-sm-5">
+						<section class="panel">
+							<form id="frm_natributo" class="form-horizontal">
+								<header class="panel-heading">
+									<h2 class="panel-title">Nuevo atributo</h2>
+								</header>
+								<div class="panel-body">
+									<div class="panel-body">
+										<div class="form-group">
+											<input type="hidden" name="idusesion" value="<?php echo $accesos_usess["idUSUARIO"]?>">
+											<label class="col-sm-4 control-label">Nombre <span class="required">*</span></label>
+											<div class="col-sm-8">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="fa fa-tag"></i>
+													</span>
+													<input type="text" name="nombre" class="form-control" placeholder="Ej.: Responsabilidad" required/>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Valor <span class="required">*</span></label>
+											<div class="col-sm-8">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="fa fa-circle"></i>
+													</span>
+													<input type="text" name="valor" class="form-control" placeholder="Ej.: 30" required/>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Prioridad <span class="required">*</span></label>
+											<div class="col-sm-8">
+												<div class="input-group">
+													<span class="input-group-addon">
+														<i class="fa fa-list-ol"></i>
+													</span>
+													<input type="text" 
+													name="prioridad" 
+													class="form-control" 
+													placeholder="Ej.: 7" required/>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-4 control-label">Definición </label>
+											<div class="col-sm-8">
+												<textarea class="form-control" rows="3" id="textareaAutosize" name="definicion" data-plugin-textarea-autosize="" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 74px; width: 100%;"></textarea>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<footer class="panel-footer">
+									<div class="row">
+										<div class="col-sm-12" align="right">
+											<button class="btn btn-primary">Guardar</button>
+											<button id="btn_res_fnu" type="reset" class="btn btn-default hidden">Reset</button>
+										</div>
+									</div>
+								</footer>
+							</form>
+						</section>
+					</div>
+					<div class="col-sm-7">
 						<section class="panel">
 							<header class="panel-heading">
 								<h2 class="panel-title">
@@ -90,27 +164,25 @@
 								</h2>
 							</header>
 							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="mb-md">
-											<button id="addToTable" class="btn btn-primary">Nuevo <i class="fa fa-plus"></i></button>
-										</div>
-									</div>
-								</div>
-								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
+								<table class="table table-bordered table-striped mb-none" id="datatable-default">
 									<thead>
 										<tr>
+											<th></th>
 											<th>Nombre</th>
 											<th>Valor</th>
-											<th>Prioridad</th>
+											<th>Prior.</th>
 											<th>Acciones</th>
 										</tr>
 									</thead>
 									<tbody>
+										<?php foreach ( $atributos as $a ) { ?>
 										<tr class="gradeX">
-											<td>TRANSFORMACIONALES</td>
-											<td>30 </td>
-											<td>1 </td>
+											<td>
+												<img src="<?php echo $a["imagen"]; ?>" width="30">
+											</td>
+											<td><a href="#!" data-toggle="popover" data-container="body" data-placement="top" title="Definición" data-content="<?php echo $a["definicion"]; ?>"><?php echo $a["nombre"]; ?></a></td>
+											<td><?php echo $a["valor"]; ?></td>
+											<td><?php echo $a["prioridad"]; ?></td>
 											<td class="actions">
 												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
 												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
@@ -118,136 +190,16 @@
 												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
 											</td>
 										</tr>
-										<tr class="gradeX">
-											<td>ORIENTADOS A RESULTADOS</td>
-											<td>25</td>
-											<td>2</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ÁGILES</td>
-											<td>20</td>
-											<td>3</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>ORIENTADOS A RELACIONES</td>
-											<td>15</td>
-											<td>4</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>CULTOS</td>
-											<td>10</td>
-											<td>5</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
-										<tr class="gradeX">
-											<td>HUMILDES</td>
-											<td>5</td>
-											<td>6</td>
-											<td class="actions">
-												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
-												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
-											</td>
-										</tr>
+										<?php } ?>
 									</tbody>
 								</table>
 							</div>
 						</section>
+					</div>
 					<!-- end: page -->
 				</section>
 			</div>
 
-			<aside id="sidebar-right" class="sidebar-right">
-				<div class="nano">
-					<div class="nano-content">
-						<a href="#" class="mobile-close visible-xs">
-							Collapse <i class="fa fa-chevron-right"></i>
-						</a>
-			
-						<div class="sidebar-right-wrapper">
-			
-							<div class="sidebar-widget widget-calendar">
-								<h6>Upcoming Tasks</h6>
-								<div data-plugin-datepicker data-plugin-skin="dark" ></div>
-			
-								<ul>
-									<li>
-										<time datetime="2014-04-19T00:00+00:00">04/19/2014</time>
-										<span>Company Meeting</span>
-									</li>
-								</ul>
-							</div>
-			
-							<div class="sidebar-widget widget-friends">
-								<h6>Friends</h6>
-								<ul>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-online">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-									<li class="status-offline">
-										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
-										</figure>
-										<div class="profile-info">
-											<span class="name">Joseph Doe Junior</span>
-											<span class="title">Hey, how are you?</span>
-										</div>
-									</li>
-								</ul>
-							</div>
-			
-						</div>
-					</div>
-				</div>
-			</aside>
 		</section>
 
 		<div id="dialog" class="modal-block mfp-hide">
@@ -281,11 +233,13 @@
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -296,9 +250,8 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
-		<!-- Examples -->
-		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-editable-atributos.js"></script>
+		<!-- Custom scripts -->
+		<script src="js/init-tables-default.js"></script>
+		<script src="js/fn-atributos.js"></script>
 	</body>
 </html>

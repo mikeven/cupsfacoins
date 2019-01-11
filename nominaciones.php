@@ -54,6 +54,12 @@
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
 		<link rel="stylesheet" href="assets/stylesheets/cupfsa-custom.css">
 
+		<style>
+			.panel-heading-icon{
+				background-color: #ecedf0;
+			}
+		</style>
+
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
 	</head>
@@ -108,13 +114,15 @@
 						</h5>
 						
 						<?php foreach ( $nominaciones as $nom ) { 
-							$enl = enlaceVerNominacion( $dbh, $idu, $nom );//
+							$enl = enlaceVerNominacion( $dbh, $idu, $nom );
+							$cl = claseEstadoNominacion( $nom["estado"] );
 						?>
 							<div class="col-sm-6 col-xs-6">
 								<section class="panel panel-horizontal">
-									<header class="panel-heading bg-primary" style="width: 30%;">
+									<header class="panel-heading <?php echo $cl;?>" 
+										style="width: 30%;">
 										<div class="panel-heading-icon">
-											<i class="fa fa-bookmark"></i>
+											<img src="<?php echo $nom["imagen"]?>" width="60">
 										</div>
 									</header>
 									<div class="panel-body p-lg" style="width: 70%;">
@@ -124,31 +132,18 @@
 										</h4>
 										<h5 class=""><?php echo $nom["atributo"]?></h5>
 										<p>
+											<span id="enlaces_nominacion" class="accion-adj">
+											<?php 
+											echo iconoEstadoNominacion( $nom["estado"] );
+											echo " ".estadoNominacion( $nom["estado"] ); ?> |
+
 											<a href="nominacion.php?id=<?php echo $nom["idNOMINACION"];?>">
 											<?php echo $enl; ?></a>
 											
-											<span id="enlaces_nominacion" class="accion-adj">
-											<?php if ( $nom["estado"] == "sustento" 
-												    && $nom["idNOMINADOR"] == $idu ) { 
-												// Nominación pendiente por 2do sustento
-												// usuario en sesión es el nominador
-											?>
-												| <code> <?php 
-													echo estadoNominacion( $nom["estado"] ); 
-												?> 
-												</code>
-											<?php } ?>
-
 											<?php if ( $nom["estado"] == "aprobada" 
 												    && $nom["idNOMINADOR"] == $idu ) { 
 												// Nominación aprobada y usuario en sesión es el nominador
 											?>
-												|  
-												<?php 
-													echo iconoEstadoNominacion( $nom["estado"] );
-													echo estadoNominacion( $nom["estado"] ); 
-												?>
-
 												| <a href="#!" class="adjudicacion" href="#!" 
 												data-idn="<?php echo $nom["idNOMINACION"]; ?>" 
 												data-o="resumen">
