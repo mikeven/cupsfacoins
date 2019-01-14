@@ -38,7 +38,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 		<!-- Web Fonts  -->
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+		<!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">-->
 
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
@@ -79,6 +79,7 @@
 	<?php
 		if( $nominacion != NULL ) {
 			$votacion = contarVotos( $dbh, $idn );
+			$p_sw = posicionSuiche( $nominacion["votable"] );
 			
 			if( isV( 'en_votar' ) ) { //Evaluador
 				$votada = esVotada( $dbh, $idu, $idn );
@@ -137,6 +138,13 @@
 								</div>
 							</header>
 							<div class="panel-body text-center">
+								<?php if ( esActivable( $nominacion ) ) { ?>
+								<div class="switch switch-dark" data-toggle="tooltip" data-placement="right" title="<?php echo $p_sw["t"];?>">
+									<input type="checkbox" name="switch" data-plugin-ios-switch <?php echo $p_sw["p"];?> 
+									data-idn="<?php echo $nominacion["idNOMINACION"];?>" 
+									class="chvotable"/>
+								</div>
+								<?php } ?>
 								<h3 class="text-semibold mt-sm text-center">
 									<?php echo $nominacion["atributo"]; ?>
 								</h3>
@@ -217,7 +225,7 @@
 								</div>
 								<?php } ?>
 
-								<!-- ----------------------- PANELES ACCIONES -->
+								<!-- --------------------- PANELES ACCIONES -->
 								
 								<?php
 									include( "sections/panel_fechas_nominacion.php" );
@@ -234,7 +242,7 @@
 									}
 								?>
 							</div>
-							<!-- --------------------------------------- PIE FORMULARIOS -->
+							<!-- ------------------------------------- PIE FORMULARIOS -->
 							<?php if( isV( 'en_aprob_nom' ) ) { 	//Administrador ?>	
 							<footer class="panel-footer panel_comentario" style="display: none;">
 								<div class="row">
@@ -245,7 +253,7 @@
 								</div>
 							</footer>
 							<?php } ?>
-							<!-- --------------------------------------- PIE FORMULARIOS -->
+							<!-- ------------------------------------ PIE FORMULARIOS -->
 							<?php if( isV( 'pan_nom_apoyo' ) ) { 	//Colaborador  	
 									if ( $nominacion["estado"] == "sustento" 
 									  && $nominacion["idNOMINADOR"] == $idu ) { 
@@ -261,7 +269,7 @@
 									</div>
 								</footer>
 							<?php } } ?>
-							<!-- ---------------------------------------- PIE FORMULARIOS -->
+							<!-- ------------------------------------ PIE FORMULARIOS -->
 
 						
 						</section>
@@ -329,6 +337,7 @@
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+		<script src="assets/vendor/ios7-switch/ios7-switch.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/select2/select2.js"></script>

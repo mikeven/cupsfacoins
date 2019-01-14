@@ -14,9 +14,10 @@
 	$esq_secciones["agregar_atributo"] = array(
 		array('id'=>'mp_ver_atrib', 'desc'=>'Menu ppal Atributos'),
 		array('id'=>'pg_nvo_atributo', 'desc'=>'Página nuevo atributo'),
+		array('id'=>'pg_atributos', 'desc'=>'Menu ppal Atributos')
 	);
 
-	$esq_secciones["consultrar_atributo"] = array(
+	$esq_secciones["consultar_atributo"] = array(
 		array('id'=>'pg_atributos', 'desc'=>'Menu ppal Atributos')
 	);
 
@@ -58,6 +59,11 @@
 		array('id'=>'en_ver_nom', 'desc'=>'Enlace para ver nominación'),
 		array('id'=>'en_aprob_nom', 'desc'=>'Enlace para aprobar nominación'),
 		array('id'=>'result_nom', 'desc'=>'Resultados de nominaciones')
+	);
+
+	$esq_secciones["activar_nominacion"] = array(
+		array('id'=>'pg_nominacion', 'desc'=>'Página ficha nominación'),
+		array('id'=>'en_activ_nom', 'desc'=>'Enlace para activar/desactivar nominación')
 	);
 	
 	/* --------------------------------------------------------- */

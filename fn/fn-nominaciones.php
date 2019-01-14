@@ -117,4 +117,25 @@
 		return $data;
 	}
 	/* --------------------------------------------------------- */
+	function esActivable( $nominacion ){
+		// Devuelve verdadero si una nominación puede ser activada/desactivada para votación
+		$activable = false;
+		if( isV( 'en_activ_nom' ) && ( $nominacion["estado"] == "pendiente" || 
+									   $nominacion["estado"] == "sustento" ) )
+			$activable = true;
+
+		return $activable;
+	}
+	/* --------------------------------------------------------- */
+	function posicionSuiche( $votable ){
+		// Devuelve checked si una nominación está abierta a votación
+		$checked["p"] = ""; $checked["t"] = "Activar para votación";
+		if( $votable ) {
+			$checked["p"] = "checked"; 
+			$checked["t"] = "Desactivar para votación";
+		}
+		
+		return $checked;
+	}
+	/* --------------------------------------------------------- */
 ?>

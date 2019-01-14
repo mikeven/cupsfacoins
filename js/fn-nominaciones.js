@@ -90,12 +90,13 @@ function votar(){
         	console.log( response );
 			res = jQuery.parseJSON( response );
 			if( res.exito == 1 ){
-				$("#panel_voto").fadeOut(360);
-				$("#panel_resultado").fadeIn(4000);
 				notificar( "Votación", res.mje, "success" );
+				$("#panel_resultado").fadeIn(4000);
 			}
 			else
 				notificar( "Votación", res.mje, "error" );
+			$("#panel_voto").fadeOut(360);
+			
         }
     });	
 }
@@ -104,7 +105,7 @@ function evaluar(){
 	// Invoca al servidor para registrar la evaluación de una nominación
 	// Aprobación - Rechazo - Solicitud de sustento
 	var fs = $('#frm_admineval').serialize();
-	var espera = "<img src='../assets/images/loading.gif'>";
+	var espera = "<img src='assets/images/loading.gif'>";
 
 	$.ajax({
         type:"POST",
@@ -161,9 +162,13 @@ $('#frm_nnominacion').ajaxForm({
 });
 /* --------------------------------------------------------- */ 
 $("#frm_nnominacion").on('submit', function(e) {
-	// Evita el envío del formulario para checar su validez
+	// Evita el envío del formulario para revisar su validez
+	var espera = "<img src='assets/images/loading.gif' width='35'>";
+
     if ( $("#frm_nnominacion").valid() ) {
         e.preventDefault();
+        $("#response").html( espera );
+    	$("#btn_nominar").fadeOut(120 );
     }
 });
 /* --------------------------------------------------------- */ 
@@ -208,7 +213,7 @@ $('#frm_sustento2').ajaxForm({
 /* --------------------------------------------------------- */ 
 $("#frm_sustento2").on('submit', function(e) {
 	// Evita el envío del formulario al ser validado
-	var icono = "<img src='../assets/images/loading.gif'>";
+	var icono = "<img src='assets/images/loading.gif'>";
 	$("#panel_sustento2").html( icono );
     if ( $("#frm_sustento2").valid() ) {
         e.preventDefault();
@@ -269,4 +274,40 @@ $(".adjudicacion").on('click', function (e) {
 	var origen = $(this).attr( "data-o" );
 	var idn = $(this).attr( "data-idn" );
 	adjudicarNominacion( origen, idn );
+});
+/* --------------------------------------------------------- */
+function tooltipSuiche( valor, suiche ){
+	// Actualiza el texto tooltip del suiche después de ser usado
+	console.log( $( suiche ).attr( "data-original-title" ) );
+	if( valor == false )
+		$( suiche ).attr( "data-original-title", "Activar para votación" ); 
+	else
+		$( suiche ).attr( "data-original-title", "Desactivar para votación" );
+} 
+/* --------------------------------------------------------- */
+$(".chvotable").on('change', function (e) {
+	// Inicia la invocación para blockear/desbloquear nominación
+	var valor = $(this).is( ":checked" );
+	var idnom = $(this).attr( "data-idn" );
+	var suiche = $(this).closest( ".switch" );
+	var espera = "<img src='../assets/images/loading.gif' width='30'>";
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-nominaciones.php",
+        data:{ bloquear: valor, idn: idnom },
+        beforeSend: function() {
+        	//$(".accion-adj").html( espera );
+        },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 ){
+				notificar( "Nominación", res.mje, "success" );
+				tooltipSuiche( valor, suiche );
+			}
+			else
+				notificar( "Nominación", res.mje, "error" );
+        }
+    });
 });

@@ -71,7 +71,7 @@ function agregarUsuario(){
         data:{ form_nu: fs },
         beforeSend: function() {
         	$("#response").html( espera );
-        	$("#btn_nvo_usuario").prop("disabled", "true");
+        	$("#btn_nvo_usuario").hide( 200 );
         },
         success: function( response ){
         	console.log( response );
@@ -84,7 +84,7 @@ function agregarUsuario(){
 				notificar( "Nuevo usuario", res.mje, "error" );
 
 			$("#response").html( "" );
-			$("#btn_nvo_usuario").prop("disabled", "false");
+			$("#btn_nvo_usuario").fadeIn( 200 );
         }
     });
 }

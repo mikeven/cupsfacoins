@@ -77,6 +77,7 @@
 		include( "bd.php" );	
 		
 		parse_str( $_POST["form_np"], $producto );
+		$producto = escaparCampos( $dbh, $producto );
 		$id = agregarProducto( $dbh, $producto );
 		$producto["id"] = $id;
 		
@@ -99,6 +100,7 @@
 		include( "bd.php" );
 		
 		parse_str( $_POST["form_ncje"], $canje );
+		$canje = escaparCampos( $dbh, $canje );
 		$id = agregarCanje( $dbh, $canje );
 		
 		if( ( $id != 0 ) && ( $id != "" ) ){

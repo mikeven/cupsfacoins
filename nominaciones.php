@@ -33,13 +33,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 		<!-- Web Fonts  -->
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+		<!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css"> -->
 
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
 		<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" href="assets/vendor/magnific-popup/magnific-popup.css" />
 		<link rel="stylesheet" href="assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
@@ -59,6 +60,12 @@
 			.panel-heading-icon{
 				background-color: #ecedf0;
 			}
+
+			.sw-f{ 
+				margin-left: 15%;
+			    position: absolute;
+			    bottom: 5px; 
+			}
 		</style>
 
 		<!-- Head Libs -->
@@ -71,7 +78,6 @@
 	?>
 	<body>
 		<section class="body">
-
 			<!-- start: header -->
 			<?php include( "sections/header.php" );?>
 			<!-- end: header -->
@@ -108,14 +114,24 @@
 						<?php foreach ( $nominaciones as $nom ) { 
 							$enl = enlaceVerNominacion( $dbh, $idu, $nom );
 							$cl = claseEstadoNominacion( $nom["estado"] );
+							$p_sw = posicionSuiche( $nom["votable"] );
 						?>
-							<div class="col-sm-6 col-xs-6">
+							<div class="col-sm-6 col-xs-12">
 								<section class="panel panel-horizontal">
 									<header class="panel-heading <?php echo $cl;?>" 
 										style="width: 30%;">
 										<div class="panel-heading-icon">
 											<img src="<?php echo $nom["imagen"]?>" width="60">
 										</div>
+										<?php if ( esActivable( $nom ) ) { ?>
+											<div class="switch switch-sm switch-dark sw-f 
+											sw<?php echo $nom["idNOMINACION"];?>" data-toggle="tooltip" data-placement="top" 
+											title="<?php echo $p_sw["t"];?>">
+												<input type="checkbox" name="switch" data-plugin-ios-switch 
+												<?php echo $p_sw["p"];?>
+												data-idn="<?php echo $nom["idNOMINACION"];?>" class="chvotable"/>
+											</div>
+										<?php } ?>
 									</header>
 									<div class="panel-body p-lg" style="width: 70%;">
 										<h4 class="text-semibold mt-sm">
@@ -145,6 +161,7 @@
 											<?php } ?>
 											</span>
 										</p>
+										
 									</div>
 								</section>
 							</div>
@@ -157,7 +174,7 @@
 							<i class="fa fa-th-large"></i> Ver fichas</a>
 						</h5>
 						<table class="table table-bordered table-striped mb-none" 
-						id="datatable-tnominaciones">
+						id="datatable-default">
 							<thead>
 								<tr>
 									<th>Fecha</th>
@@ -168,10 +185,15 @@
 									<?php if( isV( "en_votar" ) ){ ?>
 										<th>Acción</th>
 									<?php } ?>
+									<?php if ( esActivable( $nom ) ){ ?>
+										<th>Acción</th>
+									<?php } ?>
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ( $nominaciones as $nom ) { ?>
+								<?php foreach ( $nominaciones as $nom ) { 
+									$p_sw = posicionSuiche( $nom["votable"] );
+								?>
 								<tr class="gradeX">
 									<td><?php echo $nom["fregistro"]; ?></td>
 									<td>
@@ -202,6 +224,16 @@
 										<?php } ?>
 									</td>
 									<?php } ?>
+									<td>
+									<?php if ( esActivable( $nom ) ) { ?>
+										<div class="switch switch-sm switch-dark sw-t" data-toggle="tooltip" data-placement="left" 
+										title="<?php echo $p_sw["t"];?>">
+											<input type="checkbox" name="switch" data-plugin-ios-switch 
+											<?php echo $p_sw["p"];?>
+											data-idn="<?php echo $nom["idNOMINACION"];?>" class="chvotable"/>
+										</div>
+									</td>
+									<?php } ?>
 								</tr>
 								<?php } ?>
 								
@@ -211,7 +243,6 @@
 					<!-- end: page -->
 				</section>
 			</div>
-
 		</section>
 
 		<div id="dialog" class="modal-block mfp-hide">
@@ -247,11 +278,13 @@
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/select2/select2.js"></script>
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/ios7-switch/ios7-switch.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -262,10 +295,9 @@
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
 
-
 		<!-- Examples -->
-		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-nominaciones.js"></script>
+		<script src="js/fn-ui.js"></script>
+		<script src="js/init-tables-default.js"></script>
 		<script src="js/fn-nominaciones.js"></script>
 	</body>
 </html>

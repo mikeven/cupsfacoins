@@ -75,7 +75,7 @@ function agregarProducto(){
         	console.log( response );
 			res = jQuery.parseJSON( response );
 			if( res.exito == 1 ){
-				$("#response").html( "" );
+				$("#response").fadeOut();
 				var idr = res.reg.id;
     			enviarRespuesta( res, "redireccion", "producto.php?id=" + idr );
 			}

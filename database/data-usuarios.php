@@ -5,10 +5,9 @@
 	/* --------------------------------------------------------- */
 	function obtenerUsuariosRegistrados( $dbh ){
 		//Devuelve todos los registros de usuarios
-		$q = "select u.idUSUARIO, u.nombre, u.apellido, u.email, u.cargo, r.idROL, 
-		u.activo, date_format(u.fecha_creacion,'%d/%m/%Y') as fregistro, 
-		r.nombre as rol from usuario u, usuario_rol ur, rol r 
-		where u.idUSUARIO = ur.idUSUARIO and ur.idROL = r.idROL";
+		$q = "select idUSUARIO, nombre, apellido, email, cargo, 
+		activo, date_format(fecha_creacion,'%d/%m/%Y') as fregistro 
+		from usuario order by nombre asc";
 		
 		$data = mysqli_query( $dbh, $q );
 
@@ -22,6 +21,16 @@
 		$data = mysqli_query( $dbh, $q );
 
 		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
+	function rolesUsuario( $dbh, $idu ){
+		//
+		$q = "select r.idRol, r.nombre from rol r, usuario_rol ur 
+		where ur.idROL = r.idRol and ur.idUSUARIO = $idu";
+		
+		$data = mysqli_query( $dbh, $q );
+		$lista = obtenerListaRegistros( $data );
+		return $lista;
 	}
 	/* --------------------------------------------------------- */
 	function agregarUsuario( $dbh, $usuario ){
@@ -76,6 +85,7 @@
 		include( "bd.php" );	
 		
 		parse_str( $_POST["form_nu"], $usuario );
+		$usuario = escaparCampos( $dbh, $usuario );
 		$id = agregarUsuario( $dbh, $usuario );
 		$usuario["id"] = $id;
 		

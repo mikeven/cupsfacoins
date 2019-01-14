@@ -172,7 +172,8 @@
 										<footer class="panel-footer">
 											<div class="row">
 												<div class="col-sm-12" align="right">
-													<button class="btn btn-primary">Nominar</button>
+													<button id="btn_nominar" class="btn btn-primary">Nominar</button>
+													<div id="response"></div>
 												</div>
 											</div>
 										</footer>

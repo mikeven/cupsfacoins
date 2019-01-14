@@ -11,7 +11,8 @@
 		u1.nombre as nombre1, u1.apellido as apellido1, u2.nombre as nombre2, 
 		u2.apellido as apellido2, n.valor_atributo as valor, a.nombre as atributo, 
 		a.imagen, n.estado, n.motivo1, n.sustento1, n.motivo2, n.sustento2, 
-		n.comentario, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro, 
+		n.votable, n.comentario, 
+		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro, 
 		date_format(n.fecha_cierre,'%d/%m/%Y') as fcierre,
 		date_format(n.fecha_adjudicacion,'%d/%m/%Y') as fadjudicada 
 		from nominacion n, usuario u1, usuario u2, atributo a 
@@ -27,8 +28,9 @@
 		//Devuelve los registros de todas las nominaciones
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
-		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo, 
-		a.valor, a.imagen, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
+		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, 
+		a.nombre as atributo, a.valor, a.imagen, n.votable, 
+		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO order by fregistro desc";
 
@@ -40,21 +42,20 @@
 		//Devuelve los registros de nominaciones hechas o recibidas por un usuario.
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
-		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
-		a.imagen, a.valor, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
+		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, 
+		a.nombre as atributo, a.imagen, a.valor, n.votable, 
+		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO and $p = $idu $p2 order by fregistro desc";
 
 		$data = mysqli_query( $dbh, $q );
 		return obtenerListaRegistros( $data );
 	}
-
-
 	/* --------------------------------------------------------- */
 	function obtenerNominacionesPorVotar( $dbh, $idu ){
 		//Devuelve los registros de nominaciones que no ha sido votada por un usuario dado su id.
 
-		$q = "select n.idNOMINACION as id, n.idNOMINADOR, n.idNOMINADO, 
+		$q = "select n.idNOMINACION as id, n.idNOMINADOR, n.idNOMINADO, n.votable, 
 		u2.nombre as nombre2, u2.apellido as apellido2, a.nombre as atributo,  
 		a.valor, a.imagen, date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
@@ -203,6 +204,22 @@
 		return mysqli_affected_rows( $dbh );
 	}
 	/* --------------------------------------------------------- */
+	function abiertaVotacion( $dbh, $idn ){
+		// Devuelve verdadero si una nominación está abierta a votación
+		$q = "select votable from nominacion where idNOMINACION = $idn";
+		
+		$data = mysqli_fetch_array( mysqli_query( $dbh, $q ) );
+		return $data["votable"];
+	}
+	/* --------------------------------------------------------- */
+	function bloquearNominacion( $dbh, $valor, $idn ){
+		// Asigna el valor votable de una nominación
+		$q = "update nominacion set votable = $valor where idNOMINACION = $idn";
+		
+		mysqli_query( $dbh, $q );
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["nva_nominacion"] ) ){
@@ -223,7 +240,8 @@
 			if( $archivo["exito"] == 1 )
 				$nominacion["sustento"] = $archivo["ruta"];
 		}
-		
+
+		$nominacion = escaparCampos( $dbh, $nominacion );
 		$id = agregarNominacion( $dbh, $nominacion );
 		$nominacion["id"] = $id;
 		
@@ -244,14 +262,19 @@
 		include( "bd.php" );
 
 		parse_str( $_POST["votar"], $voto );
-		$id = registrarVoto( $dbh, $voto );
-		
-		if( ( $id != 0 ) && ( $id != "" ) ){
-			$res["exito"] = 1;
-			$res["mje"] = "Voto registrado con éxito";
-		} else {
+		if( abiertaVotacion( $dbh, $voto["idnominacion"] ) ){
+			$id = registrarVoto( $dbh, $voto );
+			
+			if( ( $id != 0 ) && ( $id != "" ) ){
+				$res["exito"] = 1;
+				$res["mje"] = "Voto registrado con éxito";
+			} else {
+				$res["exito"] = 0;
+				$res["mje"] = "Error al registrar voto";
+			}
+		}else{
 			$res["exito"] = 0;
-			$res["mje"] = "Error al registrar voto";
+			$res["mje"] = "Nominación cerrada para votación";
 		}
 		echo json_encode( $res );
 	}
@@ -264,6 +287,7 @@
 		if( $evaluacion["estado"] == "sustento" ) $cierre = false;
 		else $cierre = true;
 
+		$evaluacion = escaparCampos( $dbh, $evaluacion );
 		$rsp = registrarEvaluacion( $dbh, $evaluacion, $cierre );
 		
 		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
@@ -290,7 +314,8 @@
 			if( $archivo["exito"] == 1 )
 				$nominacion["sustento2"] = $archivo["ruta"];
 		}
-		
+
+		$nominacion = escaparCampos( $dbh, $nominacion );
 		$rsp = agregarSustento( $dbh, $nominacion );
 		
 		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
@@ -320,4 +345,25 @@
 
 		echo json_encode( $res );
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["bloquear"] ) ){
+		//Solicitud para bloquear/desbloquear la votación sobre una nominación
+		include( "bd.php" );
+		
+		$rsp = bloquearNominacion( $dbh, $_POST["bloquear"], $_POST["idn"] );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			if( $_POST["bloquear"] == 'false' )
+				$res["mje"] = "Nominación ha sido cerrada para votación";
+			else 	
+				$res["mje"] = "Nominación ha sido abierta para votación";		
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al actualizar nominación";
+		}
+
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
 ?>

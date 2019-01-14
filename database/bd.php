@@ -80,4 +80,15 @@
 		return $fecha;
 	}
 	/* --------------------------------------------------------- */
+	function escaparCampos( $dbh, $registro ){
+		// Devuelve un arreglo con los valores escapados de sus  
+		// campos de tipo string
+		foreach ( $registro as $campo => $valor ) {
+			$registro[$campo] = $valor;
+			if( is_string( $valor ) )
+				$registro[$campo] = mysqli_real_escape_string( $dbh, $valor );
+		}
+		return $registro;
+	}
+	/* --------------------------------------------------------- */
 ?>

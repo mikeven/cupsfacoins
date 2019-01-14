@@ -20,7 +20,7 @@
 			<div class="col-md-9">
 				<div class="fileupload fileupload-new" data-provides="fileupload" align="left">
 					<div class="input-append">
-						<div class="uneditable-input" style="width: 45%;">
+						<div class="uneditable-input" style="width: 39%;">
 							<i class="fa fa-file fileupload-exists"></i>
 							<span class="fileupload-preview"></span>
 						</div>

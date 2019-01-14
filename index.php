@@ -6,12 +6,10 @@
     ini_set( 'display_errors', 1 );
     include( "database/bd.php" );
     include( "database/data-usuarios.php" );
-
 ?>
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -23,8 +21,7 @@
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-		<!-- Web Fonts  -->
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+		
 
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
@@ -43,7 +40,6 @@
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
-
 	</head>
 	<?php 
 		$usuarios = obtenerUsuariosRegistrados( $dbh );
@@ -66,9 +62,17 @@
 								<input name="login" type="hidden" value="1"/>
 								<label>ROL</label>
 								<select name="rol" class="form-control input-lg mb-md">
-									<?php foreach ( $usuarios as $u ) { ?>
+									<?php foreach ( $usuarios as $u ) { 
+										$roles = rolesUsuario( 
+													$dbh, $u["idUSUARIO"] );
+										$ru = "";
+										foreach ( $roles as $r ) {
+											$ru .= $r["nombre"]." ";
+										}
+									?>
 									<option value="<?php echo $u["idUSUARIO"]?>">
-										<?php echo $u["nombre"]." (".$u["rol"].")" ?>
+										<?php 
+										echo $u["nombre"]." (".$ru.")" ?>
 									</option>
 									<?php } ?>
 								</select>
