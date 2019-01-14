@@ -185,7 +185,7 @@
 									<?php if( isV( "en_votar" ) ){ ?>
 										<th>Acción</th>
 									<?php } ?>
-									<?php if ( esActivable( $nom ) ){ ?>
+									<?php if ( isV( 'en_activ_nom' ) ){ ?>
 										<th>Acción</th>
 									<?php } ?>
 								</tr>
@@ -224,8 +224,8 @@
 										<?php } ?>
 									</td>
 									<?php } ?>
-									<td>
 									<?php if ( esActivable( $nom ) ) { ?>
+									<td>
 										<div class="switch switch-sm switch-dark sw-t" data-toggle="tooltip" data-placement="left" 
 										title="<?php echo $p_sw["t"];?>">
 											<input type="checkbox" name="switch" data-plugin-ios-switch 

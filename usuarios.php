@@ -112,6 +112,7 @@
 											<th>Email</th>
 											<th>Rol</th>
 											<th>Activo</th>
+											<th>Acciones</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -132,6 +133,17 @@
 												<?php } ?>
 											</td>
 											<td><?php echo $u["activo"] ?></td>
+											<td>
+												<a href="editar_usuario.php?id=<?php 
+												echo $u["idUSUARIO"] ?>" 
+												class="on-default edit-row">
+													<i class="fa fa-pencil"></i>
+												</a>
+												<a href="#" class="on-default remove-row hidden" 
+												style="margin-left: 10px;">
+													<i class="fa fa-trash-o"></i>
+												</a>
+											</td>
 										</tr>
 										<?php } ?>
 									</tbody>

@@ -29,7 +29,7 @@
 
 		$q = "select n.idNOMINACION, n.idNOMINADOR, n.idNOMINADO, n.idATRIBUTO, 
 		n.estado, u2.nombre as nombre2, u2.apellido as apellido2, 
-		a.nombre as atributo, a.valor, a.imagen, n.votable, 
+		a.nombre as atributo, a.valor, a.imagen, n.votable, n.sustento1, n.sustento2, 
 		date_format(n.fecha_nominacion,'%d/%m/%Y') as fregistro 
 		from nominacion n, usuario u2, atributo a where n.idNOMINADO = u2.idUSUARIO 
 		and n.idATRIBUTO = a.idATRIBUTO order by fregistro desc";
@@ -220,6 +220,33 @@
 		return mysqli_affected_rows( $dbh );
 	}
 	/* --------------------------------------------------------- */
+	function limpiarArchivos( $dbh ){
+		// Elimina archivos cargados al servidor que no estén asociados a regitros de productos
+		include( "../fn/fn-misc.php" );
+		
+		$directorio = "../upload";
+		$nominaciones = obtenerNominacionesRegistradas( $dbh );
+
+		$sustentos = array_merge( arr_claves( $nominaciones, "sustento1" ), 
+									arr_claves( $nominaciones, "sustento2" ) );
+
+		foreach ( $sustentos as $s ) { 
+			$registros[] = str_replace( "upload/", "", $s ); 
+		}
+		
+		$gestor_dir = opendir( $directorio );
+		while ( false !== ( $nombre_fichero = readdir( $gestor_dir ) ) ) {
+			if ( is_dir( $directorio."/".$nombre_fichero ) != 1 )
+		    	$ficheros[] = $nombre_fichero;
+		}
+		
+		foreach ( $ficheros as $arc ) {
+			$archivo = $directorio."/".$arc;
+			if( !in_array( $arc, $registros ) )
+				unlink( $archivo );
+		}
+	}
+	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["nva_nominacion"] ) ){
@@ -249,11 +276,13 @@
 			$res["exito"] = 1;
 			$res["mje"] = "Registro de nominación exitoso";
 			$res["reg"] = $nominacion;
+			limpiarArchivos( $dbh );
 		} else {
 			$res["exito"] = 0;
 			$res["mje"] = "Error al registrar nominación";
 			$res["reg"] = NULL;
 		}
+
 		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
@@ -320,7 +349,8 @@
 		
 		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
 			$res["exito"] = 1;
-			$res["mje"] = "Registro de sustento exitoso";			
+			$res["mje"] = "Registro de sustento exitoso";
+			limpiarArchivos( $dbh );			
 		} else {
 			$res["exito"] = 0;
 			$res["mje"] = "Error al registrar sustento";

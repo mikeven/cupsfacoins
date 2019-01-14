@@ -1,6 +1,6 @@
 <?php
     /*
-     * Cupfsa Coins - Nuevo producto
+     * Cupfsa Coins - Editar producto
      * 
      */
     session_start();
@@ -13,6 +13,10 @@
     include( "fn/fn-acceso.php" );
     
     isAccesible( $pagina );
+    if( isset( $_GET["id"] ) ){
+    	$idp = $_GET["id"];
+    	$producto = obtenerProductoPorId( $dbh, $idp );
+    }
 ?>
 <!doctype html>
 <html class="fixed">
@@ -20,16 +24,13 @@
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<title>Nuevo producto :: Cupfsa Coins</title>
+		<title>Editar producto :: Cupfsa Coins</title>
 		<meta name="keywords" content="HTML5 Admin Template" />
 		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
 		<meta name="author" content="okler.net">
 
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-		<!-- Web Fonts  -->
-		<!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css"> -->
 
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
@@ -82,6 +83,11 @@
 				border: 2px dotted #CCC;
 			}
 
+			.frm_imgact{
+				background-image: url("<?php echo $producto["imagen"]?>");
+				background-repeat: no-repeat;
+			}
+
 			#response{ float: right; }
 		</style>
 	</head>
@@ -99,7 +105,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2><i class="fa fa-cube" aria-hidden="true"></i> Nuevo producto</h2>
+						<h2><i class="fa fa-cube" aria-hidden="true"></i> Editar producto</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -109,7 +115,7 @@
 									</a>
 								</li>
 								<li><span><a href="productos.php">Productos</a></span></li>
-								<li><span>Nuevo producto</span></li>
+								<li><span>Editar producto</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
@@ -121,19 +127,22 @@
 							<div class="col-sm-8">	
 								<section class="panel">
 									<header class="panel-heading">
-										<h2 class="panel-title">Datos de nuevo producto</h2>
+										<h2 class="panel-title">Datos de producto</h2>
 									</header>
 									<div class="panel-body">
 										
-										<form id="frm_nproducto" class="form-horizontal form-bordered">
+										<form id="frm_mproducto" class="form-horizontal form-bordered">
 											<div class="form-group">
+												<input type="hidden" name="idproducto" 
+												value="<?php echo $producto["idPRODUCTO"]?>">
 												<label class="col-sm-3 control-label">Nombre <span class="required">*</span></label>
 												<div class="col-sm-9">
 													<div class="input-group">
 														<span class="input-group-addon">
 															<i class="fa fa-tag"></i>
 														</span>
-														<input type="text" name="nombre" class="form-control" placeholder="Ej.: Crema de afeitar" required/>
+														<input type="text" name="nombre" class="form-control" placeholder="Ej.: Crema de afeitar" required 
+														value="<?php echo $producto["nombre"]?>"/>
 													</div>
 												</div>
 											</div>
@@ -145,7 +154,8 @@
 														<span class="input-group-addon">
 															<i class="fa fa-shopping-cart"></i>
 														</span>
-														<input type="text" name="valor" class="form-control" onkeypress="return isNumberKey(event)" placeholder="Ej.: 780" maxlength="3" required/>
+														<input type="text" name="valor" class="form-control" onkeypress="return isNumberKey(event)" placeholder="Ej.: 780" maxlength="3" required 
+														value="<?php echo $producto["valor"]?>"/>
 													</div>
 												</div>
 												
@@ -158,17 +168,19 @@
 														<span class="input-group-addon">
 															<i class="fa fa-list-alt"></i>
 														</span>
-														<input type="text" name="descripcion" class="form-control" placeholder="Ej.: Presentación de 80 ml."/>
+														<input type="text" name="descripcion" class="form-control" placeholder="Ej.: Presentación de 80 ml." 
+														value="<?php echo $producto["descripcion"]?>" />
 													</div>
 												</div>
 											</div>
-											<input id="url_img" type="hidden" name="imagen">
+											<input id="url_img" type="hidden" name="imagen" 
+											value="<?php echo $producto["imagen"]?>">
 										</form>
 										<hr class="solid short">
 										<div class="form-group">
 											<label class="col-sm-3 text-right">Imagen</label>
 											<div class="frm_imgupl">
-												<div class="col-sm-9">
+												<div class="col-sm-9 frm_imgact">
 													<form action="database/data-productos.php" class="dropzone dz-square" 
 														id="myAwesomeDropzone">
 														<div class="dz-message" align="center">
@@ -183,7 +195,8 @@
 									<footer class="panel-footer">
 										<div class="row">
 											<div class="col-sm-12" align="right">
-												<button id="btn_nvo_prod" class="btn btn-primary" type="button">Guardar</button>
+												<button id="btn_mod_prod" class="btn btn-primary" 
+												type="button">Guardar</button>
 												<div id="response"></div>
 											</div>
 										</div>
@@ -195,6 +208,7 @@
 					<!-- end: page -->
 				</section>
 			</div>
+
 
 		</section>
 

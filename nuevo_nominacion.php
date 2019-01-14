@@ -11,6 +11,7 @@
     include( "database/data-atributos.php" );
     include( "database/data-acceso.php" );
     include( "fn/fn-acceso.php" );
+    
     isAccesible( $pagina );
 ?>
 <!doctype html>

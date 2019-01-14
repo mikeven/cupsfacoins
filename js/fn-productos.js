@@ -10,7 +10,7 @@
 	'use strict';
 
 	// basic
-	$("#frm_nproducto").validate({
+	$("#frm_nproducto, #frm_mproducto").validate({
 		highlight: function( label ) {
 			$(label).closest('.form-group').removeClass('has-success').addClass('has-error');
 		},
@@ -19,9 +19,7 @@
 			label.remove();
 		},
 		rules: {
-		    valor: {
-		      digits: true
-		    }
+		    valor: { digits: true }
 		},
 		errorPlacement: function( error, element ) {
 			var placement = element.closest('.input-group');
@@ -85,6 +83,33 @@ function agregarProducto(){
     });
 }
 /* --------------------------------------------------------- */
+function editarProducto(){
+	// Invocación asíncrona para modificar producto
+	var fs = $('#frm_mproducto').serialize();
+	var espera = "<img src='assets/images/loading.gif' width='35'>";
+	
+	$.ajax({
+        type:"POST",
+        url:"database/data-productos.php",
+        data:{ form_mp: fs  },
+        beforeSend: function() {
+        	$("#response").html( espera );
+        	$("#btn_mod_prod").prop( "disabled", "true" );
+        },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 ){
+				$("#response").fadeOut();
+				var idr = res.reg.idproducto;
+    			enviarRespuesta( res, "redireccion", "producto.php?id=" + idr );
+			}
+			else
+				notificar( "Producto", res.mje, "error" );
+        }
+    });
+}
+/* --------------------------------------------------------- */
 $("#btn_nvo_prod").on('click', function (e) {
 	// Invoca el envío del formulario de nuevo producto
 	$("#frm_nproducto").submit();
@@ -96,6 +121,19 @@ $("#frm_nproducto").on('submit', function(e) {
     if ( $("#frm_nproducto").valid() ) {
         e.preventDefault();
         agregarProducto();
+    }
+});
+/* --------------------------------------------------------- */
+$("#btn_mod_prod").on('click', function (e) {
+	// Invoca el envío del formulario de edición de producto
+	$("#frm_mproducto").submit();
+});
+/* --------------------------------------------------------- */
+$("#frm_mproducto").on('submit', function(e) {
+	// Evita el envío del formulario al ser validado
+    if ( $("#frm_mproducto").valid() ) {
+        e.preventDefault();
+        editarProducto();
     }
 });
 /* --------------------------------------------------------- */

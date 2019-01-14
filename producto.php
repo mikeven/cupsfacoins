@@ -73,7 +73,6 @@
 	</head>
 	<body>
 		<section class="body">
-
 			<!-- start: header -->
 			<?php include( "sections/header.php" );?>
 			<!-- end: header -->
@@ -168,7 +167,10 @@
 										</section>
 										<div id="panel_admin_producto">
 											<?php if( isV( 'en_edit_prod' ) ) { ?>
-											<button id="btn_modificar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev"><i class="fa fa-pencil"></i> Modificar</button>
+											<a href="editar_producto.php?id=<?php echo $idp; ?>">
+											<button id="btn_modificar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev">
+												<i class="fa fa-pencil"></i> Modificar</button>
+											</a>
 											<?php if( isV( 'en_elim_prod' ) ) { ?>
 											<?php } ?>
 											<button id="btn_eliminar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev"> <i class="fa fa-trash"></i> Eliminar</button>

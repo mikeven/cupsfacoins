@@ -10,7 +10,7 @@
 	'use strict';
 
 	// basic
-	$("#frm_nusuario").validate({
+	$("#frm_nusuario, #frm_musuario").validate({
 		highlight: function( label ) {
 			$(label).closest('.form-group').removeClass('has-success').addClass('has-error');
 		},
@@ -36,6 +36,13 @@
         }
     });
 
+	$("#frm_musuario").on('submit', function(e) {
+        if ( $("#frm_musuario").valid() ) {
+            e.preventDefault();
+            editarUsuario();
+        }
+    });
+
 	// validation summary
 	var $summaryForm = $("#summary-form");
 	$summaryForm.validate({
@@ -57,10 +64,9 @@
 	});
 
 }).apply( this, [ jQuery ]);
-
 /* --------------------------------------------------------- */
 function agregarUsuario(){
-
+	// Invocación asíncrona para agregar nuevo usuario
 	var fs = $('#frm_nusuario').serialize();
 	var bot_reset = $("#btn_res_fnu");
 	var espera = "<img src='assets/images/loading.gif' width='35'>";	
@@ -88,3 +94,32 @@ function agregarUsuario(){
         }
     });
 }
+/* --------------------------------------------------------- */
+function editarUsuario(){
+	// Invocación asíncrona para editar usuario
+	var fs = $('#frm_musuario').serialize();
+	var espera = "<img src='assets/images/loading.gif' width='35'>";	
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-usuarios.php",
+        data:{ form_mu: fs },
+        beforeSend: function() {
+        	$("#response").html( espera );
+        	$("#btn_mod_usuario").hide( 200 );
+        },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 ){
+				notificar( "Modificar usuario", res.mje, "success" );
+			}
+			else
+				notificar( "Modificar usuario", res.mje, "error" );
+
+			$("#response").html( "" );
+			$("#btn_mod_usuario").fadeIn( 200 );
+        }
+    });
+}
+/* --------------------------------------------------------- */

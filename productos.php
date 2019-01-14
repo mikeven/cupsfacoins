@@ -108,7 +108,7 @@
 											<th>Nombre</th>
 											<th>Descripción</th>
 											<th>Valor</th>
-											
+											<th>Acciones</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -123,6 +123,17 @@
 											</td>
 											<td><?php echo $p["descripcion"]; ?></td>
 											<td><?php echo $p["valor"]; ?></td>
+											<td>
+												<a href="editar_producto.php?id=<?php 
+												echo $p["idPRODUCTO"] ?>" 
+												class="on-default edit-row">
+													<i class="fa fa-pencil"></i>
+												</a>
+												<a href="#" class="on-default remove-row hidden" 
+												style="margin-left: 10px;">
+													<i class="fa fa-trash-o"></i>
+												</a>
+											</td>
 										</tr>
 										<?php } ?>
 										

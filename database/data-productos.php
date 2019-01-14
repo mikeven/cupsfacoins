@@ -44,6 +44,16 @@
 		return mysqli_insert_id( $dbh );
 	}
 	/* --------------------------------------------------------- */
+	function editarProducto( $dbh, $producto ){
+		// Actualiza los datos de un producto
+		$q = "update producto set nombre = '$producto[nombre]', valor = $producto[valor], 
+		descripcion = '$producto[descripcion]', imagen = '$producto[imagen]', 
+		fecha_modificado = NOW() where idPRODUCTO = $producto[idproducto]";
+		
+		$data = mysqli_query( $dbh, $q );
+		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
 	function agregarCanje( $dbh, $canje ){
 		// Guarda el registro de un caje de producto
 		$q = "insert into canje ( idUSUARIO, idPRODUCTO, valor, fecha_canje ) 
@@ -51,6 +61,32 @@
 
 		$data = mysqli_query( $dbh, $q );
 		return mysqli_insert_id( $dbh );
+	}
+	/* --------------------------------------------------------- */
+	function limpiarArchivos( $dbh ){
+		// Elimina archivos cargados al servidor que no estén asociados a regitros de productos
+		include( "../fn/fn-misc.php" );
+		
+		$directorio = "../upload/productos";
+		$imgs = arr_claves( obtenerProductosRegistrados( $dbh ), "imagen" );
+
+		foreach ( $imgs as $i ) { 
+			$imagenes[] = str_replace( "upload/productos/", "", $i ); 
+		}
+		
+		$gestor_dir = opendir( $directorio );
+		while ( false !== ( $nombre_fichero = readdir( $gestor_dir ) ) ) {
+		    $ficheros[] = $nombre_fichero;		    
+		}
+		
+		foreach ( $ficheros as $arc ) {
+			$archivo = $directorio."/".$arc;
+			if( $arc != "." && $arc != ".." ){
+				if( !in_array( $arc, $imagenes ) ){
+					unlink( $archivo );
+				}
+			}
+		}
 	}
 	/* --------------------------------------------------------- */
 	function obtenerCanjesRegistrados( $dbh, $idu ){
@@ -70,9 +106,8 @@
 	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
 	/* --------------------------------------------------------- */
-
 	if( isset( $_POST["form_np"] ) ){
-		//Solicitud para registrar nuevo producto
+		// Solicitud para registrar nuevo producto
 
 		include( "bd.php" );	
 		
@@ -90,9 +125,34 @@
 			$res["mje"] = "Error al registrar producto";
 			$res["reg"] = NULL;
 		}
-
+		
+		limpiarArchivos( $dbh );
 		echo json_encode( $res );
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["form_mp"] ) ){
+		// Solicitud para modificar producto
+
+		include( "bd.php" );	
+		
+		parse_str( $_POST["form_mp"], $producto );
+		$producto = escaparCampos( $dbh, $producto );
+		$rsp = editarProducto( $dbh, $producto );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Datos de producto actualizados";
+			$res["reg"] = $producto;
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al actualizar producto";
+			$res["reg"] = NULL;
+		}
+
+		limpiarArchivos( $dbh );
+		echo json_encode( $res );
+	}
+
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["form_ncje"] ) ){
 		//Solicitud para registrar nuevo canje de producto
@@ -115,15 +175,17 @@
 	}
 	/* --------------------------------------------------------- */
 	if ( !empty( $_FILES ) ) {
+		include( "bd.php" );
 		$url = "";
 
 		$tempFile = $_FILES['file']['tmp_name'];     
     	$prefijo = nombrePrefijo();
-    	$targetFile =  RUTA_CATALOGO . $prefijo ."-". $_FILES['file']['name'];
+    	$nombre = $_FILES['file']['name']; 
+    	$targetFile =  RUTA_CATALOGO . $prefijo ."-". $nombre;
  
     	if( move_uploaded_file( $tempFile, $targetFile ) )
     		$url = substr( $targetFile, 3 );
-
+    	
     	echo $url;
 	}
 ?>
