@@ -10,6 +10,7 @@
     include( "database/data-acceso.php" );
     include( "database/data-usuarios.php" );
     include( "database/data-productos.php" );
+    include( "fn/fn-productos.php" );
     include( "fn/fn-acceso.php" );
 
     isAccesible( $pagina );
@@ -40,6 +41,7 @@
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -101,14 +103,17 @@
 										</div>
 									</div>
 								</div>
-								<table class="table table-bordered table-striped mb-none" id="datatable-default">
+								<table class="table table-bordered table-striped mb-none listado_productos_gral" id="datatable-default">
 									<thead>
 										<tr>
 											<th><i class="fa fa-file-image-o"></i></th>
 											<th>Nombre</th>
 											<th>Descripción</th>
 											<th>Valor</th>
+											<?php 
+											if( isV( "en_edit_prod" ) || isV( 'en_elim_prod' ) ) { ?>
 											<th>Acciones</th>
+											<?php } ?>
 										</tr>
 									</thead>
 									<tbody>
@@ -123,17 +128,26 @@
 											</td>
 											<td><?php echo $p["descripcion"]; ?></td>
 											<td><?php echo $p["valor"]; ?></td>
+											<?php 
+											if( isV( "en_edit_prod" ) || isV( 'en_elim_prod' ) ) { ?>
 											<td>
-												<a href="editar_producto.php?id=<?php 
-												echo $p["idPRODUCTO"] ?>" 
-												class="on-default edit-row">
-													<i class="fa fa-pencil"></i>
-												</a>
-												<a href="#" class="on-default remove-row hidden" 
+												<?php if( isV( "en_edit_prod" ) ) { ?>
+													<a href="editar_producto.php?id=<?php 
+													echo $p["idPRODUCTO"] ?>" 
+													class="on-default edit-row">
+														<i class="fa fa-pencil"></i>
+													</a>
+												<?php } ?>
+												<?php if( esBorrable( $dbh, $p["idPRODUCTO"] ) ) { ?>
+												<a href="#modalAnim" class="mb-xs mt-xs mr-xs eprod modal-with-move-anim" 
+												data-idp="<?php echo $p["idPRODUCTO"]; ?>" 
+												data-imgsrc="<?php echo $p["imagen"]; ?>" 
 												style="margin-left: 10px;">
 													<i class="fa fa-trash-o"></i>
 												</a>
+												<?php } ?>
 											</td>
+											<?php } ?>
 										</tr>
 										<?php } ?>
 										
@@ -147,29 +161,9 @@
 
 		</section>
 
-		<div id="dialog" class="modal-block mfp-hide">
-			<section class="panel">
-				<header class="panel-heading">
-					<h2 class="panel-title">Are you sure?</h2>
-				</header>
-				<div class="panel-body">
-					<div class="modal-wrapper">
-						<div class="modal-text">
-							<p>Are you sure that you want to delete this row?</p>
-						</div>
-					</div>
-				</div>
-				<footer class="panel-footer">
-					<div class="row">
-						<div class="col-md-12 text-right">
-							<button id="dialogConfirm" class="btn btn-primary">Confirm</button>
-							<button id="dialogCancel" class="btn btn-default">Cancel</button>
-						</div>
-					</div>
-				</footer>
-			</section>
-		</div>
-
+		<?php include( "sections/modals/confirmar-accion.html" ); ?>
+		<input id="idproducto" type="hidden">
+		<img id="img_producto" src="" class="hidden">
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -184,6 +178,8 @@
 		<script src="assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 		<script src="assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="assets/javascripts/theme.js"></script>
@@ -193,8 +189,11 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
+		<script src="js/init.modals.js"></script>
 
 		<!-- Examples -->
+		<script src="js/fn-ui.js"></script>	
+		<script src="js/fn-productos.js"></script>
 		<script src="js/init-tables-default.js"></script>
 
 	</body>

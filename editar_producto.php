@@ -260,8 +260,8 @@
 
 		<!-- Examples -->
 		<script src="assets/javascripts/forms/examples.advanced.form.js" /></script>
-		<script src="js/fn-productos.js"></script>
 		<script src="js/fn-ui.js"></script>
+		<script src="js/fn-productos.js"></script>
 		<script type="text/javascript">
 			$( document ).ready(function() {
 				Dropzone.options.myAwesomeDropzone = {

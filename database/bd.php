@@ -90,4 +90,15 @@
 		return $registro;
 	}
 	/* --------------------------------------------------------- */
-?>
+	function registroAsociadoTabla( $dbh, $tabla, $campo, $valor ){
+		//Determina si existe un registro asociado a una tabla
+		$asociado = false;
+		$q = "select * from $tabla where $campo = $valor";
+		$nrows = mysqli_num_rows( mysqli_query ( $dbh, $q ) );
+		
+		if( $nrows > 0 ) $asociado = true;
+
+		return $asociado;
+	}
+	/* --------------------------------------------------------- */
+?>	

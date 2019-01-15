@@ -35,10 +35,10 @@
 	/* --------------------------------------------------------- */
 	function agregarProducto( $dbh, $producto ){
 		// Guarda un nuevo registro de nominación
-
+		$imagen = trim( $producto["imagen"] );
 		$q = "insert into producto ( nombre, valor, descripcion, imagen, fecha_creacion ) 
 		values ( '$producto[nombre]', $producto[valor], '$producto[descripcion]', 
-		'$producto[imagen]', NOW() )";
+		'$imagen', NOW() )";
 		
 		$data = mysqli_query( $dbh, $q );
 		return mysqli_insert_id( $dbh );
@@ -46,12 +46,19 @@
 	/* --------------------------------------------------------- */
 	function editarProducto( $dbh, $producto ){
 		// Actualiza los datos de un producto
+		$imagen = trim( $producto["imagen"] );
 		$q = "update producto set nombre = '$producto[nombre]', valor = $producto[valor], 
-		descripcion = '$producto[descripcion]', imagen = '$producto[imagen]', 
+		descripcion = '$producto[descripcion]', imagen = '$imagen', 
 		fecha_modificado = NOW() where idPRODUCTO = $producto[idproducto]";
-		
+	
 		$data = mysqli_query( $dbh, $q );
 		return mysqli_affected_rows( $dbh );
+	}
+	/* --------------------------------------------------------- */
+	function eliminarProducto( $dbh, $idp ){
+		// Elimina un registro de producto
+		$q = "delete from producto where idPRODUCTO = $idp";
+		return mysqli_query( $dbh, $q );
 	}
 	/* --------------------------------------------------------- */
 	function agregarCanje( $dbh, $canje ){
@@ -65,7 +72,7 @@
 	/* --------------------------------------------------------- */
 	function limpiarArchivos( $dbh ){
 		// Elimina archivos cargados al servidor que no estén asociados a regitros de productos
-		include( "../fn/fn-misc.php" );
+		include( "../fn/fn-misc.php" ); //"\n"
 		
 		$directorio = "../upload/productos";
 		$imgs = arr_claves( obtenerProductosRegistrados( $dbh ), "imagen" );
@@ -82,11 +89,17 @@
 		foreach ( $ficheros as $arc ) {
 			$archivo = $directorio."/".$arc;
 			if( $arc != "." && $arc != ".." ){
-				if( !in_array( $arc, $imagenes ) ){
+				if( !in_array( $arc, $imagenes ) )
 					unlink( $archivo );
-				}
 			}
 		}
+	}
+	/* --------------------------------------------------------- */
+	function eliminarArchivoImagen( $archivo ){
+		// Elimina un archivo de imagen
+		$pre = "../";
+		if( file_exists( $pre.$archivo ) && is_dir( $pre.$archivo ) != 1 )
+			return unlink( $pre.$archivo );
 	}
 	/* --------------------------------------------------------- */
 	function obtenerCanjesRegistrados( $dbh, $idu ){
@@ -102,6 +115,13 @@
 		$data = mysqli_query( $dbh, $q );
 
 		return obtenerListaRegistros( $data );
+	}
+	/* --------------------------------------------------------- */
+	function registrosAsociadosProducto( $dbh, $idp ){
+		//Determina si existe un registro de alguna tabla asociada a un producto
+		//Tablas relacionadas: canje
+
+		return registroAsociadoTabla( $dbh, "canje", "idPRODUCTO", $idp );
 	}
 	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
@@ -152,7 +172,26 @@
 		limpiarArchivos( $dbh );
 		echo json_encode( $res );
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["elim_prod"] ) ){
+		// Solicitud para eliminar producto
 
+		include( "bd.php" );
+		
+		$archivo_eliminado = eliminarArchivoImagen( $_POST["img"] );
+		$rsp = eliminarProducto( $dbh, $_POST["elim_prod"] );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Producto eliminado con éxito";
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al eliminar producto";
+			$res["reg"] = NULL;
+		}
+		
+		echo json_encode( $res );
+	}
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["form_ncje"] ) ){
 		//Solicitud para registrar nuevo canje de producto

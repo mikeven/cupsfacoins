@@ -25,7 +25,6 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -100,7 +99,7 @@
 							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
 						</div>
 					</header>
-
+					
 					<!-- start: page -->
 						<div class="row">
 							<div class="col-sm-8 col-xs-12">
@@ -111,17 +110,20 @@
 										<div class="isotope-item ">
 										<div class="thumbnail">
 											<div class="thumb-preview">
-												<a class="thumb-image" href="assets/images/projects/project-1.jpg">
-													<img src="<?php echo $producto["imagen"]; ?>" class="img-responsive" alt="Project" width="447">
+												<?php $prod_img = trim( $producto["imagen"] ); ?>
+												<a class="thumb-image" href="<?php echo $prod_img; ?>">
+													<img id="img_producto" 
+													src="<?php echo $prod_img; ?>" 
+													class="img-responsive" alt="Project" width="447">
 												</a>
-												
 											</div>
-											
 										</div>
 									</div>			
 									</div>
 									<div class="col-sm-6 col-xs-12">
 										<div class="form-group">
+											<input type="hidden" id="idproducto" 
+											value="<?php echo $producto["idPRODUCTO"]; ?>">
 											<h4><?php echo $producto["nombre"]; ?></h4>
 										</div>
 										<div class="form-group">
@@ -165,23 +167,24 @@
 												</div>
 											</div>
 										</section>
-										<div id="panel_admin_producto">
+										
+									</div>
+								</div>
+								<footer class="panel-footer">
+									<div class="row">
+										<div class="col-sm-12" align="right">
+											<div id="panel_admin_producto">
 											<?php if( isV( 'en_edit_prod' ) ) { ?>
 											<a href="editar_producto.php?id=<?php echo $idp; ?>">
 											<button id="btn_modificar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev">
 												<i class="fa fa-pencil"></i> Modificar</button>
 											</a>
-											<?php if( isV( 'en_elim_prod' ) ) { ?>
 											<?php } ?>
-											<button id="btn_eliminar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev"> <i class="fa fa-trash"></i> Eliminar</button>
+											<?php if( esBorrable( $dbh, $idp ) ) { ?>
+											<a id="btn_eliminar" href="#modalAnim" class="mb-xs mt-xs mr-xs btn btn-primary adminev modal-with-move-anim">
+											<i class="fa fa-trash-o"></i> Eliminar </a>
 											<?php } ?>
 										</div>
-									</div>
-								</div>
-								<footer class="panel-footer hidden">
-									<div class="row">
-										<div class="col-sm-12" align="right">
-											
 										</div>
 									</div>
 								</footer>
@@ -194,6 +197,8 @@
 			</div>
 
 		</section>
+
+		<?php include( "sections/modals/confirmar-accion.html" ); ?>
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
@@ -231,6 +236,7 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
+		<script src="js/init.modals.js"></script>
 
 		<!-- Custom scripts -->
 		<script src="js/fn-ui.js"></script>		
