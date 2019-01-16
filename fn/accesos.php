@@ -15,14 +15,25 @@
 		array('id' => 'pg_mod_usuario', 'desc' => 'Página nuevo usuario')
 	);
 
+	$esq_secciones["eliminar_usuario"] = array(
+		array('id' => 'en_elim_usuario', 'desc' => 'Enlace para eliminar usuario')
+	);
+
 	$esq_secciones["agregar_atributo"] = array(
 		array('id' => 'mp_ver_atrib', 'desc' => 'Menu ppal Atributos'),
 		array('id' => 'pg_nvo_atributo', 'desc' => 'Página nuevo atributo'),
 		array('id' => 'pg_atributos', 'desc' => 'Menu ppal Atributos')
 	);
 
-	$esq_secciones["consultar_atributo"] = array(
-		array('id' => 'pg_atributos', 'desc' => 'Menu ppal Atributos')
+	$esq_secciones["editar_atributo"] = array(
+		array('id' => 'pg_atributos', 'desc' => 'Página de atributos'),
+		array('id' => 'pg_edit_atributo', 'desc' => 'Menu ppal Atributos'),
+		array('id' => 'en_edit_atrib', 'desc' => 'Enlace para editar atributo')
+	);
+
+	$esq_secciones["eliminar_atributo"] = array(
+		array('id' => 'pg_atributos', 'desc' => 'Menu ppal Atributos'),
+		array('id' => 'en_elim_atrib', 'desc' => 'Enlace para eliminar atributo')
 	);
 
 	$esq_secciones["agregar_producto"] = array(
@@ -81,7 +92,7 @@
 	);
 
 	$esq_secciones["ver_nominaciones_hechas"] = array(
-		array('id' => 'mp_nom_pers', 'desc' => 'Menu ppal Ver nominaciones hechas/recibidas'),
+		array('id' => 'mp_nom_pers', 'desc' => 'Menu ppal Ver nom. hechas/recibidas'),
 		array('id' => 'pg_nominaciones', 'desc' => 'Página consulta nominaciones'),
 		array('id' => 'en_ver_nom', 'desc' => 'Enlace para ver nominación'),
 		array('id' => 'pan_nom_apoyo', 'desc' => 'Opciones para sustentar y adjudicar nominaciones'),
@@ -89,7 +100,7 @@
 	);
 
 	$esq_secciones["ver_nominaciones_recibidas"] = array(
-		array('id' => 'mp_nom_pers', 'desc' => 'Menu ppal Ver nominaciones hechas/recibidas'),
+		array('id' => 'mp_nom_pers', 'desc' => 'Menu ppal Ver nom. hechas/recibidas'),
 		array('id' => 'pg_nominaciones', 'desc' => 'Página consulta nominaciones'),
 		array('id' => 'pg_nominacion', 'desc' => 'Página ficha nominación')
 	);

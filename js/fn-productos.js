@@ -170,7 +170,7 @@ $("#btn_mod_prod").on('click', function (e) {
 });
 /* --------------------------------------------------------- */
 $(".listado_productos_gral").on( "click", ".eprod", function (e) {
-	//
+	// Inicializa la ventana modal para confirmar la eliminación de un producto
 	 
 	$("#idproducto").val( $(this).attr( "data-idp" ) );
 	$("#img_producto").attr( "src", $(this).attr( "data-imgsrc" ) );

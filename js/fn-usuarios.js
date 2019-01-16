@@ -123,3 +123,41 @@ function editarUsuario(){
     });
 }
 /* --------------------------------------------------------- */
+function eliminarUsuario(){
+	// Invocación asíncrona para eliminar usuario 	
+	var idu = $("#idusuario").val();
+	var espera = "<img src='assets/images/loading.gif' width='35'>";
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-usuarios.php",
+        data:{ elim_usuario: idu },
+        beforeSend: function() {
+        	$( "#eu" + idu ).html( espera );
+        },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 )
+    			enviarRespuesta( res, "redireccion", "usuarios.php" );
+			else
+				notificar( "Usuarios", res.mje, "error" );
+        }
+    });
+}
+/* --------------------------------------------------------- */
+$(".listado_usuarios_gral").on( "click", ".eusuario", function (e) {
+	//Inicializa la ventana modal para confirmar la eliminación de un usuario
+	//alert( $(this).attr( "data-idu" ) );
+	$("#idusuario").val( $(this).attr( "data-idu" ) );
+    
+    iniciarVentanaModal( "btn_elim_usuario", "btn_canc", 
+                         "Eliminar usuario", 
+                         "¿Confirma que desea eliminar este usuario", 
+                         "Confirmar acción" );
+
+    $("#btn_elim_usuario").on('click', function (e) {
+		// Invoca la eliminación de un usuario
+		eliminarUsuario();
+	});
+});

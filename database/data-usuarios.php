@@ -101,9 +101,38 @@
 	/* --------------------------------------------------------- */
 	function desvincularRolesUsuario( $dbh, $usuario ){
 		// Elimina todos los roles que posee un registro de usuario
+
 		$q = "delete from usuario_rol where idUSUARIO = $usuario[idusuario]";
 		$data = mysqli_query( $dbh, $q );
 		return mysqli_affected_rows( $dbh ); 
+	}
+	/* --------------------------------------------------------- */
+	function registrosAsociadosUsuario( $dbh, $idu ){
+		// Determina si existe un registro de tabla asociada a un usuario
+		// Tablas relacionadas: nominacion, voto
+
+		$rel_1 = registroAsociadoTabla( $dbh, "nominacion", "idNOMINADOR", $idu );
+		$rel_2 = registroAsociadoTabla( $dbh, "nominacion", "idNOMINADO", $idu );
+		$rel_3 = registroAsociadoTabla( $dbh, "nominacion", "idADMIN", $idu );
+		$rel_4 = registroAsociadoTabla( $dbh, "voto", "idUSUARIO", $idu );
+
+		return ( $rel_1 || $rel_2 || $rel_3 || $rel_4 );
+	}
+	/* --------------------------------------------------------- */
+	function eliminarVinculosUsuario( $dbh, $idu ){
+		// Elimina los registros de un usuario en los canjes y roles de usuario
+
+		$q1 = "delete from canje where idUSUARIO = $idu";
+		$q2 = "delete from usuario_rol where idUSUARIO = $idu";
+
+		mysqli_query( $dbh, $q1 ); 	mysqli_query( $dbh, $q2 );
+	}
+	/* --------------------------------------------------------- */
+	function eliminarUsuario( $dbh, $idu ){
+		// Elimina un registro de usuario
+		$q = "delete from usuario where idUSUARIO = $idu";
+		
+		return mysqli_query( $dbh, $q );
 	}
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["form_nu"] ) ){
@@ -154,4 +183,25 @@
 
 		echo json_encode( $res );
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["elim_usuario"] ) ){
+		// Solicitud para eliminar usuario
+
+		include( "bd.php" );
+		
+		eliminarVinculosUsuario( $dbh, $_POST["elim_usuario"] );
+		$rsp = eliminarUsuario( $dbh, $_POST["elim_usuario"] );
+		
+		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Usuario eliminado con éxito";
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al eliminar usuario";
+			$res["reg"] = NULL;
+		}
+		
+		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
 ?>

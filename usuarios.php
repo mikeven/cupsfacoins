@@ -10,6 +10,7 @@
     include( "database/bd.php" );
     include( "database/data-usuarios.php" );
     include( "database/data-acceso.php" );
+    include( "fn/fn-usuarios.php" );
     include( "fn/fn-acceso.php" );
 
     isAccesible( $pagina );
@@ -40,6 +41,7 @@
 		<!-- Specific Page Vendor CSS -->
 		<link rel="stylesheet" href="assets/vendor/select2/select2.css" />
 		<link rel="stylesheet" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		<link rel="stylesheet" href="assets/vendor/pnotify/pnotify.custom.css" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme.css" />
@@ -103,7 +105,8 @@
 										</div>
 									</div>
 								</div>
-								<table class="table table-bordered table-striped mb-none" id="datatable-editable">
+								<table class="table table-bordered table-striped mb-none 
+								listado_usuarios_gral" id="datatable-default">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -139,10 +142,15 @@
 												class="on-default edit-row">
 													<i class="fa fa-pencil"></i>
 												</a>
-												<a href="#" class="on-default remove-row hidden" 
-												style="margin-left: 10px;">
+											<?php 
+											if( esBorrable( $dbh, $u["idUSUARIO"] ) ) { ?>
+												<a href="#modalAnim" class="mb-xs mt-xs mr-xs eusuario modal-with-move-anim" 
+												data-idu="<?php echo $u["idUSUARIO"]; ?>" 
+												style="margin-left: 10px;" 
+												id="eu<?php echo $u["idUSUARIO"]; ?>">
 													<i class="fa fa-trash-o"></i>
 												</a>
+											<?php } ?>
 											</td>
 										</tr>
 										<?php } ?>
@@ -155,28 +163,8 @@
 			</div>
 		</section>
 
-		<div id="dialog" class="modal-block mfp-hide">
-			<section class="panel">
-				<header class="panel-heading">
-					<h2 class="panel-title">Are you sure?</h2>
-				</header>
-				<div class="panel-body">
-					<div class="modal-wrapper">
-						<div class="modal-text">
-							<p>Are you sure that you want to delete this row?</p>
-						</div>
-					</div>
-				</div>
-				<footer class="panel-footer">
-					<div class="row">
-						<div class="col-md-12 text-right">
-							<button id="dialogConfirm" class="btn btn-primary">Confirm</button>
-							<button id="dialogCancel" class="btn btn-default">Cancel</button>
-						</div>
-					</div>
-				</footer>
-			</section>
-		</div>
+		<?php include( "sections/modals/confirmar-accion.html" ); ?>
+		<input id="idusuario" type="hidden">
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
@@ -186,6 +174,8 @@
 		<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="assets/vendor/magnific-popup/magnific-popup.js"></script>
 		<script src="assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+		<script src="assets/vendor/jquery-validation/jquery.validate.js"></script>
+		<script src="assets/vendor/pnotify/pnotify.custom.js"></script>
 		
 		<!-- Specific Page Vendor -->
 		<script src="assets/vendor/select2/select2.js"></script>
@@ -200,10 +190,11 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
-
+		<script src="js/init.modals.js"></script>
 
 		<!-- Examples -->
-		<!-- <script src="assets/javascripts/tables/examples.datatables.editable.js"></script> -->
-		<script src="js/tabla-editable-usuarios.js"></script>
+		<script src="js/init-tables-default.js"></script>
+		<script src="js/fn-ui.js"></script>	
+		<script src="js/fn-usuarios.js"></script>
 	</body>
 </html>

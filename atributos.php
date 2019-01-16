@@ -10,6 +10,7 @@
     include( "database/data-acceso.php" );
     include( "database/data-atributos.php" );
     include( "database/data-usuarios.php" );
+    include( "fn/fn-atributos.php" );
     include( "fn/fn-acceso.php" );
 
     isAccesible( $pagina );
@@ -164,7 +165,8 @@
 								</h2>
 							</header>
 							<div class="panel-body">
-								<table class="table table-bordered table-striped mb-none" id="datatable-default">
+								<table class="table table-bordered table-striped mb-none 
+								listado_atributos_gral" id="datatable-default">
 									<thead>
 										<tr>
 											<th></th>
@@ -186,8 +188,15 @@
 											<td class="actions">
 												<a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
 												<a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
-												<a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+											<?php 
+											if( esBorrable( $dbh, $a["idATRIBUTO"] ) ) { ?>
+												<a href="#modalAnim" class="mb-xs mt-xs mr-xs eatributo modal-with-move-anim" 
+												data-ida="<?php echo $a["idATRIBUTO"]; ?>" 
+												style="margin-left: 10px;" 
+												id="ea<?php echo $a["idATRIBUTO"]; ?>">
+													<i class="fa fa-trash-o"></i>
+												</a>
+											<?php } ?>
 											</td>
 										</tr>
 										<?php } ?>
@@ -202,28 +211,8 @@
 
 		</section>
 
-		<div id="dialog" class="modal-block mfp-hide">
-			<section class="panel">
-				<header class="panel-heading">
-					<h2 class="panel-title">Eliminar atributo</h2>
-				</header>
-				<div class="panel-body">
-					<div class="modal-wrapper">
-						<div class="modal-text">
-							<p>¿Desea eliminar este atributo?</p>
-						</div>
-					</div>
-				</div>
-				<footer class="panel-footer">
-					<div class="row">
-						<div class="col-md-12 text-right">
-							<button id="dialogConfirm" class="btn btn-primary">Confirmar</button>
-							<button id="dialogCancel" class="btn btn-default">Cancelar</button>
-						</div>
-					</div>
-				</footer>
-			</section>
-		</div>
+		<?php include( "sections/modals/confirmar-accion.html" ); ?>
+		<input id="idatributo" type="hidden">
 
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
@@ -249,9 +238,12 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="assets/javascripts/theme.init.js"></script>
+		<script src="js/init.modals.js"></script>
 
 		<!-- Custom scripts -->
 		<script src="js/init-tables-default.js"></script>
+		<script src="js/fn-ui.js"></script>
 		<script src="js/fn-atributos.js"></script>
+		
 	</body>
 </html>
