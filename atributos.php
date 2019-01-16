@@ -51,6 +51,9 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
+		<style> 
+			#response{ float: right; }
+		</style>
 
 		<!-- Head Libs -->
 		<script src="assets/vendor/modernizr/modernizr.js"></script>
@@ -105,7 +108,8 @@
 													<span class="input-group-addon">
 														<i class="fa fa-tag"></i>
 													</span>
-													<input type="text" name="nombre" class="form-control" placeholder="Ej.: Responsabilidad" required/>
+													<input type="text" name="nombre" 
+													class="form-control" placeholder="Ej.: Responsabilidad" required/>
 												</div>
 											</div>
 										</div>
@@ -117,22 +121,24 @@
 													<span class="input-group-addon">
 														<i class="fa fa-circle"></i>
 													</span>
-													<input type="text" name="valor" class="form-control" placeholder="Ej.: 30" required/>
+													<input type="text" name="valor" class="form-control" placeholder="Ej.: 30" maxlength="3" required 
+													onkeypress="return isNumberKey(event)"/>
 												</div>
 											</div>
 										</div>
 
 										<div class="form-group">
-											<label class="col-sm-4 control-label">Prioridad <span class="required">*</span></label>
+											<label class="col-sm-4 control-label">
+												Prioridad <span class="required">*</span></label>
 											<div class="col-sm-8">
 												<div class="input-group">
 													<span class="input-group-addon">
 														<i class="fa fa-list-ol"></i>
 													</span>
-													<input type="text" 
-													name="prioridad" 
-													class="form-control" 
-													placeholder="Ej.: 7" required/>
+													<input type="text" name="prioridad" 
+													class="form-control" placeholder="Ej.: 12"
+													onkeypress="return isNumberKey(event)" 
+													maxlength="2" required/>
 												</div>
 											</div>
 										</div>
@@ -149,8 +155,9 @@
 								<footer class="panel-footer">
 									<div class="row">
 										<div class="col-sm-12" align="right">
-											<button class="btn btn-primary">Guardar</button>
-											<button id="btn_res_fnu" type="reset" class="btn btn-default hidden">Reset</button>
+											<button id="btn_nvo_atributo" 
+											class="btn btn-primary">Guardar</button>
+											<div id="response"></div>
 										</div>
 									</div>
 								</footer>

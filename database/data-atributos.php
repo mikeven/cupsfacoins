@@ -13,6 +13,16 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
+	function agregarAtributo( $dbh, $atributo ){
+		// Agrega nuevo registro de atributo
+		$q = "insert into atributo ( nombre, valor, prioridad, definicion, fecha_creacion ) 
+		values ( '$atributo[nombre]', $atributo[valor], $atributo[prioridad], 
+		'$atributo[definicion]', NOW() )";
+		
+		$data = mysqli_query( $dbh, $q );
+		return mysqli_insert_id( $dbh );
+	}
+	/* --------------------------------------------------------- */
 	function registrosAsociadosAtributo( $dbh, $ida ){
 		// Determina si existe un registro de tabla asociada a un atributo
 		// Tablas relacionadas: nominacion
@@ -25,6 +35,25 @@
 		$q = "delete from atributo where idATRIBUTO = $idu";
 		
 		return mysqli_query( $dbh, $q );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["nvo_atributo"] ) ){
+		// Solicitud para agregar nuevo atributo
+
+		include( "bd.php" );
+		parse_str( $_POST["nvo_atributo"], $atributo );
+		$atributo = escaparCampos( $dbh, $atributo );
+		$id = agregarAtributo( $dbh, $atributo );
+		
+		if( ( $id != 0 ) && ( $id != "" ) ){
+			$res["exito"] = 1;
+			$res["mje"] = "Atributo agregado con éxito";
+		} else {
+			$res["exito"] = 0;
+			$res["mje"] = "Error al agregado atributo";
+		}
+		
+		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["elim_atributo"] ) ){
@@ -44,4 +73,18 @@
 		
 		echo json_encode( $res );
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["nombre"] ) ){
+		
+		include ( "bd.php" );
+
+		$regs = obtenerAtributosRegistrados( $dbh );
+		foreach ( $regs as $r ) { $nombres[] = $r["nombre"]; }
+		
+		if( !in_array( $_POST["nombre"], $nombres ) ) $respuesta = true;
+		else $respuesta = "Nombre de atributo ya registrado";
+
+		echo json_encode( $respuesta );
+	}
+	/* --------------------------------------------------------- */
 ?>

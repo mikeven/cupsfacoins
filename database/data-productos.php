@@ -227,4 +227,18 @@
     	
     	echo $url;
 	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["nombre"] ) ){
+		// Validación de nombre ya registrado
+		include ( "bd.php" );
+
+		$regs = obtenerProductosRegistrados( $dbh );
+		foreach ( $regs as $r ) { $nombres[] = $r["nombre"];  }
+		
+		if( !in_array( $_POST["nombre"], $nombres ) )  $respuesta = true;
+		else $respuesta = "Nombre de producto ya registrado";
+
+		echo json_encode( $respuesta );
+	}
+	/* --------------------------------------------------------- */
 ?>

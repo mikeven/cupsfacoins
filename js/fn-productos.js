@@ -19,8 +19,15 @@
 			label.remove();
 		},
 		rules: {
-		    valor: { digits: true }
+		    valor: { digits: true },
+		    nombre: {
+		        remote: {
+		        	url: "database/data-productos.php",
+		        	method: 'POST'       	
+				}
+			}
 		},
+		onkeyup: false,
 		errorPlacement: function( error, element ) {
 			var placement = element.closest('.input-group');
 			if (!placement.get(0)) {

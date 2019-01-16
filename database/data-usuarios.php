@@ -204,4 +204,23 @@
 		echo json_encode( $res );
 	}
 	/* --------------------------------------------------------- */
+	if( isset( $_POST["email"] ) ){
+		
+		include ( "bd.php" );
+
+		//if( isset( $_POST["id_u"] ) ) $id_u = $_POST["id_u"];
+
+		$regs = obtenerUsuariosRegistrados( $dbh );
+		foreach ( $regs as $r ) {
+			//if( $r["idUSUARIO"] != $id_u )
+				$emails[] = $r["email"]; 
+		}
+		
+		if( !in_array( $_POST["email"], $emails ) ) 
+			$respuesta = true;
+		else $respuesta = "Dirección de email ya registrada";
+
+		echo json_encode( $respuesta );
+	}
+	/* --------------------------------------------------------- */
 ?>

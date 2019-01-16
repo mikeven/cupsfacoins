@@ -183,10 +183,10 @@
 									<th>Valor</th>
 									<th>Estado</th>
 									<?php if( isV( "en_votar" ) ){ ?>
-										<th>Acción</th>
+										<th>Votación</th>
 									<?php } ?>
 									<?php if ( isV( 'en_activ_nom' ) ){ ?>
-										<th>Acción</th>
+										<th>Activación</th>
 									<?php } ?>
 								</tr>
 							</thead>
@@ -224,14 +224,16 @@
 										<?php } ?>
 									</td>
 									<?php } ?>
-									<?php if ( esActivable( $nom ) ) { ?>
+									<?php if ( isV( 'en_activ_nom' ) ){ ?>
 									<td>
+										<?php if ( esActivable( $nom ) ) { ?>
 										<div class="switch switch-sm switch-dark sw-t" data-toggle="tooltip" data-placement="left" 
 										title="<?php echo $p_sw["t"];?>">
 											<input type="checkbox" name="switch" data-plugin-ios-switch 
 											<?php echo $p_sw["p"];?>
 											data-idn="<?php echo $nom["idNOMINACION"];?>" class="chvotable"/>
 										</div>
+										<?php } ?>
 									</td>
 									<?php } ?>
 								</tr>

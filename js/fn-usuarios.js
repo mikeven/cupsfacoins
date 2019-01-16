@@ -18,6 +18,15 @@
 			$(label).closest('.form-group').removeClass('has-error');
 			label.remove();
 		},
+		rules: {
+		    email: {
+		        remote: {
+		        	url: "database/data-usuarios.php",
+		        	method: 'POST'
+				}
+			}
+		},
+		onkeyup: false,
 		errorPlacement: function( error, element ) {
 			var placement = element.closest('.input-group');
 			if (!placement.get(0)) {
@@ -44,12 +53,12 @@
     });
 
 	// validation summary
-	var $summaryForm = $("#summary-form");
+	/*var $summaryForm = $("#summary-form");
 	$summaryForm.validate({
 		errorContainer: $summaryForm.find( 'div.validation-message' ),
 		errorLabelContainer: $summaryForm.find( 'div.validation-message ul' ),
 		wrapper: "li"
-	});
+	});*/
 
 	// checkbox, radio and selects
 	$("#chk-radios-form, #selects-form").each(function() {

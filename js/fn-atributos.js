@@ -19,6 +19,18 @@
 			$(label).closest('.form-group').removeClass('has-error');
 			label.remove();
 		},
+		rules: {
+		    valor: { digits: true },
+		    prioridad: { digits: true },
+		    nombre: {
+		        required: true,     
+		        remote: {
+		        	url: "database/data-atributos.php",
+		        	method: 'POST'       	
+				}
+			}
+		},
+		onkeyup: false,
 		errorPlacement: function( error, element ) {
 			var placement = element.closest('.input-group');
 			if (!placement.get(0)) {
@@ -40,23 +52,39 @@
 
 
 }).apply( this, [ jQuery ]);
-
-$('.modal-with-move-anim').magnificPopup({
-	type: 'inline',
-
-	fixedContentPos: false,
-	fixedBgPos: true,
-
-	overflowY: 'auto',
-
-	closeBtnInside: true,
-	preloader: false,
-	
-	midClick: true,
-	removalDelay: 300,
-	mainClass: 'my-mfp-slide-bottom',
-	modal: true
+/* --------------------------------------------------------- */
+$("#frm_natributo").on('submit', function(e) {
+	// Evita el envío del formulario al ser validado
+    if ( $("#frm_natributo").valid() ) {
+        e.preventDefault();
+        agregarAtributo();
+    }
 });
+/* --------------------------------------------------------- */
+function agregarAtributo(){
+	// Invocación asíncrona para agregar atributo nuevo/
+
+	var frm = $('#frm_natributo').serialize();
+	var espera = "<img src='assets/images/loading.gif' width='35'>";
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-atributos.php",
+        data:{ nvo_atributo: frm },
+        beforeSend: function() {
+        	$( "#response" ).html( espera );
+        	$( "#btn_nvo_atributo" ).prop( "disabled", "true" );
+        },
+        success: function( response ){
+        	console.log( response );
+			res = jQuery.parseJSON( response );
+			if( res.exito == 1 )
+    			enviarRespuesta( res, "redireccion", "atributos.php" );
+			else
+				notificar( "Atributos", res.mje, "error" );
+        }
+    });
+}
 /* --------------------------------------------------------- */
 function eliminarAtributo(){
 	// Invocación asíncrona para eliminar atributo 	
