@@ -8,9 +8,8 @@
 (function() {
 
 	'use strict';
-
-	// basic
-	$("#frm_nusuario, #frm_musuario").validate({
+	/* -------------------------------- */
+	$("#frm_nusuario").validate({
 		highlight: function( label ) {
 			$(label).closest('.form-group').removeClass('has-success').addClass('has-error');
 		},
@@ -24,6 +23,9 @@
 		        	url: "database/data-usuarios.php",
 		        	method: 'POST'
 				}
+			},
+			multiselect: {
+				required: true
 			}
 		},
 		onkeyup: false,
@@ -35,41 +37,46 @@
 			if (error.text() !== '') {
 				placement.after(error);
 			}
+		},
+		submitHandler: function(form) {
+		    agregarUsuario();
 		}
 	});
-
-	$("#frm_nusuario").on('submit', function(e) {
-        if ( $("#frm_nusuario").valid() ) {
-            e.preventDefault();
-            agregarUsuario();
-        }
-    });
-
-	$("#frm_musuario").on('submit', function(e) {
-        if ( $("#frm_musuario").valid() ) {
-            e.preventDefault();
-            editarUsuario();
-        }
-    });
-
-	// validation summary
-	/*var $summaryForm = $("#summary-form");
-	$summaryForm.validate({
-		errorContainer: $summaryForm.find( 'div.validation-message' ),
-		errorLabelContainer: $summaryForm.find( 'div.validation-message ul' ),
-		wrapper: "li"
-	});*/
-
-	// checkbox, radio and selects
-	$("#chk-radios-form, #selects-form").each(function() {
-		$(this).validate({
-			highlight: function(element) {
-				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-			},
-			success: function(element) {
-				$(element).closest('.form-group').removeClass('has-error');
+	/* -------------------------------- */
+	$("#frm_musuario").validate({
+		highlight: function( label ) {
+			$(label).closest('.form-group').removeClass('has-success').addClass('has-error');
+		},
+		success: function( label ) {
+			$(label).closest('.form-group').removeClass('has-error');
+			label.remove();
+		},
+		rules: {
+		    email: {
+		        remote: {
+		        	url: "database/data-usuarios.php",
+		        	method: 'POST',
+		        	data: {
+		        		id_u: function() {
+			            	return $('#idua').val();
+			         	}
+			     	}
+				}
 			}
-		});
+		},
+		onkeyup: false,
+		errorPlacement: function( error, element ) {
+			var placement = element.closest('.input-group');
+			if (!placement.get(0)) {
+				placement = element;
+			}
+			if (error.text() !== '') {
+				placement.after(error);
+			}
+		},
+		submitHandler: function(form) {
+		    editarUsuario();
+		}
 	});
 
 }).apply( this, [ jQuery ]);
@@ -94,6 +101,11 @@ function agregarUsuario(){
 			if( res.exito == 1 ){
 				$( bot_reset ).click();
 				notificar( "Nuevo usuario", res.mje, "success" );
+				setTimeout( 
+					function() { 
+						enviarRespuesta( res, "redireccion", "usuarios.php" )
+					}, 
+				4000 );
 			}
 			else
 				notificar( "Nuevo usuario", res.mje, "error" );
@@ -115,7 +127,7 @@ function editarUsuario(){
         data:{ form_mu: fs },
         beforeSend: function() {
         	$("#response").html( espera );
-        	$("#btn_mod_usuario").hide( 200 );
+        	$("#btn_mod_usuario").fadeOut( 200 );
         },
         success: function( response ){
         	console.log( response );
@@ -127,7 +139,6 @@ function editarUsuario(){
 				notificar( "Modificar usuario", res.mje, "error" );
 
 			$("#response").html( "" );
-			$("#btn_mod_usuario").fadeIn( 200 );
         }
     });
 }

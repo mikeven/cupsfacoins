@@ -142,18 +142,23 @@
 		
 		parse_str( $_POST["form_nu"], $usuario );
 		$usuario = escaparCampos( $dbh, $usuario );
-		$id = agregarUsuario( $dbh, $usuario );
-		$usuario["idusuario"] = $id;
-		
-		if( ( $id != 0 ) && ( $id != "" ) ){
-			asociarRolesUsuario( $dbh, $usuario );
-			$res["exito"] = 1;
-			$res["mje"] = "Registro de usuario exitoso";
-			$res["reg"] = $usuario;
-		} else {
+		if( isset( $usuario["rol"] ) ){
+			$id = agregarUsuario( $dbh, $usuario );
+			$usuario["idusuario"] = $id;
+			
+			if( ( $id != 0 ) && ( $id != "" ) ){
+				asociarRolesUsuario( $dbh, $usuario );
+				$res["exito"] = 1;
+				$res["mje"] = "Registro de usuario exitoso";
+				$res["reg"] = $usuario;
+			} else {
+				$res["exito"] = 0;
+				$res["mje"] = "Error al registrar usuario";
+				$res["reg"] = NULL;
+			}
+		}else{
 			$res["exito"] = 0;
-			$res["mje"] = "Error al registrar usuario";
-			$res["reg"] = NULL;
+			$res["mje"] = "No se especificaron roles de usuario";
 		}
 
 		echo json_encode( $res );
@@ -167,18 +172,22 @@
 		parse_str( $_POST["form_mu"], $usuario );
 		
 		$usuario = escaparCampos( $dbh, $usuario );
-		$rsp = editarUsuario( $dbh, $usuario );
-		
-		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
-			desvincularRolesUsuario( $dbh, $usuario );
-			asociarRolesUsuario( $dbh, $usuario );
-			$res["exito"] = 1;
-			$res["mje"] = "Datos de usuario actualizados";
-			$res["reg"] = $usuario;
-		} else {
+		if( isset( $usuario["rol"] ) ){
+			$rsp = editarUsuario( $dbh, $usuario );
+			if( ( $rsp != 0 ) && ( $rsp != "" ) ){
+				desvincularRolesUsuario( $dbh, $usuario );
+				asociarRolesUsuario( $dbh, $usuario );
+				$res["exito"] = 1;
+				$res["mje"] = "Datos de usuario actualizados";
+				$res["reg"] = $usuario;
+			} else {
+				$res["exito"] = 0;
+				$res["mje"] = "Error al modificar usuario";
+				$res["reg"] = NULL;
+			}
+		}else{
 			$res["exito"] = 0;
-			$res["mje"] = "Error al modificar usuario";
-			$res["reg"] = NULL;
+			$res["mje"] = "No se especificaron roles de usuario";
 		}
 
 		echo json_encode( $res );
@@ -207,13 +216,14 @@
 	if( isset( $_POST["email"] ) ){
 		
 		include ( "bd.php" );
-
-		//if( isset( $_POST["id_u"] ) ) $id_u = $_POST["id_u"];
+		$id_u = "";
+		if( isset( $_POST["id_u"] ) ) $id_u = $_POST["id_u"];
 
 		$regs = obtenerUsuariosRegistrados( $dbh );
 		foreach ( $regs as $r ) {
-			//if( $r["idUSUARIO"] != $id_u )
+			if( $r["idUSUARIO"] != $id_u ){
 				$emails[] = $r["email"]; 
+			}
 		}
 		
 		if( !in_array( $_POST["email"], $emails ) ) 

@@ -16,11 +16,11 @@
 
     isAccesible( $pagina );
     $idu = $_SESSION["user"]["idUSUARIO"];
-
-    if( isset( $_GET["id"] ) )
+    $idp = NULL;
+    if( isset( $_GET["id"] ) && ( is_numeric( $_GET["id"] ) ) ){
     	$idp = $_GET["id"];
-
-    $producto = obtenerProductoPorId( $dbh, $idp );
+    	$producto = obtenerProductoPorId( $dbh, $idp );
+    } else $producto = NULL;
 ?>
 <!doctype html>
 <html class="fixed">
@@ -114,7 +114,7 @@
 												<a class="thumb-image" href="<?php echo $prod_img; ?>">
 													<img id="img_producto" 
 													src="<?php echo $prod_img; ?>" 
-													class="img-responsive" alt="Project" width="447">
+													class="img-responsive" alt="Producto" width="447">
 												</a>
 											</div>
 										</div>
@@ -149,7 +149,7 @@
 															</div>
 														</div>
 														<?php 
-														if( isV( 'en_canj_prod' ) 
+														if( isV( 'en_canj_prod' ) && $idp 
 															&& solvente( $coins_usuario, $producto["valor"] ) 
 														) { ?>
 														<form id="frm_ncanje">
@@ -172,20 +172,22 @@
 								</div>
 								<footer class="panel-footer">
 									<div class="row">
+										<?php if( $idp ) { ?>
 										<div class="col-sm-12" align="right">
 											<div id="panel_admin_producto">
-											<?php if( isV( 'en_edit_prod' ) ) { ?>
-											<a href="editar_producto.php?id=<?php echo $idp; ?>">
-											<button id="btn_modificar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev">
-												<i class="fa fa-pencil"></i> Modificar</button>
-											</a>
-											<?php } ?>
-											<?php if( esBorrable( $dbh, $idp ) ) { ?>
-											<a id="btn_eliminar" href="#modalAnim" class="mb-xs mt-xs mr-xs btn btn-primary adminev modal-with-move-anim">
-											<i class="fa fa-trash-o"></i> Eliminar </a>
-											<?php } ?>
+												<?php if( isV( 'en_edit_prod' ) ) { ?>
+												<a href="editar_producto.php?id=<?php echo $idp; ?>">
+												<button id="btn_modificar" type="button" data-a="aprobada" class="mb-xs mt-xs mr-xs btn btn-primary adminev">
+													<i class="fa fa-pencil"></i> Modificar</button>
+												</a>
+												<?php } ?>
+												<?php if( esBorrable( $dbh, $idp ) ) { ?>
+												<a id="btn_eliminar" href="#modalAnim" class="mb-xs mt-xs mr-xs btn btn-primary adminev modal-with-move-anim">
+												<i class="fa fa-trash-o"></i> Eliminar </a>
+												<?php } ?>
+											</div>
 										</div>
-										</div>
+										<?php } ?>
 									</div>
 								</footer>
 							</section>

@@ -164,7 +164,8 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label">Rol</label>
 												<div class="col-md-9">
-													<select class="form-control" multiple="multiple" name="rol[]" data-plugin-multiselect id="ms_example0">
+													<select id="ms_example0" 
+													class="form-control" name="rol[]" data-plugin-multiselect multiple required>
 													<?php foreach ( $roles as $rl){ ?>
 													<option value="<?php echo $rl["idROL"] ?>"><?php echo $rl["nombre"] ?></option>
 													<?php } ?>

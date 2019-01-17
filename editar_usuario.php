@@ -15,12 +15,13 @@
 
     isAccesible( $pagina );
 
-    if( isset( $_GET["id"] ) ){
+    if( isset( $_GET["id"] ) && ( is_numeric( $_GET["id"] ) ) ){
     	$id_u = $_GET["id"];
     	$usuario = obtenerUsuarioPorId( $dbh, $id_u );
     	$roles_u = rolesUsuario( $dbh, $id_u );
     	$ids_roles_u = arr_claves( $roles_u, "idROL" );
-    }
+    } else $usuario = NULL;
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -118,7 +119,7 @@
 										<div class="panel-body">
 										
 											<div class="form-group">
-												<input type="hidden" name="idusuario" 
+												<input id="idua" type="hidden" name="idusuario" 
 												value="<?php echo $usuario["idUSUARIO"]?>">
 												<label class="col-sm-3 control-label">Nombre <span class="required">*</span></label>
 												<div class="col-sm-9">

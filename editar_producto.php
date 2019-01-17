@@ -13,10 +13,10 @@
     include( "fn/fn-acceso.php" );
     
     isAccesible( $pagina );
-    if( isset( $_GET["id"] ) ){
+    if( isset( $_GET["id"] ) && ( is_numeric( $_GET["id"] ) ) ){
     	$idp = $_GET["id"];
     	$producto = obtenerProductoPorId( $dbh, $idp );
-    }
+    } else $producto = NULL;
 ?>
 <!doctype html>
 <html class="fixed">
