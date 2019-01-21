@@ -101,7 +101,7 @@
 								<li><span><a href="usuarios.php">Nominaciones</a></span></li>
 								<li><span>Nueva nominación</span></li>
 							</ol>
-							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
+							<a class="sidebar-right-null" data-open=""></a>
 						</div>
 					</header>
 

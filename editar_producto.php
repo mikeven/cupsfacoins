@@ -118,7 +118,7 @@
 								<li><span>Editar producto</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
+							<a class="sidebar-right-null" data-open=""></a>
 						</div>
 					</header>
 

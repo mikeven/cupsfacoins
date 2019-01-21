@@ -109,7 +109,7 @@
 								<li><span>Nominación</span></li>
 							</ol>
 					
-							<a class="sidebar-right-toggle" data-open=""></a>
+							<a class="sidebar-right-null" data-open=""></a>
 						</div>
 					</header>
 					<!-- start: page -->
@@ -118,7 +118,7 @@
 							$cl = claseEstadoNominacion( $nominacion["estado"] ); 
 					?>
 
-					<div class="col-sm-6 col-xs-6">
+					<div class="col-sm-6 col-xs-12">
 						<section class="panel">
 							<header class="panel-heading <?php echo $cl;?> enc_nom">
 								<div class="panel-heading-icon">
@@ -276,7 +276,7 @@
 						</section>
 					</div>
 					<?php if( isV( "result_nom" ) || ( isV( "en_votar" ) && ( $votada ) ) ) { ?>
-						<div class="col-sm-6 col-xs-6">
+						<div class="col-sm-6 col-xs-12">
 							<section class="panel">
 								<header class="panel-heading">
 									<h2 class="panel-title">Resultados</h2>

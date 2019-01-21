@@ -10,6 +10,10 @@
 	    color: #fff;
 	    background-color: rgba(0, 0, 0, 0.1);
 	}
+
+	#userbox .dropdown-menu{
+		background-color: #333;
+	}
 </style>
 <?php
 	$coins_usuario = obtenerCoinsUsuario( $dbh, $_SESSION["user"]["idUSUARIO"] );

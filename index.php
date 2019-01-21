@@ -84,7 +84,7 @@
 								</div>
 								<div class="col-sm-4 text-right">
 									<button type="button" class="btn btn-primary hidden-xs" onClick="log_in()">Ingresar</button>
-									<button type="button" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Ingresar</button>
+									<button type="button" class="btn btn-primary btn-block btn-lg visible-xs mt-lg" onClick="log_in()">Ingresar</button>
 								</div>
 							</div>
 

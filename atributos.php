@@ -83,11 +83,10 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span>Nominaciones</span></li>
+								<li><a href="nominaciones.php"><span>Nominaciones</span></a></li>
 								<li><span>Atributos</span></li>
 							</ol>
-					
-							<a class="sidebar-right-toggle" data-open="sidebar-right"></a>
+							<a class="sidebar-right-null" data-open=""></a>
 						</div>
 					</header>
 
