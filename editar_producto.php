@@ -17,6 +17,7 @@
     	$idp = $_GET["id"];
     	$producto = obtenerProductoPorId( $dbh, $idp );
     } else $producto = NULL;
+    if( $producto == NULL ) header('Location: productos.php');
 ?>
 <!doctype html>
 <html class="fixed">
@@ -93,7 +94,6 @@
 	</head>
 	<body>
 		<section class="body">
-
 			<!-- start: header -->
 			<?php include( "sections/header.php" );?>
 			<!-- end: header -->
@@ -204,7 +204,6 @@
 								</section>
 							</div>	
 						</div>
-						
 					<!-- end: page -->
 				</section>
 			</div>

@@ -76,7 +76,7 @@
 		}
 		if( $accion == "recibidas" ){
 			$p = "n.idNOMINADO";
-			$p2 = "and estado = 'aprobada'";
+			$p2 = "and estado = 'adjudicada'";
 			$nominaciones = obtenerNominacionesPersonales( $dbh, $idu, $p, $p2 );
 		}
 		if( $accion == "votar" ){
@@ -191,6 +191,7 @@
 		$votacion["votos"] 	= obtenerVotosNominacion( $dbh, $idn, 'todos' );
 		$votacion["si"] 	= obtenerVotosNominacion( $dbh, $idn, 'si' );
 		$votacion["no"] 	= obtenerVotosNominacion( $dbh, $idn, 'no' );
+		$votacion["quorum"]	= quorumVotacion( $dbh, $votacion["votos"] );
 
 		return $votacion;
 	}
@@ -306,6 +307,15 @@
 			$res["mje"] = "Nominación cerrada para votación";
 		}
 		echo json_encode( $res );
+	}
+	/* --------------------------------------------------------- */
+	if( isset( $_POST["act_votos"] ) ){
+		//Solicitud para obtener los votos de una nominación
+		include( "bd.php" );
+		include( "data-usuarios.php" );
+
+		$votos = contarVotos( $dbh, $_POST["act_votos"] );
+		echo json_encode( $votos );
 	}
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["evaluar"] ) ){

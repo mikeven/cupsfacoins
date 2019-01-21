@@ -103,6 +103,7 @@
 					<!-- start: page -->
 						<div class="row">
 							<div class="col-sm-8 col-xs-12">
+							<?php if( $producto ){ ?>
 							<section class="panel">
 								
 								<div class="panel-body">
@@ -191,6 +192,9 @@
 									</div>
 								</footer>
 							</section>
+							<?php } else { ?>
+								<h4>No existe registro</h4>
+							<?php } ?>	
 							</div>	
 						</div>
 						

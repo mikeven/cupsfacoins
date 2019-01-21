@@ -1,17 +1,15 @@
 <div id="panel_aprobacion">
 	<hr class="solid short">
 	<div id="confirmar_seleccion">
-		
-		<?php if( $votacion["si"] > $votacion["no"] ) { ?>
+
 		<button id="btn_aprobar" type="button" data-a="aprobada"
 		class="mb-xs mt-xs mr-xs btn btn-primary adminev">
 			<i class="fa fa-check"></i> Aprobar</button>
-		<?php } else { ?>
+		
 		<button id="btn_rechazar" type="button" data-a="rechazada"
 		class="mb-xs mt-xs mr-xs btn btn-primary adminev">
 			<i class="fa fa-times"></i> Rechazar</button>
-		<?php } ?>
-
+		
 		<?php if( $nominacion["motivo2"] == "" 
 				&& $nominacion["sustento2"] == "" 
 				&& $nominacion["estado"] == "pendiente" ) { ?>

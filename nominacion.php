@@ -68,6 +68,7 @@
 			    line-height: 60px;
 			    background: #FFF; 
 			}
+			.adminev{ display: none; }
 		</style>
 
 		<!-- Head Libs -->
@@ -75,9 +76,8 @@
 	</head>
 	<?php
 		if( $nominacion != NULL ) {
-			$votacion = contarVotos( $dbh, $idn );
 			$p_sw = posicionSuiche( $nominacion["votable"] );
-			
+			$comite = obtenerCantidadUsuariosRol( $dbh, 3 );
 			if( isV( 'en_votar' ) ) { //Evaluador
 				$votada = esVotada( $dbh, $idu, $idn );
 			}
@@ -132,6 +132,8 @@
 									<?php } else { ?>
 										<img src="<?php echo $nominacion["imagen"];?>" width="50">
 									<?php } ?>
+									<input id="idnominacion" type="hidden" 
+									value="<?php echo $nominacion["idNOMINACION"]; ?>">
 								</div>
 							</header>
 							<div class="panel-body text-center">
@@ -226,7 +228,9 @@
 								
 								<?php
 									include( "sections/panel_fechas_nominacion.php" );
-									if( isV( 'en_votar' ) ) { 		//Evaluador
+
+									if( esVotable( $dbh, $idu, $nominacion ) ) { 		
+										//Evaluador
 										include( "sections/panel_votacion.php" );
 									}
 									if( isV( 'en_aprob_nom' ) ) { 	//Administrador
@@ -277,7 +281,10 @@
 								<header class="panel-heading">
 									<h2 class="panel-title">Resultados</h2>
 									<p class="panel-subtitle">
-										Votación final: <?php echo $votacion["votos"]; ?> votos
+										Votación final: <span id="rvotot"></span> votos
+									</p>
+									<p class="panel-subtitle">
+										Comité: <?php echo $comite; ?> participantes
 									</p>
 								</header>
 								<div class="panel-body text-center">
@@ -285,31 +292,16 @@
 									<div id="detalle_resuktados">
 										<div class="col-sm-6" style="color: #47a447;">
 											<i class="fa fa-thumbs-up"></i>
-											Sí: <?php echo $votacion["si"]; ?>
+											Sí: <span id="rvotossi"></span>
 										</div>
 										<div class="col-sm-6" style="color: #d64742;">
 											<i class="fa fa-thumbs-down"></i>
-											No: <?php echo $votacion["no"]; ?>
+											No: <span id="rvotosno"></span>
 										</div>
 									</div>
-											
-									<script type="text/javascript">
-							
-										var flotPieData = [{
-											label: "Sí",
-											data: [
-												[1, <?php echo $votacion["si"]; ?>]
-											],
-											color: '#47a447'
-										}, {
-											label: "No",
-											data: [
-												[1, <?php echo $votacion["no"]; ?>]
-											],
-											color: '#d64742'
-										}];
-					
-									</script>
+										
+									<a href="#!" onclick="actualizarVotos( true )">
+										<i class="fa fa-refresh"></i> Actualizar </a>
 								</div>
 							</section>
 						</div>
@@ -363,29 +355,7 @@
 
 		<?php if( isV( "result_nom" ) || ( isV( "en_votar" ) && ( $votada ) ) ) { ?>
 		<script>
-			/*
-			Flot: Pie
-			*/
-			(function() {
-				var plot = $.plot('#flotPie', flotPieData, {
-					series: {
-						pie: {
-							show: true,
-							combine: {
-								color: '#999',
-								threshold: 0.05
-							}
-						}
-					},
-					legend: {
-						show: false
-					},
-					grid: {
-						hoverable: true,
-						clickable: true
-					}
-				});
-			})();
+			actualizarVotos( false );
 		</script>
 		<?php } ?>
 

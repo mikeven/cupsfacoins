@@ -32,8 +32,16 @@
 		return obtenerListaRegistros( $data );
 	}
 	/* --------------------------------------------------------- */
+	function obtenerCantidadUsuariosRol( $dbh, $idROL ){
+		// Devuelve la cantidad de usuarios que poseen un rol, dado su id
+		$q = "select count(*) as nro from usuario_rol where idROL = $idROL";
+		$data = mysqli_fetch_array( mysqli_query ( $dbh, $q ) );
+		
+		return $data["nro"]; 
+	}
+	/* --------------------------------------------------------- */
 	function rolesUsuario( $dbh, $idu ){
-		// Devuelve los registros de roles de un usuario
+		// Devuelve los roles que posee un usuario
 		$q = "select r.idROL, r.nombre from rol r, usuario_rol ur 
 		where ur.idROL = r.idROL and ur.idUSUARIO = $idu";
 		
@@ -67,6 +75,19 @@
 		$q = "insert into usuario_rol ( idUSUARIO, idROL ) values ( $idu, $idr )";
 		
 		$data = mysqli_query( $dbh, $q );
+	}
+	/* --------------------------------------------------------- */
+	function quorumVotacion( $dbh, $votos ){
+		// Devuelve verdadero si existe la mayoría necesaria de votos 
+		// para evaluar una nominación. Rol evaluador: 3
+		$quorum = false;
+		$votantes = obtenerCantidadUsuariosRol( $dbh, 3 );
+		
+		$mayoria = ceil( $votantes / 2 ) + 1;
+		if( $votos >= $mayoria )
+			$quorum = true;
+
+		return $quorum;
 	}
 	/* --------------------------------------------------------- */
 	function obtenerSumaAdjudicada( $dbh, $idu ){

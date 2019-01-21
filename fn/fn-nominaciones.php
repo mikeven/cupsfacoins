@@ -8,7 +8,7 @@
 	function esVotable( $dbh, $idu, $nominacion ){
 		// Devuelve verdadero/falso sobre si el usuario puede votar una nominación
 		$vota = false;
-		if( !esVotada( $dbh, $idu, $nominacion["idNOMINACION"] ) 
+		if( isV( 'en_votar' ) && !esVotada( $dbh, $idu, $nominacion["idNOMINACION"] ) 
 			&& ( $nominacion["estado"] == "pendiente" || 
 				 $nominacion["estado"] == "sustento" ) ){
 			$vota = true;
@@ -109,7 +109,8 @@
 				$data["nominaciones"] = obtenerNominacionesAccion( $dbh, $idu, "hechas" );
 			}
 		}
-		if( isV( 'ver_tnominac' ) ){		// Acceso a ver todas las nominaciones
+		if( isV( 'ver_tnominac' ) && !isset( $_GET["param"] ) ){		
+		// Acceso a ver todas las nominaciones sin parámetros: realizadas, recibidas
 			$data["titulo"] = obtenerNombreTitulo( "" );
 			$data["nominaciones"] = obtenerNominacionesRegistradas( $dbh );
 		}

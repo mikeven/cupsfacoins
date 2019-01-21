@@ -76,7 +76,6 @@ $('.modal-with-move-anim').magnificPopup({
 	mainClass: 'my-mfp-slide-bottom',
 	modal: true
 });
-
 /* --------------------------------------------------------- */
 function votar(){
 	// Invoca al servidor para registrar el voto del usuario
@@ -311,3 +310,93 @@ $(".chvotable").on('change', function (e) {
         }
     });
 });
+/* --------------------------------------------------------- */
+function actualizarElementosVotacion( votos ){
+	// Actualiza datos sobre la votación actual
+	$("#rvotossi").html( votos.si );
+	$("#rvotosno").html( votos.no );
+	$("#rvotot").html( votos.votos );
+	if( votos.quorum == true ){
+		if( votos.si > votos.no ){
+			$("#btn_aprobar").show();
+			$("#btn_rechazar").hide();
+		}
+		else{
+			$("#btn_rechazar").show();
+			$("#btn_aprobar").hide();
+		}
+	}
+}
+/* --------------------------------------------------------- */
+function actualizarVisualVotacion( data , votos, animacion ){
+	// Dibuja el gráfico con los datos actualizados
+	
+	if( animacion == true )
+		$( "#flotPie" ).fadeOut(500);
+	setTimeout( function(){ 
+		iniciarGrafico( data );
+		actualizarElementosVotacion( votos );
+		$( "#flotPie" ).fadeIn(500);
+	}, 500 );
+	
+}
+/* --------------------------------------------------------- */
+function iniciarGrafico( flotPieData ){
+	// Inicializa los datos para generar el gráfico con datos y configuraciones
+
+	var options = {
+	    series: {
+			pie: {
+				show: true,
+				combine: {
+					color: '#999',
+					threshold: 0.05
+				}
+			}
+		},
+		legend: {
+			show: false
+		},
+		grid: {
+			hoverable: true,
+			clickable: true
+		}
+	};
+	
+	return $.plot('#flotPie', flotPieData, options );
+}
+/* --------------------------------------------------------- */
+function dataGrafico( votos ){
+	// Devuelve los datos de la votación formateados para el gráfico
+
+	var flotPieData = [{
+		label: "Sí",
+		data: [ [1, votos.si ] ],
+		color: '#47a447'
+	}, {
+		label: "No",
+		data: [ [1, votos.no ] ],
+		color: '#d64742'
+	}];
+
+	return flotPieData;
+}
+/* --------------------------------------------------------- */
+function actualizarVotos( p ){
+	// Invoca la solicitud para obtener los datos de votación de una nominación
+
+	var idn = $('#idnominacion').val();
+
+	$.ajax({
+        type:"POST",
+        url:"database/data-nominaciones.php",
+        data:{ act_votos: idn  },
+        success: function( response ){
+        	console.log( response );
+			votos = jQuery.parseJSON( response );
+			flot_pie_data = dataGrafico( votos );
+			actualizarVisualVotacion( flot_pie_data, votos, p );
+        }
+    });
+}
+/* --------------------------------------------------------- */
