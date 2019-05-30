@@ -260,7 +260,7 @@ function adjudicarNominacion( origen, idn ){
     });
 }
 /* --------------------------------------------------------- */ 
-$(".adminev").on('click', function (e) {
+$(".adminev, .adminev_s").on('click', function (e) {
 	// Muestra el panel de comentario de administrador, asigna valor de evaluación a campo oculto
 	$(".panel_comentario").fadeIn(300);
 	$("#estado_nom").val( $(this).attr( "data-a" ) );
@@ -289,7 +289,7 @@ $(".chvotable").on('change', function (e) {
 	var valor = $(this).is( ":checked" );
 	var idnom = $(this).attr( "data-idn" );
 	var suiche = $(this).closest( ".switch" );
-	var espera = "<img src='../assets/images/loading.gif' width='30'>";
+	//var espera = "<img src='../assets/images/loading.gif' width='30'>";
 
 	$.ajax({
         type:"POST",

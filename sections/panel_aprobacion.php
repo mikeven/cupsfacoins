@@ -14,7 +14,7 @@
 				&& $nominacion["sustento2"] == "" 
 				&& $nominacion["estado"] == "pendiente" ) { ?>
 		<button id="btn_sustento" type="button" data-a="sustento"
-		class="mb-xs mt-xs mr-xs btn btn-primary adminev">
+		class="mb-xs mt-xs mr-xs btn btn-primary adminev_s">
 			<i class="fa fa-file-o"></i> Solicitar sustento</button>
 		<?php } ?>
 		

@@ -248,6 +248,18 @@
 		}
 	}
 	/* --------------------------------------------------------- */
+	function mensajeMail( $dbh, $data ){
+		include( "data-usuarios.php" );
+		// Prepara los datos para enviar un mensaje por email
+		
+		$data_mail = obtenerNominacionPorId( $dbh, $data["idnominacion"] );
+		$data_mail["evaluacion"] = $data["estado"];
+		$data_us = obtenerUsuarioPorId( $dbh, $data_mail["idNOMINADOR"] );
+		
+		$data_mail["receptor"] = $data_us["email"];
+		enviarMensajeEmail( "cambio_estatus", $data_mail );
+	}
+	/* --------------------------------------------------------- */
 	// Solicitudes asíncronas
 	/* --------------------------------------------------------- */
 	if( isset( $_POST["nva_nominacion"] ) ){
@@ -321,6 +333,7 @@
 	if( isset( $_POST["evaluar"] ) ){
 		//Solicitud para registrar un voto sobre nominación
 		include( "bd.php" );
+		include( "../fn/fn-mailing.php" );
 
 		parse_str( $_POST["evaluar"], $evaluacion );
 		if( $evaluacion["estado"] == "sustento" ) $cierre = false;
@@ -331,6 +344,7 @@
 		
 		if( ( $rsp != 0 ) && ( $rsp != "" ) ){
 			$res["exito"] = 1;
+			mensajeMail( $dbh, $evaluacion );
 			$res["mje"] = "Evaluación registrada con éxito";
 		} else {
 			$res["exito"] = 0;
