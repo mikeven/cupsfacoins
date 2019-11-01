@@ -22,7 +22,7 @@
 	}
 	/* --------------------------------------------------------- */
 	function obtenerAccesosUsuario( $dbh, $acciones ){
-		//
+		// Devuelve las secciones a las que puede acceder un usuarios según la lista de acciones que puede hacer
 		
 		$accesos = array();
 		foreach ( $acciones as $accion ) {
@@ -40,7 +40,8 @@
 	}
 	/* --------------------------------------------------------- */
 	function obtenerAccionesUsuario( $dbh, $roles ){
-		//
+		// Devuelve la lista de acciones que puede realizar un usuario de acuero a los roles que posee
+
 		$lista_acciones = array();
 		foreach ( $roles as $rol ) {
 			$acciones = obtenerAccionesRol( $dbh, $rol["idRol"] );
